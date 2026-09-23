@@ -30,3 +30,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# local AI configuration
+
+.claude/
