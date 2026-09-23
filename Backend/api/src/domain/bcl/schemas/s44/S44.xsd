@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bcl.lu/2024/S4.4" xmlns:s44="http://www.bcl.lu/2024/S4.4" xmlns:s44dt="http://www.bcl.lu/2024/S4.4/datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bcl.lu/2024/S4.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://www.bcl.lu/2024/S4.4/datatypes" schemaLocation="datatypes.xsd"/>
+	<xs:include schemaLocation="structures.xsd"/>
+	<xs:element name="S44">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">top-level (study identification)</xs:documentation>
+			<xs:documentation xml:lang="FR">niveau principal (identification de l'enquete)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="header" type="header">
+					<xs:annotation>
+						<xs:documentation xml:lang="EN">study header</xs:documentation>
+						<xs:documentation xml:lang="FR">entete de l'enquete</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="content">
+					<xs:annotation>
+						<xs:documentation xml:lang="EN">study content</xs:documentation>
+						<xs:documentation xml:lang="FR">contenu de l'enquete</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MarketingCountry">
+								<xs:complexType>
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="reportedLine">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="id">
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:restriction base="reportedLineID">
+																	<xs:sequence>
+																		<xs:element name="item">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">account item</xs:documentation>
+																				<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="s44dt:bcl2015Item">
+																					<xs:pattern value="2-004000"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:element>
+																		<xs:element name="country" type="s44dt:bclCountry" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">country</xs:documentation>
+																				<xs:documentation xml:lang="FR">pays</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="dataType">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">data type</xs:documentation>
+																				<xs:documentation xml:lang="FR">type de donnee</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="s44dt:dataType">
+																					<xs:pattern value="PCT"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:restriction>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="reportedAmount" type="s44dt:percentage"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+								<xs:unique name="MarketingCountryLineId">
+									<xs:selector xpath=".//s44:reportedLine/s44:id"/>
+									<xs:field xpath="s44:item"/>
+									<xs:field xpath="s44:country"/>
+									<xs:field xpath="s44:dataType"/>
+								</xs:unique>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">study version</xs:documentation>
+					<xs:documentation xml:lang="FR">version de l'enquete</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="creationDateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">report creation date and time</xs:documentation>
+					<xs:documentation xml:lang="FR">date et heure de creation du rapport</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="header">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">study header</xs:documentation>
+			<xs:documentation xml:lang="FR">entete de l'enquete</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endMonthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">end of period date</xs:documentation>
+					<xs:documentation xml:lang="FR">date de fin de periode</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="closingDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">closing date</xs:documentation>
+					<xs:documentation xml:lang="FR">date de cloture</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reporterID" type="reporterID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">reporter identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du reporter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="declarantID" type="declarantID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">declarant identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportingCurrency" type="s44dt:currency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">reporting currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise de reporting</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="layout" type="s44dt:layout">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">layout</xs:documentation>
+					<xs:documentation xml:lang="FR">masque</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bcl.lu/2007/SBS" xmlns:sbsdt="http://www.bcl.lu/2007/SBS-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bcl.lu/2007/SBS" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://www.bcl.lu/2007/SBS-datatypes" schemaLocation="SBS.datatypes.xsd"/>
+	<xs:complexType name="currencyQuoted">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="numberOfUnits" type="sbsdt:numberOfUnits">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">number of units</xs:documentation>
+					<xs:documentation xml:lang="FR">nombre de titres</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="declarantID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">declarant identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="sbsdt:institutionType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution type</xs:documentation>
+					<xs:documentation xml:lang="FR">type d'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code" type="sbsdt:institutionCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution code</xs:documentation>
+					<xs:documentation xml:lang="FR">code de l'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="debtSupplements">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reporting supplements for debt</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees complementaires a rapporter pour un titre de creance</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="securityType" type="sbsdt:esa2010DebtType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security type (for debt)</xs:documentation>
+					<xs:documentation xml:lang="FR">type du titre (pour les titres de creance)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">date of issue</xs:documentation>
+					<xs:documentation xml:lang="FR">date d'emission</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="finalMaturityDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">final date of maturity</xs:documentation>
+					<xs:documentation xml:lang="FR">date de maturite finale</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="poolFactor" type="sbsdt:poolFactor">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security pool factor</xs:documentation>
+					<xs:documentation xml:lang="FR">pool factor du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="couponType" type="sbsdt:couponType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">coupon type</xs:documentation>
+					<xs:documentation xml:lang="FR">type de coupon du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="couponFrequency" type="sbsdt:couponFrequency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">coupon frequency</xs:documentation>
+					<xs:documentation xml:lang="FR">frequence du coupon du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="couponLastPaymentDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">date of the last coupon payment</xs:documentation>
+					<xs:documentation xml:lang="FR">date de paiement du dernier coupon</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="couponRate" type="sbsdt:percentage">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">coupon rate</xs:documentation>
+					<xs:documentation xml:lang="FR">taux du coupon du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="equitySupplements">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reporting supplements for equity</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees complementaires a rapporter pour un titre de participation</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="securityType" type="sbsdt:esa2010EquityType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security type (for equity)</xs:documentation>
+					<xs:documentation xml:lang="FR">type du titre (pour les titres de participation)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dividendAmount" type="sbsdt:percentage" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">dividend per share</xs:documentation>
+					<xs:documentation xml:lang="FR">dividende par part</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dividendLastPaymentDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">date of the last dividend payment</xs:documentation>
+					<xs:documentation xml:lang="FR">date de dernier paiement du dividende</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="splitDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">split / reverse split date</xs:documentation>
+					<xs:documentation xml:lang="FR">date du split / reverse split</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="splitRatio" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">split/reverse split ratio</xs:documentation>
+					<xs:documentation xml:lang="FR">ration split/revserse split</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shareholderCountry" type="sbsdt:bclCountry" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">shareholder country</xs:documentation>
+					<xs:documentation xml:lang="FR">pays de l'actionnaire</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="relationshipLink" type="sbsdt:relationshipLink" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">relationship link</xs:documentation>
+					<xs:documentation xml:lang="FR">lien d'affiliation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="isinSecurityID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">security identification (with ISIN code)</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du titre (avec code ISIN)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="codeType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">code type</xs:documentation>
+					<xs:documentation xml:lang="FR">type du code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="code" type="sbsdt:isinCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security ISIN code</xs:documentation>
+					<xs:documentation xml:lang="FR">code ISIN du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="issuerID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">issuer identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification de l'emetteur</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lei" type="sbsdt:leiCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">LEI code</xs:documentation>
+					<xs:documentation xml:lang="FR">code LEI</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nationalID" type="nationalID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">national identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="country" type="sbsdt:country">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">issuer country</xs:documentation>
+					<xs:documentation xml:lang="FR">pays de l'emetteur du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sector" type="sbsdt:bcl2015Sector">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">BCL codification for the issuer's institutional sector</xs:documentation>
+					<xs:documentation xml:lang="FR">nomenclature BCL pour le secteur institutionnel de l'emetteur</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="nationalID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">national identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="sbsdt:nationalIdentifierType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">national identifier type</xs:documentation>
+					<xs:documentation xml:lang="FR">type d'identifiant national</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code" type="sbsdt:nationalIdentifierCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">national identifier (code)</xs:documentation>
+					<xs:documentation xml:lang="FR">identifiant national (code)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="percentageQuoted">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nominalAmount" type="sbsdt:amount">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">nominal amount</xs:documentation>
+					<xs:documentation xml:lang="FR">capital du nominal</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nominalCurrency" type="sbsdt:currency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">nominal currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise du nominal</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reportedLineID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reported line identifier</xs:documentation>
+			<xs:documentation xml:lang="FR">identifiant d'une ligne rapportee</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="item" type="sbsdt:bcl2015Item">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">account item</xs:documentation>
+					<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="country" type="sbsdt:bclCountry" nillable="false">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">country</xs:documentation>
+					<xs:documentation xml:lang="FR">pays</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="currency" type="sbsdt:bclCurrency" nillable="false">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sector" type="sbsdt:bcl2015Sector" nillable="false">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">sector</xs:documentation>
+					<xs:documentation xml:lang="FR">secteur</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reporterID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reporter identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="sbsdt:institutionType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution type</xs:documentation>
+					<xs:documentation xml:lang="FR">type d'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code" type="sbsdt:institutionCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution code</xs:documentation>
+					<xs:documentation xml:lang="FR">code de l'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="securityID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">security identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du titre</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="codeType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">code type</xs:documentation>
+					<xs:documentation xml:lang="FR">type du code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="code" type="sbsdt:securityCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security code</xs:documentation>
+					<xs:documentation xml:lang="FR">code du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security name</xs:documentation>
+					<xs:documentation xml:lang="FR">libelle du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="currency" type="sbsdt:currency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise du titre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="typeOfShareSupplements">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reporting supplements for type of share</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees complementaires a rapporter pour un type de part</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="securityType" type="sbsdt:esa2010TypeOfShareType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security type (for type of share)</xs:documentation>
+					<xs:documentation xml:lang="FR">type du titre (pour les types de part)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cssfCode" type="sbsdt:typeOfShareCSSFCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">CSSF type of share code </xs:documentation>
+					<xs:documentation xml:lang="FR">code CSSF du type de part</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueCurrency" type="sbsdt:currency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">issue currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise d'emission</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="distributedAmount" type="sbsdt:amount">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">distributed amount (during the month)</xs:documentation>
+					<xs:documentation xml:lang="FR">montants distribues pendant le mois</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="splitDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">split / reverse split date</xs:documentation>
+					<xs:documentation xml:lang="FR">date du split / reverse split</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="splitRatio" type="xs:decimal">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">split/reverse split ratio</xs:documentation>
+					<xs:documentation xml:lang="FR">ration split/revserse split</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

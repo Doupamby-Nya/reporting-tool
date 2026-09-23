@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bcl.lu/2007/SBS-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bcl.lu/2007/SBS-datatypes" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:simpleType name="amount">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">amount</xs:documentation>
+			<xs:documentation xml:lang="FR">montant</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="5"/>
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="bclCountry">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">BCL codification for country</xs:documentation>
+			<xs:documentation xml:lang="FR">nomenclature BCL pour le pays</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="country">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:length value="2"/>
+					<xs:pattern value="X[A-Z0-9]"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="bclCurrency">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">BCL codification for currency</xs:documentation>
+			<xs:documentation xml:lang="FR">nomenclature BCL pour la devise</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="currency">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:length value="3"/>
+					<xs:pattern value="XX[A-Z0-9]"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="bcl2015Item">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">BCL 2015 account item</xs:documentation>
+			<xs:documentation xml:lang="FR">rubrique comptable BCL 2015</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="8"/>
+			<xs:pattern value="[1-3]-[0-9A-Z]{6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="bcl2015Sector">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">BCL codification for activity sector</xs:documentation>
+			<xs:documentation xml:lang="FR">nomenclature BCL pour le secteur d'activite</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="5"/>
+			<xs:pattern value="[0-9]{5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="country">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">country (ISO 3166)</xs:documentation>
+			<xs:documentation xml:lang="FR">pays (ISO 3166)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="[A-Z]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="couponFrequency">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">coupon frequency</xs:documentation>
+			<xs:documentation xml:lang="FR">frequence du coupon</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="[0-9]{2}"/>
+			<xs:enumeration value="00">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">zero-coupon</xs:documentation>
+					<xs:documentation xml:lang="FR">coupon zero</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="01">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">annual</xs:documentation>
+					<xs:documentation xml:lang="FR">annuel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="02">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">semi-annual</xs:documentation>
+					<xs:documentation xml:lang="FR">semi-annuel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="04">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">quarterly</xs:documentation>
+					<xs:documentation xml:lang="FR">trimestriel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="06">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">bi-monthly</xs:documentation>
+					<xs:documentation xml:lang="FR">bimestriel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="12">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">monthly</xs:documentation>
+					<xs:documentation xml:lang="FR">mensuel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="24">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">fortnightly</xs:documentation>
+					<xs:documentation xml:lang="FR">bi-mensuel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="99">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">other</xs:documentation>
+					<xs:documentation xml:lang="FR">autre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="couponType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">coupon type</xs:documentation>
+			<xs:documentation xml:lang="FR">type de coupon</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="[0-9]{2}"/>
+			<xs:enumeration value="01">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">fixed</xs:documentation>
+					<xs:documentation xml:lang="FR">fixe</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="02">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">stepped</xs:documentation>
+					<xs:documentation xml:lang="FR">progressif</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="03">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">floating</xs:documentation>
+					<xs:documentation xml:lang="FR">flottant</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="04">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">zero coupon</xs:documentation>
+					<xs:documentation xml:lang="FR">coupon zero</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="05">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">index-linked</xs:documentation>
+					<xs:documentation xml:lang="FR">lie a un indice</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="99">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">other</xs:documentation>
+					<xs:documentation xml:lang="FR">autre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="currency">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">currency (ISO 4217)</xs:documentation>
+			<xs:documentation xml:lang="FR">devise (ISO 4217)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+			<xs:pattern value="[A-Z]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="esa2010DebtType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">ESA 2010 security type (for debts)</xs:documentation>
+			<xs:documentation xml:lang="FR">type de titre SEC 2010 (pour les titres de creances)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="esa2010SecurityType">
+			<xs:pattern value="F\.3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="esa2010EquityType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">ESA 2010 security type (for equities)</xs:documentation>
+			<xs:documentation xml:lang="FR">type de titre SEC 2010 (pour les titres de participations)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="esa2010SecurityType">
+			<xs:pattern value="F\.5[12][0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="esa2010SecurityType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">ESA 2010security type</xs:documentation>
+			<xs:documentation xml:lang="FR">type de titre SEC 2010</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="F\.3"/>
+			<xs:pattern value="F\.51[0-9]"/>
+			<xs:pattern value="F\.52"/>
+			<xs:enumeration value="F.3">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">Securities other than shares, excluding financial derivatives</xs:documentation>
+					<xs:documentation xml:lang="FR">Titres autres qu'actions, a l’exclusion des produits financiers derives</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="F.511">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">Quoted shares</xs:documentation>
+					<xs:documentation xml:lang="FR">Actions cotees</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="F.512">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">Unquoted shares</xs:documentation>
+					<xs:documentation xml:lang="FR">Actions non cotees</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="F.519">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">Other equity</xs:documentation>
+					<xs:documentation xml:lang="FR">Autres participations</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="F.52">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">Mutual funds shares</xs:documentation>
+					<xs:documentation xml:lang="FR">Parts d’organismes de placement collectif</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="esa2010TypeOfShareType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">ESA 2010 security type (for types of share)</xs:documentation>
+			<xs:documentation xml:lang="FR">type de titre SEC 2010 (pour les types de part)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="esa2010SecurityType">
+			<xs:pattern value="F\.52"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="holdSecurityType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">hold security type</xs:documentation>
+			<xs:documentation xml:lang="FR">type de detention</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="[0-9]{2}"/>
+			<xs:enumeration value="01">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">securities held not affected by a temporary transfer</xs:documentation>
+					<xs:documentation xml:lang="FR">titres detenus sans operation de cession temporaire</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="02">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">securities lent</xs:documentation>
+					<xs:documentation xml:lang="FR">titres pretes</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="03">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">securities sold in a repurchase agreement</xs:documentation>
+					<xs:documentation xml:lang="FR">titres donnes en pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="04">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">securities issued</xs:documentation>
+					<xs:documentation xml:lang="FR">titres emis</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="05">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">short sale of securities</xs:documentation>
+					<xs:documentation xml:lang="FR">titres vendus a decouvert</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="06">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">securities that are otherwise encumbered</xs:documentation>
+					<xs:documentation xml:lang="FR">titres autrement greves</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="institutionCode">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">institution code</xs:documentation>
+			<xs:documentation xml:lang="FR">code d'une entite</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="institutionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">institution type</xs:documentation>
+			<xs:documentation xml:lang="FR">type d'entite</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="investmentFunction">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">investment function</xs:documentation>
+			<xs:documentation xml:lang="FR">fonction d'investissement</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+			<xs:pattern value="[A-Z0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="isinCode">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">ISIN code</xs:documentation>
+			<xs:documentation xml:lang="FR">code ISIN</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="12"/>
+			<xs:pattern value="[A-Z]{2}[A-Z0-9]{9}[0-9]{1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="layout">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">layout</xs:documentation>
+			<xs:documentation xml:lang="FR">masque</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="leiCode">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">LEI code</xs:documentation>
+			<xs:documentation xml:lang="FR">code LEI</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="20"/>
+			<xs:pattern value="[A-Z0-9]{18}[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nationalIdentifierCode">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">national identifier (code)</xs:documentation>
+			<xs:documentation xml:lang="FR">identifiant national (code)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:pattern value="(\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B})+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nationalIdentifierType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">national identifier type</xs:documentation>
+			<xs:documentation xml:lang="FR">type d'identifiant national</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:pattern value="[A-Za-z0-9_@$\-][!-~]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="numberOfUnits">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">number of units</xs:documentation>
+			<xs:documentation xml:lang="FR">nombre de titres</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="5"/>
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="percentage">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">percentage</xs:documentation>
+			<xs:documentation xml:lang="FR">pourcentage</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="9"/>
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="poolFactor">
+		<xs:annotation>
+			<xs:documentation>pool factor</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="percentage">
+			<xs:minInclusive value="0.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="portfolioType">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">portfolio type</xs:documentation>
+			<xs:documentation xml:lang="FR">type de portefeuille</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:pattern value="[0-9]{2}"/>
+			<xs:enumeration value="11">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">financial assets held for trading</xs:documentation>
+					<xs:documentation xml:lang="FR">actifs financiers detenus a des fins de negociation</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="12">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">non-trading financial assets mandatorily at fair value through
+profit or loss</xs:documentation>
+					<xs:documentation xml:lang="FR">actifs financiers detenus a des fins autres que de negociation
+obligatoirement evalues a la juste valeur par le biais du compte de
+resultat</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="13">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">financial assets designated at fair value through profit or loss</xs:documentation>
+					<xs:documentation xml:lang="FR">actifs financiers designes comme evalues a la juste valeur par le
+biais du compte de resultat</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="14">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">financial assets at fair value through other comprehensive
+income</xs:documentation>
+					<xs:documentation xml:lang="FR">actifs financiers evalues a la juste valeur par le biais des autres
+elements du resultat global</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="15">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">financial assets at amortised cost</xs:documentation>
+					<xs:documentation xml:lang="FR">actifs financiers au cout amorti</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="16">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">investments in subsidiaries, joint ventures and associates</xs:documentation>
+					<xs:documentation xml:lang="FR">participations dans des filiales, des coentreprises et des
+entreprises associees</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="relationshipLink">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">relationship link</xs:documentation>
+			<xs:documentation xml:lang="FR">lien d'affiliation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="securityCode">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">security code</xs:documentation>
+			<xs:documentation xml:lang="FR">code d'un titre</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="securityCodeType">
+		<xs:annotation>
+			<xs:documentation>security code type</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:pattern value=".+"/>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">ISIN codification</xs:documentation>
+					<xs:documentation xml:lang="FR">codification ISIN</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">other codification</xs:documentation>
+					<xs:documentation xml:lang="FR">autre codification</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="typeOfShareCSSFCode">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">CSSF type of share code </xs:documentation>
+			<xs:documentation xml:lang="FR">code CSSF d'un type de part</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="4"/>
+			<xs:pattern value=".+"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

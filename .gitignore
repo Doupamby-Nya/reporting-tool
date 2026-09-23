@@ -1,0 +1,32 @@
+# Build output
+Frontend/dist/
+Frontend/node_modules/
+Backend/env/
+Backend/.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Logs. The API writes to stdout; anything on disk here is a local run.
+*.log
+
+# Secrets and per-machine configuration. Backend/api/.env.example is the
+# one that belongs in the repository.
+.env
+.env.local
+!.env.example
+
+# Runtime state, not source: the fund registry, generated filings, saved
+# drafts, the document store and the audit trail. These are a deployment's
+# data — committing them publishes whatever real filings were prepared
+# locally, which for FATCA and AIFMD means account holders' personal data.
+Backend/api/runtime/
+
+# Editor and OS clutter
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* The destination bar scrolls sideways rather than wrapping, so the header
+   keeps its height whichever module is open. The scrollbar is kept but made
+   slight — it has to be reachable, without drawing a line under the tabs. */
+.mz-tabs {
+    scrollbar-width: thin;
+    scrollbar-color: #E5E7EB transparent;
+}
+
+.mz-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.mz-tabs::-webkit-scrollbar-thumb {
+    background-color: #E5E7EB;
+    border-radius: 4px;
+}
+
+.mz-tabs::-webkit-scrollbar-track {
+    background: transparent;
+}

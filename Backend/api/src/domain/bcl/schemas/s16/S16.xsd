@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bcl.lu/2008/S1.6" xmlns:s16="http://www.bcl.lu/2008/S1.6" xmlns:s16dt="http://www.bcl.lu/2008/S1.6/datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bcl.lu/2008/S1.6" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://www.bcl.lu/2008/S1.6/datatypes" schemaLocation="datatypes.xsd"/>
+	<xs:include schemaLocation="structures.xsd"/>
+	<xs:element name="S16">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">top-level (study identification)</xs:documentation>
+			<xs:documentation xml:lang="FR">niveau principal (identification de l'enquete)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="header" type="header">
+					<xs:annotation>
+						<xs:documentation xml:lang="EN">study header</xs:documentation>
+						<xs:documentation xml:lang="FR">entete de l'enquete</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="content">
+					<xs:annotation>
+						<xs:documentation xml:lang="EN">study content</xs:documentation>
+						<xs:documentation xml:lang="FR">contenu de l'enquete</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="assets" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="reportedLine">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="id">
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:restriction base="reportedLineID">
+																	<xs:sequence>
+																		<xs:element name="item">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">account item</xs:documentation>
+																				<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="s16dt:bcl2015Item">
+																					<xs:pattern value="1-[0-9A-Z]{6}"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:element>
+																		<xs:element name="country" type="s16dt:bclCountry" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">country</xs:documentation>
+																				<xs:documentation xml:lang="FR">pays</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="currency" type="s16dt:bclCurrency" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">currency</xs:documentation>
+																				<xs:documentation xml:lang="FR">devise</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="sector" type="s16dt:bcl2015Sector" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">sector</xs:documentation>
+																				<xs:documentation xml:lang="FR">secteur</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="initialMaturity" type="s16dt:bcl2015InitialMaturity">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">initial maturity</xs:documentation>
+																				<xs:documentation xml:lang="FR">echeance initiale</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:restriction>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="reportedAmount" type="s16dt:amount"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+								<xs:unique name="assetsLineId">
+									<xs:selector xpath=".//s16:reportedLine/s16:id"/>
+									<xs:field xpath="s16:item"/>
+									<xs:field xpath="s16:country"/>
+									<xs:field xpath="s16:currency"/>
+									<xs:field xpath="s16:sector"/>
+									<xs:field xpath="s16:initialMaturity"/>
+								</xs:unique>
+							</xs:element>
+							<xs:element name="liabilities" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="reportedLine">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="id">
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:restriction base="reportedLineID">
+																	<xs:sequence>
+																		<xs:element name="item">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">account item</xs:documentation>
+																				<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="s16dt:bcl2015Item">
+																					<xs:pattern value="2-[0-9A-Z]{6}"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:element>
+																		<xs:element name="country" type="s16dt:bclCountry" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">country</xs:documentation>
+																				<xs:documentation xml:lang="FR">pays</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="currency" type="s16dt:bclCurrency" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">currency</xs:documentation>
+																				<xs:documentation xml:lang="FR">devise</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="sector" type="s16dt:bcl2015Sector" nillable="false">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">sector</xs:documentation>
+																				<xs:documentation xml:lang="FR">secteur</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="initialMaturity" type="s16dt:bcl2015InitialMaturity">
+																			<xs:annotation>
+																				<xs:documentation xml:lang="EN">initial maturity</xs:documentation>
+																				<xs:documentation xml:lang="FR">echeance initiale</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:restriction>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="reportedAmount" type="s16dt:amount"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+								<xs:unique name="liabilitiesLineId">
+									<xs:selector xpath=".//s16:reportedLine/s16:id"/>
+									<xs:field xpath="s16:item"/>
+									<xs:field xpath="s16:country"/>
+									<xs:field xpath="s16:currency"/>
+									<xs:field xpath="s16:sector"/>
+									<xs:field xpath="s16:initialMaturity"/>
+								</xs:unique>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required" fixed="1.2">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">study version</xs:documentation>
+					<xs:documentation xml:lang="FR">version de l'enquete</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="creationDateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">report creation date and time</xs:documentation>
+					<xs:documentation xml:lang="FR">date et heure de creation du rapport</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="header">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">study header</xs:documentation>
+			<xs:documentation xml:lang="FR">entete de l'enquete</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endMonthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">end of period date</xs:documentation>
+					<xs:documentation xml:lang="FR">date de fin de periode</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="closingDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">date of the last nav calculation</xs:documentation>
+					<xs:documentation xml:lang="FR">date de calcul de la derniere VNI</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reporterID" type="reporterID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">reporter identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du reporter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="declarantID" type="declarantID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">declarant identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportingCurrency" type="s16dt:currency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">reporting currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise de reporting</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="layout" type="s16dt:layout">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">layout</xs:documentation>
+					<xs:documentation xml:lang="FR">masque</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

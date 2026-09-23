@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bcl.lu/2008/S2.13" xmlns:s213dt="http://www.bcl.lu/2008/S2.13/datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bcl.lu/2008/S2.13" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://www.bcl.lu/2008/S2.13/datatypes" schemaLocation="datatypes.xsd"/>
+	<xs:complexType name="declarantID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">declarant identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="s213dt:institutionType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution type</xs:documentation>
+					<xs:documentation xml:lang="FR">type d'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code" type="s213dt:institutionCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution code</xs:documentation>
+					<xs:documentation xml:lang="FR">code de l'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reportedLineID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reported line identifier</xs:documentation>
+			<xs:documentation xml:lang="FR">identifiant d'une ligne rapportee</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="item" type="s213dt:bcl2015Item">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">account item</xs:documentation>
+					<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="country" type="s213dt:bclCountry" nillable="false">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">country</xs:documentation>
+					<xs:documentation xml:lang="FR">pays</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="currency" type="s213dt:bclCurrency" nillable="false">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sector" type="s213dt:bcl2015Sector" nillable="false">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">sector</xs:documentation>
+					<xs:documentation xml:lang="FR">secteur</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="initialMaturity" type="s213dt:bcl2015InitialMaturity">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">initial maturity</xs:documentation>
+					<xs:documentation xml:lang="FR">echeance initiale</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reporterID">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">reporter identification</xs:documentation>
+			<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="s213dt:institutionType">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution type</xs:documentation>
+					<xs:documentation xml:lang="FR">type d'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="code" type="s213dt:institutionCode">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">institution code</xs:documentation>
+					<xs:documentation xml:lang="FR">code de l'entite</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

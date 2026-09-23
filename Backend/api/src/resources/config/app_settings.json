@@ -1,0 +1,9 @@
+{
+  "organisation_name": "Forvis Mazars Luxembourg",
+  "product_line": "Forvis Mazars Regulatory Reporting Platform",
+  "default_currency": "EUR",
+  "four_eyes_review_required": true,
+  "contact_placeholder": "kid-support@example-manco.lu",
+  "output_folder": "data/runtime/generated_kids",
+  "logo_filename": "logo.jpg"
+}

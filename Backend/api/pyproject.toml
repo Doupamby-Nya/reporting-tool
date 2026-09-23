@@ -1,0 +1,37 @@
+[project]
+name = "api"
+version = "1.0.0"
+description = "Regulatory reporting API for third-party management companies"
+authors = [
+    {name = "Christopher Jacques",email = "christopher.jacques@forvismazars.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi (>=0.141.1,<0.142.0)",
+    "uvicorn (>=0.53.0,<0.54.0)",
+    "python-multipart (>=0.0.20,<0.1.0)",
+    "lxml (>=5.2,<7)",
+    "openpyxl (>=3.1,<4)",
+    "pandas (>=2.2,<4)",
+    "numpy (>=1.26,<3)",
+    "pyyaml (>=6.0,<7)",
+    "reportlab (>=4.2,<5)",
+    "python-docx (>=1.1,<2)",
+    "rapidfuzz (>=3.6,<4)",
+    # The FATCA/CRS pipeline builds its returns through dicttoxml; it is a
+    # hard import, so the API will not start without it.
+    "dicttoxml (>=1.7,<2)",
+    "xlrd (>=2.0,<3)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3"
+httpx = "^0.28"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

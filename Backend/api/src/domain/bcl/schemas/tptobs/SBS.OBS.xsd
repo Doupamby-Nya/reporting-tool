@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bcl.lu/2007/SBS" xmlns:sbs="http://www.bcl.lu/2007/SBS" xmlns:sbsdt="http://www.bcl.lu/2007/SBS-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bcl.lu/2007/SBS" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://www.bcl.lu/2007/SBS-datatypes" schemaLocation="SBS.datatypes.xsd"/>
+	<xs:include schemaLocation="SBS.structures.xsd"/>
+	<xs:element name="SBS">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">top-level (study identification)</xs:documentation>
+			<xs:documentation xml:lang="FR">niveau principal (identification de l'enquete)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="header" type="header">
+					<xs:annotation>
+						<xs:documentation xml:lang="EN">study header</xs:documentation>
+						<xs:documentation xml:lang="FR">entete de l'enquete</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OBS" type="OBS">
+					<xs:annotation>
+						<xs:documentation xml:lang="EN">UCI administrations</xs:documentation>
+						<xs:documentation xml:lang="FR">administrations d'OPC</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required" fixed="1.5">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">study version</xs:documentation>
+					<xs:documentation xml:lang="FR">version de l'enquete</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="creationDateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">report creation date and time</xs:documentation>
+					<xs:documentation xml:lang="FR">date et heure de creation du rapport</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="header">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">study header</xs:documentation>
+			<xs:documentation xml:lang="FR">entete de l'enquete</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endMonthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">end of month date</xs:documentation>
+					<xs:documentation xml:lang="FR">date de fin de mois</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="closingDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">closing date</xs:documentation>
+					<xs:documentation xml:lang="FR">date de cloture</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reporterID" type="reporterID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">reporter identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du reporter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="declarantID" type="declarantID">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">declarant identification</xs:documentation>
+					<xs:documentation xml:lang="FR">identification du declarant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportingCurrency" type="sbsdt:currency">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">reporting currency</xs:documentation>
+					<xs:documentation xml:lang="FR">devise de reporting</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="layout" type="sbsdt:layout">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">layout</xs:documentation>
+					<xs:documentation xml:lang="FR">masque</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OBS">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">UCI administrations</xs:documentation>
+			<xs:documentation xml:lang="FR">administrations d'OPC</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="assets" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">assets</xs:documentation>
+					<xs:documentation xml:lang="FR">actifs</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="reportedLine">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">reported line</xs:documentation>
+								<xs:documentation xml:lang="FR">ligne rapportee</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="id">
+										<xs:annotation>
+											<xs:documentation xml:lang="EN">reported line identifier</xs:documentation>
+											<xs:documentation xml:lang="FR">identifiant de la ligne rapportee</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:restriction base="reportedLineID">
+													<xs:sequence>
+														<xs:element name="item">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">account item</xs:documentation>
+																<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="sbsdt:bcl2015Item">
+																	<xs:pattern value="1-[0-9A-Z]{6}"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="country" type="sbsdt:bclCountry" nillable="false">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">issuer country</xs:documentation>
+																<xs:documentation xml:lang="FR">pays de l'emetteur</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="currency" type="sbsdt:bclCurrency" nillable="false">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">issue currency</xs:documentation>
+																<xs:documentation xml:lang="FR">devise d'emission</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="sector" type="sbsdt:bcl2015Sector" nillable="false">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">issuer sector</xs:documentation>
+																<xs:documentation xml:lang="FR">secteur de l'emetteur</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:restriction>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:sequence minOccurs="0">
+										<xs:element name="ISIN" type="OBS.assets.ISIN" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">ISIN codification</xs:documentation>
+												<xs:documentation xml:lang="FR">codification ISIN</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="other" type="OBS.assets.other" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">other codification</xs:documentation>
+												<xs:documentation xml:lang="FR">autre codification</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:element name="totalReportedAmount">
+										<xs:annotation>
+											<xs:documentation xml:lang="EN">total amount for reported line</xs:documentation>
+											<xs:documentation xml:lang="FR">montant total pour la ligne rapportee</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="sbsdt:amount">
+												<xs:minInclusive value="0.0"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:unique name="OBS.AssetsLineId">
+					<xs:selector xpath=".//sbs:reportedLine/sbs:id"/>
+					<xs:field xpath="sbs:item"/>
+					<xs:field xpath="sbs:country"/>
+					<xs:field xpath="sbs:currency"/>
+					<xs:field xpath="sbs:sector"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="liabilities" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">liabilities</xs:documentation>
+					<xs:documentation xml:lang="FR">passifs</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="reportedLine">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">reported line</xs:documentation>
+								<xs:documentation xml:lang="FR">ligne rapportee</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="id">
+										<xs:annotation>
+											<xs:documentation xml:lang="EN">reported line identifier</xs:documentation>
+											<xs:documentation xml:lang="FR">identifiant de la ligne rapportee</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:restriction base="reportedLineID">
+													<xs:sequence>
+														<xs:element name="item">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">account item</xs:documentation>
+																<xs:documentation xml:lang="FR">rubrique comptable</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="sbsdt:bcl2015Item">
+																	<xs:pattern value="2-[0-9A-Z]{6}"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="country" type="sbsdt:bclCountry" nillable="false">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">country</xs:documentation>
+																<xs:documentation xml:lang="FR">pays</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="currency" type="sbsdt:bclCurrency" nillable="false">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">currency</xs:documentation>
+																<xs:documentation xml:lang="FR">devise</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="sector" type="sbsdt:bcl2015Sector" nillable="false">
+															<xs:annotation>
+																<xs:documentation xml:lang="EN">sector</xs:documentation>
+																<xs:documentation xml:lang="FR">secteur</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:restriction>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:sequence minOccurs="0">
+										<xs:element name="ISIN" type="OBS.liabilities.ISIN" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">ISIN codification</xs:documentation>
+												<xs:documentation xml:lang="FR">codification ISIN</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="other" type="OBS.liabilities.other" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">other codification</xs:documentation>
+												<xs:documentation xml:lang="FR">autre codification</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:element name="totalReportedAmount" type="sbsdt:amount">
+										<xs:annotation>
+											<xs:documentation xml:lang="EN">total amount for reported line</xs:documentation>
+											<xs:documentation xml:lang="FR">montant total pour la ligne rapportee</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:unique name="OBS.LiabilitiesLineId">
+					<xs:selector xpath=".//sbs:reportedLine/sbs:id"/>
+					<xs:field xpath="sbs:item"/>
+					<xs:field xpath="sbs:country"/>
+					<xs:field xpath="sbs:currency"/>
+					<xs:field xpath="sbs:sector"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OBS.assets.ISIN">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">datas for securities with ISIN codification (for assets)</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees pour les titres avec une codification ISIN (a l'actif)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="security">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security</xs:documentation>
+					<xs:documentation xml:lang="FR">titre</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="securityID" type="isinSecurityID">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">security identification</xs:documentation>
+								<xs:documentation xml:lang="FR">identification du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="holdSecurityType" type="sbsdt:holdSecurityType">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">hold security type</xs:documentation>
+								<xs:documentation xml:lang="FR">type de detention du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="debt">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">debt</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de creance</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="percentageQuoted" type="percentageQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="currencyQuoted" type="currencyQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="equity">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">equity</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de participation</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="percentageQuoted" type="percentageQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="currencyQuoted" type="currencyQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="reportedAmount">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">Balance sheet reported amount (in reporting currency)</xs:documentation>
+								<xs:documentation xml:lang="FR">montant repris au bilan en devise de reporting</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="sbsdt:amount">
+									<xs:minInclusive value="0.0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OBS.assets.other">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">datas for securities with other codification (for assets)</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees pour les titres avec une autre codification (a l'actif)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="security">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security</xs:documentation>
+					<xs:documentation xml:lang="FR">titre</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="securityID" type="securityID">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">security identification</xs:documentation>
+								<xs:documentation xml:lang="FR">identification du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="issuerID" type="issuerID">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">issuer identification</xs:documentation>
+								<xs:documentation xml:lang="FR">identification de l'emetteur</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="holdSecurityType" type="sbsdt:holdSecurityType">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">hold security type</xs:documentation>
+								<xs:documentation xml:lang="FR">type de detention du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="debt">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">debt</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de creance</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplements" type="debtSupplements">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">reporting supplements</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees complementaires a rapporter</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="percentageQuoted" type="percentageQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="currencyQuoted" type="currencyQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="equity">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">equity</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de participation</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplements">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">reporting supplements</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees complementaires a rapporter</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="equitySupplements">
+														<xs:sequence>
+															<xs:element name="securityType" type="sbsdt:esa2010EquityType">
+																<xs:annotation>
+																	<xs:documentation xml:lang="EN">security type (for equity)</xs:documentation>
+																	<xs:documentation xml:lang="FR">type du titre (pour les titres de participation)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="percentageQuoted" type="percentageQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="currencyQuoted" type="currencyQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="reportedAmount">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">Balance sheet reported amount (in reporting currency)</xs:documentation>
+								<xs:documentation xml:lang="FR">montant repris au bilan en devise de reporting</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="sbsdt:amount">
+									<xs:minInclusive value="0.0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OBS.liabilities.ISIN">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">datas for securities with ISIN codification (for liabilities)</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees pour les titres avec une codification ISIN (au passif)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="security">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security</xs:documentation>
+					<xs:documentation xml:lang="FR">titre</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="securityID" type="isinSecurityID">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">security identification</xs:documentation>
+								<xs:documentation xml:lang="FR">identification du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="holdSecurityType" type="sbsdt:holdSecurityType">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">hold security type</xs:documentation>
+								<xs:documentation xml:lang="FR">type de detention du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="typeOfShare">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">type of share</xs:documentation>
+									<xs:documentation xml:lang="FR">type de part</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplements" type="typeOfShareSupplements">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">reporting supplements</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees complementaires a rapporter</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="percentageQuoted" type="percentageQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="currencyQuoted" type="currencyQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="debt">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">debt</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de creance</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="percentageQuoted" type="percentageQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="currencyQuoted" type="currencyQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="equity">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">equity</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de participation</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="percentageQuoted" type="percentageQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="currencyQuoted" type="currencyQuoted">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="reportedAmount" type="sbsdt:amount">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">Balance sheet reported amount (in reporting currency)</xs:documentation>
+								<xs:documentation xml:lang="FR">montant repris au bilan en devise de reporting</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OBS.liabilities.other">
+		<xs:annotation>
+			<xs:documentation xml:lang="EN">datas for securities with other codification (for liabilities)</xs:documentation>
+			<xs:documentation xml:lang="FR">donnees pour les titres avec une autre codification (a l'actif)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="security">
+				<xs:annotation>
+					<xs:documentation xml:lang="EN">security</xs:documentation>
+					<xs:documentation xml:lang="FR">titre</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="securityID" type="securityID">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">security identification</xs:documentation>
+								<xs:documentation xml:lang="FR">identification du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="issuerID" type="issuerID">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">issuer identification</xs:documentation>
+								<xs:documentation xml:lang="FR">identification de l'emetteur</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="holdSecurityType" type="sbsdt:holdSecurityType">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">hold security type</xs:documentation>
+								<xs:documentation xml:lang="FR">type de detention du titre</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="typeOfShare">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">type of share</xs:documentation>
+									<xs:documentation xml:lang="FR">type de part</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplements" type="typeOfShareSupplements">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">reporting supplements</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees complementaires a rapporter</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="percentageQuoted" type="percentageQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="currencyQuoted" type="currencyQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="debt">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">debt</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de creance</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplements" type="debtSupplements">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">reporting supplements</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees complementaires a rapporter</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="percentageQuoted" type="percentageQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="currencyQuoted" type="currencyQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="equity">
+								<xs:annotation>
+									<xs:documentation xml:lang="EN">equity</xs:documentation>
+									<xs:documentation xml:lang="FR">titre de participation</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="supplements">
+											<xs:annotation>
+												<xs:documentation xml:lang="EN">reportering supplements</xs:documentation>
+												<xs:documentation xml:lang="FR">donnees complementaires a rapporter</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="equitySupplements">
+														<xs:sequence>
+															<xs:element name="securityType" type="sbsdt:esa2010EquityType">
+																<xs:annotation>
+																	<xs:documentation xml:lang="EN">security type (for equity)</xs:documentation>
+																	<xs:documentation xml:lang="FR">type du titre (pour les titres de participation)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="percentageQuoted" type="percentageQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a percentage quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees pour un titre cote en pourcentage</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="currencyQuoted" type="currencyQuoted">
+												<xs:annotation>
+													<xs:documentation xml:lang="EN">data for a currency quoted security</xs:documentation>
+													<xs:documentation xml:lang="FR">donnees a rapporter pour un titre cote en devise</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="reportedAmount" type="sbsdt:amount">
+							<xs:annotation>
+								<xs:documentation xml:lang="EN">Balance sheet reported amount (in reporting currency)</xs:documentation>
+								<xs:documentation xml:lang="FR">montant repris au bilan en devise de reporting</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

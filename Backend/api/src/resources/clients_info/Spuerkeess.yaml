@@ -1,0 +1,7 @@
+organisation_name: Spuerkeess
+default_template: standard
+product_line: ''
+default_currency: EUR
+four_eyes_review_required: true
+contact_placeholder: contact@spuerkeess.lu
+output_folder: ''

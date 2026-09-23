@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2022 rel. 2 (x64) (http://www.altova.com) by Jonathan Genson (Banque Centrale Du Luxembourg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bcl.lu/2025/S2.20" xmlns:s220="http://www.bcl.lu/2025/S2.20" xmlns:s220dt="http://www.bcl.lu/2025/S2.20/datatypes" targetNamespace="http://www.bcl.lu/2025/S2.20" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="http://www.bcl.lu/2025/S2.20/datatypes" schemaLocation="datatypes.xsd"/>
+	<xs:element name="S220">
+		<xs:annotation>
+			<xs:documentation>top level</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GeneralInformation">
+					<xs:annotation>
+						<xs:documentation>1. General information on the report and the sender</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ReferenceMonth" type="s220dt:ReferenceMonth">
+								<xs:annotation>
+									<xs:documentation>1010 - Reference Month</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ReportingStatus" type="s220dt:ReportingStatus">
+								<xs:annotation>
+									<xs:documentation>1020 - Reporting Status</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SenderCssfCode" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>1030 - CSSF code of the sender</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="s220dt:CssfSenderCssfCode"/>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TypeOfTheSender" type="s220dt:TypeOfTheSender">
+								<xs:annotation>
+									<xs:documentation>1031 - Institution type of the sender</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="CodeOfTheSender">
+								<xs:annotation>
+									<xs:documentation>1032 - Institution code of the sender</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="s220dt:CodeOfTheSender"/>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SenderInformations">
+								<xs:complexType>
+									<xs:sequence maxOccurs="20">
+										<xs:element name="SenderInformation">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="NameOfEmployee">
+														<xs:annotation>
+															<xs:documentation>1040 - Name of the employee</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="s220dt:nonEmptyString">
+																<xs:maxLength value="255"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PhoneNumber">
+														<xs:annotation>
+															<xs:documentation>1040 - Phone number of the employee</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="s220dt:nonEmptyString">
+																<xs:maxLength value="64"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="EmailAdress">
+														<xs:annotation>
+															<xs:documentation>1050 - Email adress</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="s220dt:nonEmptyString">
+																<xs:maxLength value="255"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="UCIGeneralInformation">
+					<xs:annotation>
+						<xs:documentation>2. General information on the NAF</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="UCISignaBasic">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="UCICssfCode" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>2010 - Cssf code of the NAF (CSSF code of the entity and CSSF code of the sub-fund)</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="s220dt:CssfUCICode"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="TypeOfTheDeclarant" type="s220dt:TypeOfTheDeclarant">
+											<xs:annotation>
+												<xs:documentation>2011 - BCL institution type of the NAF</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CodeOfTheDeclarant" type="s220dt:CodeOfTheDeclarant">
+											<xs:annotation>
+												<xs:documentation>2012 - BCL code of the NAF (BCL code of the entity and BCL code of the sub-fund)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="UCIName" type="s220dt:nonEmptyString">
+											<xs:annotation>
+												<xs:documentation>2020 - Name of the NAF (name of the entity and name of the sub-fund)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="UCIBaseCurrency" type="s220dt:currency">
+											<xs:annotation>
+												<xs:documentation>2030 - Base Currency of the NAF</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LEI" type="s220dt:LEI" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>2040 - Legal Entity Identifier (LEI)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="UCISignaDate" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ValuationDate" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>2050 - Valuation Date</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="NavInformation">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="NavFreq" type="s220dt:NavFrequency">
+														<xs:annotation>
+															<xs:documentation>2060 - Net asset value calculation frequency</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="NavRedemptionFreq" type="s220dt:NavRedemptionFreq">
+														<xs:annotation>
+															<xs:documentation>2100 - Redemption frequency</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OpenClosedEnd" type="s220dt:OpenClosedEnd">
+														<xs:annotation>
+															<xs:documentation>2110 - Open / Closed-end</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Comment" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="1024"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="LaunchDate" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>2070 - Launch date</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ClosingInformation" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ClosingDate" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>2080 - Closing date</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ReasonForClosing" type="s220dt:ReasonForClosingUCI">
+														<xs:annotation>
+															<xs:documentation>2090 - Reason for closing</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="UCIFinancialInformation" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>3. Financial information on the UCI in the base currency of the NAF</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NAVPrecedingRefMonth" type="s220dt:amount">
+								<xs:annotation>
+									<xs:documentation>3010 - Total net asset value of the preceding reference quarter</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="NAVRefMonth" type="s220dt:amount">
+								<xs:annotation>
+									<xs:documentation>3020 - Total net asset value of the reference quarter</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="TotUnitsOrSharesIssued" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>3030 - Proceeds from all units/shares issued during the reference quarter</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="TotUnitsOrSharesRedeemed" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>3040 - Payments made for all units/shares redeemed during the reference quarter</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="TotalDistributions" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>3050 - Total distributions made during the reference quarter</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Unit_Share_Informations" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="Unit_Share_Information">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>(to be filled in separately for each unit / share class)</xs:documentation>
+										</xs:annotation>
+										<xs:element name="CssfCode" type="s220dt:ShareClassCode">
+											<xs:annotation>
+												<xs:documentation>4010 - Code of the unit/share class</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="UnitShareClassGeneralInformation">
+											<xs:annotation>
+												<xs:documentation>4. General information on the unit / share class</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Unit_ShareClass_Name" type="s220dt:nonEmptyString">
+														<xs:annotation>
+															<xs:documentation>4020 - Name of the unit / share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="BaseCurrency" type="s220dt:currency">
+														<xs:annotation>
+															<xs:documentation>4030 - Base Currency of the unit / share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ISINCode" type="s220dt:isinCode" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>4040 - ISIN code of the unit/share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="LaunchDate" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>4050 - Launch date of the unit / share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ClosingInformation" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="ClosingDate" type="xs:date">
+																	<xs:annotation>
+																		<xs:documentation>4060 - Closing date of the unit / share class</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ReasonForClosing" type="s220dt:ReasonForClosingSC">
+																	<xs:annotation>
+																		<xs:documentation>4070 - Reason for closing of the unit / share class</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Unit_ShareClass_SpecInstr_FX" type="xs:boolean">
+														<xs:annotation>
+															<xs:documentation>4080 - Unit / Share class with specific instruments - FX</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Unit_ShareClass_SpecInstr_InterestRate" type="xs:boolean">
+														<xs:annotation>
+															<xs:documentation>4090 - Unit / Share class with specific instruments - Interest Rate</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Unit_ShareClass_SpecInstr_Other" type="xs:boolean">
+														<xs:annotation>
+															<xs:documentation>4100 - Unit / Share class with specific instruments - Other</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="InvestorBase" type="s220dt:InvestorBase">
+														<xs:annotation>
+															<xs:documentation>4110 - Investor base</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="UnitShareClassFinancialInformation">
+											<xs:annotation>
+												<xs:documentation>5. Financial information on the unit / share class for the reference month</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="NumberUnitOrShareOutstanding" type="s220dt:positiveAmount">
+														<xs:annotation>
+															<xs:documentation>5010 - Number of units/shares outstanding</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="NetAssetValueInSubFundCurrency" type="s220dt:largeAmount">
+														<xs:annotation>
+															<xs:documentation>5020 - Net asset value per unit / share in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="NetAssetValueInShareClassCurrency" type="s220dt:largeAmount">
+														<xs:annotation>
+															<xs:documentation>5030 - Net asset value per unit / share in the base currency of the unit / share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="NetReturn" type="s220dt:percent">
+														<xs:annotation>
+															<xs:documentation>5040 - Net return per unit / share in the base currency of the unit / share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="UnitOrSharesIssued" type="s220dt:positiveAmount">
+														<xs:annotation>
+															<xs:documentation>5050 - Proceeds from units / shares issued in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="UnitOrSharesRedeemed" type="s220dt:positiveAmount">
+														<xs:annotation>
+															<xs:documentation>5060 - Payments made for units / share redeemed in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Distributions" type="s220dt:positiveAmount">
+														<xs:annotation>
+															<xs:documentation>5070 - Total distributions made in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AmountDistributionsInUCICurrency" type="s220dt:positiveAmount">
+														<xs:annotation>
+															<xs:documentation>5080 - Amount of distributions made per unit / share in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AmountDistributionsInShareClassCurrency" type="s220dt:positiveAmount">
+														<xs:annotation>
+															<xs:documentation>5090 - Amount of distributions made per unit / share in the base currency of the unit / share class</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="IncomeInFundCurrency" type="s220dt:amount">
+														<xs:annotation>
+															<xs:documentation>5100 - Income in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ExpensesInFundCurrency" type="s220dt:amount">
+														<xs:annotation>
+															<xs:documentation>5110 - Expenses in the base currency of the NAF</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:key name="UnitShareId">
+						<xs:selector xpath=".//s220:Unit_Share_Information"/>
+						<xs:field xpath="s220:CssfCode"/>
+					</xs:key>
+				</xs:element>
+				<xs:element name="UCI_Inv_Income_and_Expenses" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>6. Information on investment income and expenses for the reference quarter in the base currecny of the NAF</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DividendsOnShares">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DividendsOnShares" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6010 - Dividends on shares</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DivShOfWhichFromLu" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6011 - of which from Luxembourg</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DividendsOnUCI_Units_Shares">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DividendsOnUCI_Units_Shares" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6020 - Dividends on UCI units / shares</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DivUCIOfWhichFromLu" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6021 - of which from Luxembourg</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Interest">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Interest_bonds_debt_securities" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6030 - Interest on bonds and other debt securities</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DivIntBondsOfWhichFromLu" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6031 - of which from Luxembourg</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InterestLoansBanksBearingAccounts" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>6040 - Interest on loans, bank and other interest-bearing accounts</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="BankInterest">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="BankInterest" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6041 - Bank interest</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="BankIntOfWhichFromLu" type="s220dt:positiveAmount">
+											<xs:annotation>
+												<xs:documentation>6042 - of which from Luxembourg</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OtherInterest">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OtherInterest" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6043 - Other interest</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OtherIntOfWhichFromLu" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6044 - of which from Luxembourg</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OtherIncome" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>6050 - Other Income</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OtherIncomeDetails">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RentalIncome" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6051 - Rental income</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CommissionIncome" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6052 - Commission income</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OtherOfWhichFromOtherIncome" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6053 - Other</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Charges" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>6060 - Charges</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ChargesDetails">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AdvisoryManagementFees" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6061 - Advisory and/or management commissions and/or fees</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DepositaryBankFees" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6062 - Depository commissions and/or fees</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AdministrationFees" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6063 - NAF administration fees</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="AuditInspectionFees" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6064 - Audit and inspection fees</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DistributionFees" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6065 - Distribution fees</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OtherAdministrativeExpenses" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6066 - Other administrative expenses</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SubscriptionTax" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6067 - Subscription tax</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OtherTaxes" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6068 - Other tax</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="PerformanceFees" type="s220dt:amount">
+								<xs:annotation>
+									<xs:documentation>6070 - Performance fees</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OtherExpenses" type="s220dt:positiveAmount">
+								<xs:annotation>
+									<xs:documentation>6080 - Other expenses</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="OtherExpensesDetails">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="InterestPaid" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6081 - Interest paid</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="PersonnelExpenses" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6082 - Personnel expenses</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="RentalExpenses" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6083 - Rental expenses</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Amortisation" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6084 - Amortisation</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OtherOfWhichFromOtherExpenses" type="s220dt:positiveAmount" minOccurs="1">
+											<xs:annotation>
+												<xs:documentation>6085 - Other</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="NetRealised" type="s220dt:amount">
+								<xs:annotation>
+									<xs:documentation>6090 - Net realised profit or loss on investments and foreign exchange positions</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="NetUnrealised" type="s220dt:amount">
+								<xs:annotation>
+									<xs:documentation>6100 - Net unrealised profit or loss on investments and foreign exchange positions</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required" fixed="1.0"/>
+			<xs:attribute name="creationDateTime" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

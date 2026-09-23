@@ -1,0 +1,15 @@
+# The API's own ignores, so the backend stays clean when checked out alone.
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.log
+
+# Secrets and per-machine settings. Commit .env.example instead: the real
+# .env carries the CORS origins of a particular deployment, including
+# internal host addresses.
+.env
+.env.local
+
+# Runtime state, not source — see the note in the repository root.
+runtime/
