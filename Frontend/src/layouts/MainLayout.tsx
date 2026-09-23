@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom"
 
-import { MODULES, firstStepOf } from "@config/navigation"
+import { MODULES } from "@config/navigation"
 import NotificationBell from "@components/NotificationBell"
 import TabScroller from "@components/TabScroller"
 import UserBadge from "@components/UserBadge"
@@ -77,7 +77,8 @@ const MainLayout: React.FC = () => (
                         Global Summary
                     </NavLink>
                     {MODULES.map((module) => (
-                        <NavLink key={module.key} to={`/${module.key}/${firstStepOf(module)}`}
+                        // The tab opens the reporting's Home page, and stays lit on every step under it.
+                        <NavLink key={module.key} to={`/${module.key}`}
                             className={tabClass} style={tabStyle}>
                             {module.label}
                         </NavLink>

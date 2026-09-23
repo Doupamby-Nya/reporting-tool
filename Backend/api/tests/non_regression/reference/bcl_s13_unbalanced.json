@@ -1,0 +1,10 @@
+{
+ "errors": [
+  [
+   "LED-015",
+   "Total assets (1000.0) must equal total liabilities (5.0) — lines 1-000000 and 2-000000."
+  ]
+ ],
+ "files": [],
+ "generated": false
+}

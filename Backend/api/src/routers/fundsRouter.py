@@ -3,17 +3,19 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
-from fastapi import APIRouter, Body, File, UploadFile
+from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import Response
 
-from models.commonModel import fail, ok, server_error
+from models.commonModel import ApiResponse, fail, ok, server_error
+from models.fundsModel import FundsRequest
 from services import fundsService
 
 fundsRouter = APIRouter(tags=["Funds"])
 
 
-@fundsRouter.get("/funds", summary="Every fund and share class under mandate")
+@fundsRouter.get("/funds", summary="Every fund and share class under mandate", response_model=ApiResponse[list[dict[str, Any]]])
 def funds_router():
     try:
         return ok(fundsService.funds_service())
@@ -33,7 +35,7 @@ def funds_template_router():
                     headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 
-@fundsRouter.post("/funds/parse", summary="Read a filled-in ingestion workbook")
+@fundsRouter.post("/funds/parse", summary="Read a filled-in ingestion workbook", response_model=ApiResponse[dict[str, Any]])
 async def funds_parse_router(file: UploadFile = File(...)):
     """Reads without committing: the rows and the problems are both returned
     so the preparer can see what would be added before the registry changes."""
@@ -44,10 +46,10 @@ async def funds_parse_router(file: UploadFile = File(...)):
         return server_error(f"Could not read this workbook: {exc}")
 
 
-@fundsRouter.post("/funds", summary="Add or update registry records")
-def funds_add_router(payload: dict = Body(default_factory=dict)):
+@fundsRouter.post("/funds", summary="Add or update registry records", response_model=ApiResponse[list[dict[str, Any]]])
+def funds_add_router(request: FundsRequest):
     try:
-        return ok(fundsService.fund_add_service(payload.get("funds") or []))
+        return ok(fundsService.fund_add_service(request.funds))
     except ValueError as exc:
         return fail(str(exc))
     except Exception as exc:
@@ -55,7 +57,7 @@ def funds_add_router(payload: dict = Body(default_factory=dict)):
         return server_error(f"Could not update the registry: {exc}")
 
 
-@fundsRouter.post("/funds/demo", summary="Load the fictitious demo dataset")
+@fundsRouter.post("/funds/demo", summary="Load the fictitious demo dataset", response_model=ApiResponse[list[dict[str, Any]]])
 def funds_demo_router():
     try:
         return ok(fundsService.fund_demo_service())
@@ -64,7 +66,7 @@ def funds_demo_router():
         return server_error(f"Could not load the demo dataset: {exc}")
 
 
-@fundsRouter.delete("/funds", summary="Empty the registry")
+@fundsRouter.delete("/funds", summary="Empty the registry", response_model=ApiResponse[list[dict[str, Any]]])
 def funds_reset_router():
     try:
         return ok(fundsService.fund_reset_service())
@@ -73,7 +75,7 @@ def funds_reset_router():
         return server_error(f"Could not empty the registry: {exc}")
 
 
-@fundsRouter.delete("/funds/{fund_id}", summary="Remove one share class")
+@fundsRouter.delete("/funds/{fund_id}", summary="Remove one share class", response_model=ApiResponse[list[dict[str, Any]]])
 def funds_delete_router(fund_id: str):
     try:
         return ok(fundsService.fund_delete_service(fund_id))

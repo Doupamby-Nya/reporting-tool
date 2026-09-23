@@ -12,9 +12,9 @@ import { setIngestion } from "@store/chainSlice"
 import type {
     BclChartLine, BclCodes, BclReport, InspectionResult,
 } from "src/types/reportingType"
-import S220Form, { emptyS220, type S220Draft } from "./bcl/S220Form"
-import S44Form, { emptyS44, type S44Draft } from "./bcl/S44Form"
-import TptobsForm, { emptyTptobs, type TptobsDraft } from "./bcl/TptobsForm"
+import S220Form, { emptyS220, type S220Draft } from "./forms/S220Form"
+import S44Form, { emptyS44, type S44Draft } from "./forms/S44Form"
+import TptobsForm, { emptyTptobs, type TptobsDraft } from "./forms/TptobsForm"
 
 const MODULE_KEY = "bcl"
 const LEDGER_KEYS = ["s13", "s213", "s16"]

@@ -1,0 +1,10 @@
+{
+ "errors": [],
+ "files": [
+  {
+   "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<U11 xmlns=\"http://www.cssf.lu/2015/U11\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"1.0\" creationDateTime=\"<DATETIME>\" xsi:schemaLocation=\"http://www.cssf.lu/2015/U11 U11.xsd\">\n  <GeneralInformation>\n    <ReferenceMonth>202511</ReferenceMonth>\n    <ReportingStatus>null report</ReportingStatus>\n    <SenderCssfCode>B00000999</SenderCssfCode>\n    <TypeOfTheSender/>\n    <CodeOfTheSender/>\n    <SenderInformations>\n      <SenderInformation>\n        <NameOfEmployee>Claire Martin</NameOfEmployee>\n        <PhoneNumber>+352 000 000</PhoneNumber>\n        <EmailAdress>claire.martin@example.lu</EmailAdress>\n      </SenderInformation>\n    </SenderInformations>\n  </GeneralInformation>\n  <UCIGeneralInformation>\n    <UCISignaBasic>\n      <UCICssfCode>O00001234</UCICssfCode>\n      <TypeOfTheDeclarant/>\n      <CodeOfTheDeclarant/>\n      <UCIName>Demo Balanced Fund</UCIName>\n      <UCIBaseCurrency>EUR</UCIBaseCurrency>\n      <LEI>5493000DEMO0000000X1</LEI>\n    </UCISignaBasic>\n  </UCIGeneralInformation>\n</U11>\n",
+   "filename": "U11_O00001234_202511.xml"
+  }
+ ],
+ "generated": true
+}

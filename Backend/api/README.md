@@ -38,7 +38,18 @@ poetry run pytest
 
 The suite drives the HTTP layer, so it covers the routers, the services and
 the reporting engines together: a filing only passes here if it would also
-pass the regulator's own schema.
+pass the regulator's own schema. It runs against a throwaway `RUNTIME_DIR`
+(see `tests/conftest.py`), never against your local drafts and audit trail.
+
+| File | What it proves |
+|---|---|
+| `test_api.py` | the endpoints answer, refuse and fail as documented |
+| `test_generation_api.py` | the generation endpoints, the fund registry, the KID, the 422 envelope |
+| `test_non_regression.py` | every regime files what the Streamlit MVP filed for the same input |
+| `test_bcl_engine.py`, `test_aifmd_engine.py` | the engines themselves — the Streamlit suite, carried over |
+
+`tests/non_regression/` explains how its references were built from the
+Streamlit code and how to re-anchor them; see also `MIGRATION.md`.
 
 ## Layout
 
@@ -54,7 +65,7 @@ src/
   utils/            filesystem locations
   resources/        what the regulators publish: XSD schemas, instructions,
                     verification rules, chart-of-accounts workbooks
-tests/              the API test suite
+tests/              the test suites; non_regression/ holds the Streamlit parity cases
 ```
 
 `domain/` is where the regulatory knowledge lives, and it is deliberately

@@ -1,4 +1,4 @@
-template_name: Standard PRIIPs KID — UCITS / AIF
+template_name: Red Theme - High Contrast
 template_version: 2021/2268 (amending RTS)
 language: en
 legal_basis:
@@ -140,3 +140,8 @@ output_formats:
 - HTML
 - XML (indicative structure)
 - JSON
+theme_color: '#b71c1c'
+table_header_bg: '#ffebee'
+table_border_color: '#ffcdd2'
+title_alignment: center
+layout: sidebar

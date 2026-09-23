@@ -1,4 +1,6 @@
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 from middlewares.originsMiddleware import originsMiddleware
 from routers.aifmdRouter import aifmdRouter
@@ -23,6 +25,19 @@ app = FastAPI(
     ),
     version="1.0.0",
     middleware=originsMiddleware)
+
+
+
+@app.exception_handler(RequestValidationError)
+def request_validation_handler(_request: Request, exc: RequestValidationError) -> JSONResponse:
+    """A body that does not match its model is refused with 422, in the same
+    envelope as every other refusal, so the client shows the reason rather
+    than "Request failed with status code 422"."""
+    problems = "; ".join(
+        f"{'.'.join(str(part) for part in error['loc'][1:]) or 'body'}: {error['msg']}"
+        for error in exc.errors())
+    return JSONResponse(status_code=422, content={"success": False, "message": f"Invalid request — {problems}"})
+
 
 # The writable directories the API needs for drafts, documents and the audit
 # trail, created once at import so the first request never has to.

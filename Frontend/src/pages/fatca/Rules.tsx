@@ -3,7 +3,7 @@ import DataPreview from "@components/DataPreview"
 import KpiRow from "@components/KpiRow"
 import { useChain } from "@hooks/useChain"
 import type { FatcaClassification } from "src/types/reportingType"
-import type { FatcaParameters } from "./FatcaIngestion"
+import type { FatcaParameters } from "./Ingestion"
 
 /**
  * What the classification engine decided, account by account.

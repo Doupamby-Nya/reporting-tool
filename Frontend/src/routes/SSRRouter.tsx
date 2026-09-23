@@ -1,32 +1,43 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
-import { MODULES, REFERENCE_STEP, firstStepOf } from "@config/navigation"
+import { MODULES, REFERENCE_STEP, firstStepOf, type ModuleNav } from "@config/navigation"
 import ChainLayout from "@layouts/ChainLayout"
 import MainLayout from "@layouts/MainLayout"
 import Dashboard from "@pages/Dashboard"
 import Guide from "@pages/Guide"
 
-import AifmdGeneration from "@pages/steps/AifmdGeneration"
-import AifmdIngestion from "@pages/steps/AifmdIngestion"
-import AifmdRules from "@pages/steps/AifmdRules"
-import BclGeneration from "@pages/steps/BclGeneration"
-import BclIngestion from "@pages/steps/BclIngestion"
-import BclRules from "@pages/steps/BclRules"
-import ControlsAudit from "@pages/steps/ControlsAudit"
-import FatcaConfiguration from "@pages/steps/FatcaConfiguration"
-import FatcaGeneration from "@pages/steps/FatcaGeneration"
-import FatcaIngestion from "@pages/steps/FatcaIngestion"
-import FatcaNotification from "@pages/steps/FatcaNotification"
-import FatcaRules from "@pages/steps/FatcaRules"
-import FilingGeneration from "@pages/steps/FilingGeneration"
-import PriipsConfiguration from "@pages/steps/PriipsConfiguration"
-import PriipsEngine from "@pages/steps/PriipsEngine"
-import PriipsIngestion from "@pages/steps/PriipsIngestion"
-import PriipsKid from "@pages/steps/PriipsKid"
-import Regulation from "@pages/steps/Regulation"
-import RulesCatalogue from "@pages/steps/RulesCatalogue"
-import WorkbookIngestion from "@pages/steps/WorkbookIngestion"
-import XmlPreview from "@pages/steps/XmlPreview"
+// Each reporting declares its own pages under pages/<reporting>/: a Home
+// page, which is the landing page of /<reporting>, and the steps that are
+// particular to it. The steps every reporting shares live in pages/shared/.
+import AifmdGeneration from "@pages/aifmd/Generation"
+import AifmdHome from "@pages/aifmd/Home"
+import AifmdIngestion from "@pages/aifmd/Ingestion"
+import AifmdRules from "@pages/aifmd/Rules"
+import BclGeneration from "@pages/bcl/Generation"
+import BclHome from "@pages/bcl/Home"
+import BclIngestion from "@pages/bcl/Ingestion"
+import BclRules from "@pages/bcl/Rules"
+import EsefHome from "@pages/esef/Home"
+import FatcaConfiguration from "@pages/fatca/Configuration"
+import FatcaGeneration from "@pages/fatca/Generation"
+import FatcaHome from "@pages/fatca/Home"
+import FatcaIngestion from "@pages/fatca/Ingestion"
+import FatcaNotification from "@pages/fatca/Notification"
+import FatcaRules from "@pages/fatca/Rules"
+import O41Home from "@pages/o41/Home"
+import PriipsConfiguration from "@pages/priips/Configuration"
+import PriipsEngine from "@pages/priips/Engine"
+import PriipsHome from "@pages/priips/Home"
+import PriipsIngestion from "@pages/priips/Ingestion"
+import PriipsKid from "@pages/priips/Kid"
+import SaqHome from "@pages/saq/Home"
+import ControlsAudit from "@pages/shared/ControlsAudit"
+import FilingGeneration from "@pages/shared/FilingGeneration"
+import Regulation from "@pages/shared/Regulation"
+import RulesCatalogue from "@pages/shared/RulesCatalogue"
+import WorkbookIngestion from "@pages/shared/WorkbookIngestion"
+import XmlPreview from "@pages/shared/XmlPreview"
+import UrrHome from "@pages/urr/Home"
 
 /**
  * Every step of every module's production chain is a route, generated from
@@ -76,6 +87,19 @@ const STEPS: Record<string, Record<string, StepComponent>> = {
     },
 }
 
+/** The landing page of each reporting — declared by the reporting itself. */
+const HOMES: Record<string, StepComponent> = {
+    priips: PriipsHome, fatca: FatcaHome, urr: UrrHome, o41: O41Home,
+    esef: EsefHome, aifmd: AifmdHome, saq: SaqHome, bcl: BclHome,
+}
+
+/** A bare module URL lands on the reporting's own Home page; a module
+ *  without one would fall back to the first step of its chain. */
+const landingFor = (module: ModuleNav): React.ReactElement => {
+    const Home = HOMES[module.key]
+    return Home ? <Home /> : <Navigate to={firstStepOf(module)} replace />
+}
+
 const componentFor = (moduleKey: string, step: string): StepComponent =>
     STEPS[moduleKey]?.[step] ?? SHARED[step] ?? Dashboard
 
@@ -87,8 +111,7 @@ const SSRRouter: React.FC = () => (
 
             {MODULES.map((module) => (
                 <Route key={module.key} path={module.key} element={<ChainLayout module={module} />}>
-                    {/* A bare module URL lands on the first step of its chain. */}
-                    <Route index element={<Navigate to={firstStepOf(module)} replace />} />
+                    <Route index element={landingFor(module)} />
                     {/* The chain, plus the regulatory reference — which is
                         reachable from the module but is not a step of it. */}
                     {[...module.steps, REFERENCE_STEP].map((step) => {

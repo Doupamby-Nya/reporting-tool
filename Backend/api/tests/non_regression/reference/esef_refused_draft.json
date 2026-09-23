@@ -1,0 +1,9 @@
+{
+ "errors": [
+  "LEI must be 20 characters.",
+  "Period end must be after period start.",
+  "At least one line item must have a value."
+ ],
+ "files": [],
+ "generated": false
+}

@@ -906,7 +906,7 @@ def generate_active_notifications(xml_content, template_docx_path, output_dir):
         acct_holder = acct.find("crs:AccountHolder", ns)
         if acct_holder is not None:
             acct_type = acct_holder.findtext("crs:AcctHolderType", default="", namespaces=ns)
-            logger.debug("CRS Account found, type:", repr(acct_type))
+            logger.debug("CRS Account found, type: %r", acct_type)
             if acct_type.strip() == "CRS102":
                 active_reports.append(acct)
     if not active_reports:
@@ -1022,7 +1022,7 @@ def generate_fatca_notifications_active(xml_content, template_docx_path, output_
         holder = acct.find("fatca:AccountHolder", ns)
         if holder is not None:
             acct_type = holder.findtext("fatca:AcctHolderType", default="", namespaces=ns)
-            logger.debug("FATCA Account found, type:", repr(acct_type))
+            logger.debug("FATCA Account found, type: %r", acct_type)
             if acct_type.strip() == "FATCA104":
                 active_reports.append(acct)
     if not active_reports:

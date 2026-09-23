@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from fastapi import APIRouter, Body, File, UploadFile
 from fastapi.responses import Response
 
-from models.commonModel import fail, ok, server_error
+from models.aifmdModel import AifmdRequest
+from models.commonModel import ApiResponse, GenerationResult, ValidationResult, fail, ok, server_error
 from services import aifmdReportingService as service, formsService
 
 aifmdRouter = APIRouter(prefix="/aifmd", tags=["AIFMD"])
@@ -15,7 +17,8 @@ aifmdRouter = APIRouter(prefix="/aifmd", tags=["AIFMD"])
 XLSX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 
-@aifmdRouter.get("/form", summary="The capture form of the two AIFMD files")
+@aifmdRouter.get("/form", summary="The capture form of the two AIFMD files",
+                 response_model=ApiResponse[dict[str, Any]])
 def aifmd_form_router():
     """The form as data, derived from the generator itself.
 
@@ -31,7 +34,8 @@ def aifmd_form_router():
         return server_error(f"Could not build the capture form: {exc}")
 
 
-@aifmdRouter.get("/metadata", summary="Code lists and structural rules of the two AIFMD files")
+@aifmdRouter.get("/metadata", summary="Code lists and structural rules of the two AIFMD files",
+                 response_model=ApiResponse[dict[str, Any]])
 def aifmd_metadata_router():
     try:
         return ok(service.aifmd_metadata_service())
@@ -40,10 +44,11 @@ def aifmd_metadata_router():
         return server_error(f"Could not read the AIFMD metadata: {exc}")
 
 
-@aifmdRouter.post("/validate", summary="Run the CSSF controls on a filing")
-def aifmd_validate_router(payload: dict = Body(default_factory=dict)):
+@aifmdRouter.post("/validate", summary="Run the CSSF controls on a filing",
+                  response_model=ApiResponse[ValidationResult])
+def aifmd_validate_router(request: AifmdRequest = Body(default_factory=AifmdRequest)):
     try:
-        return ok(service.aifmd_validate_service(payload))
+        return ok(service.aifmd_validate_service(request.payload()))
     except (TypeError, ValueError) as exc:
         return fail(f"Could not read this submission: {exc}")
     except Exception as exc:
@@ -51,10 +56,11 @@ def aifmd_validate_router(payload: dict = Body(default_factory=dict)):
         return server_error(f"Could not validate this filing: {exc}")
 
 
-@aifmdRouter.post("/generate", summary="Build the DATMAN and DATAIF files")
-def aifmd_generate_router(payload: dict = Body(default_factory=dict)):
+@aifmdRouter.post("/generate", summary="Build the DATMAN and DATAIF files",
+                  response_model=ApiResponse[GenerationResult])
+def aifmd_generate_router(request: AifmdRequest = Body(default_factory=AifmdRequest)):
     try:
-        return ok(service.aifmd_generate_service(payload))
+        return ok(service.aifmd_generate_service(request.payload()))
     except (TypeError, ValueError) as exc:
         return fail(f"Could not read this submission: {exc}")
     except Exception as exc:
@@ -62,7 +68,8 @@ def aifmd_generate_router(payload: dict = Body(default_factory=dict)):
         return server_error(f"Could not generate this filing: {exc}")
 
 
-@aifmdRouter.post("/inspect", summary="Identify and schema-validate an uploaded AIFMD filing")
+@aifmdRouter.post("/inspect", summary="Identify and schema-validate an uploaded AIFMD filing",
+                  response_model=ApiResponse[dict[str, Any]])
 async def aifmd_inspect_router(file: UploadFile = File(...)):
     try:
         return ok(service.inspect_upload_service(await file.read(), file.filename))
@@ -82,7 +89,8 @@ def aifmd_template_router():
                     headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 
-@aifmdRouter.post("/template/parse", summary="Read a filled-in consolidated template")
+@aifmdRouter.post("/template/parse", summary="Read a filled-in consolidated template",
+                  response_model=ApiResponse[dict[str, Any]])
 async def aifmd_parse_template_router(file: UploadFile = File(...)):
     try:
         return ok(service.aifmd_parse_workbook_service(await file.read()))

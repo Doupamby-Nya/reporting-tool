@@ -1,5 +1,5 @@
 {
-  "template_name": "Standard PRIIPs KID — UCITS / AIF",
+  "template_name": "Dark Blue Theme - Corporate",
   "template_version": "2021/2268 (amending RTS)",
   "language": "en",
   "legal_basis": [
@@ -189,5 +189,10 @@
     "HTML",
     "XML (indicative structure)",
     "JSON"
-  ]
+  ],
+  "theme_color": "#0d47a1",
+  "table_header_bg": "#e3f2fd",
+  "table_border_color": "#bbdefb",
+  "title_alignment": "left",
+  "layout": "banner"
 }

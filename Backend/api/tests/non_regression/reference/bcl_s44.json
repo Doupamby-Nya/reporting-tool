@@ -1,0 +1,11 @@
+{
+ "errors": [],
+ "files": [
+  {
+   "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<S44 xmlns=\"http://www.bcl.lu/2024/S4.4\" version=\"1.0\" creationDateTime=\"<DATETIME>\">\n\t<header>\n\t\t<endMonthDate>2025-12-31</endMonthDate>\n\t\t<closingDate>2025-12-31</closingDate>\n\t\t<reporterID>\n\t\t\t<type>23</type>\n\t\t\t<code>789</code>\n\t\t</reporterID>\n\t\t<declarantID>\n\t\t\t<type>26</type>\n\t\t\t<code>001220003</code>\n\t\t</declarantID>\n\t\t<reportingCurrency>EUR</reportingCurrency>\n\t\t<layout>0</layout>\n\t</header>\n\t<content>\n\t\t<MarketingCountry>\n\t\t\t<reportedLine>\n\t\t\t\t<id>\n\t\t\t\t\t<item>2-004000</item>\n\t\t\t\t\t<country>LU</country>\n\t\t\t\t\t<dataType>PCT</dataType>\n\t\t\t\t</id>\n\t\t\t\t<reportedAmount>60</reportedAmount>\n\t\t\t</reportedLine>\n\t\t\t<reportedLine>\n\t\t\t\t<id>\n\t\t\t\t\t<item>2-004000</item>\n\t\t\t\t\t<country>BE</country>\n\t\t\t\t\t<dataType>PCT</dataType>\n\t\t\t\t</id>\n\t\t\t\t<reportedAmount>40</reportedAmount>\n\t\t\t</reportedLine>\n\t\t</MarketingCountry>\n\t</content>\n</S44>\n",
+   "filename": "S0404_L0_202512_B000000789_O001220003_<CREATED>_001.xml",
+   "schema_valid": true
+  }
+ ],
+ "generated": true
+}

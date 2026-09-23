@@ -7,7 +7,7 @@ import PageTitle from "@components/PageTitle"
 import ValidationReport from "@components/ValidationReport"
 import { useChain } from "@hooks/useChain"
 import type { BclCodes, BclReport, ValidationResult } from "src/types/reportingType"
-import type { BclDraft } from "./BclIngestion"
+import type { BclDraft } from "./Ingestion"
 
 const MODULE_KEY = "bcl"
 

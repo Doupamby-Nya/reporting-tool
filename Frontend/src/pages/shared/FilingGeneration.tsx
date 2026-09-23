@@ -42,6 +42,7 @@ const FilingGeneration: React.FC = () => {
     const { chain, dispatch } = useChain(module.key)
     const [busy, setBusy] = useState(false)
     const [output, setOutput] = useState<FilingOutput | null>(null)
+    const [refusal, setRefusal] = useState<string[]>([])
 
     const submission = () => {
         // The parser returns its problems alongside the data; the generator
@@ -55,9 +56,22 @@ const FilingGeneration: React.FC = () => {
         if (!chain.ingestion) return toast.error("Ingest a workbook first — there is nothing to generate from.")
         setBusy(true)
         try {
-            const produced = asPackage
+            const answer = asPackage
                 ? await generateEsefPackage(submission())
                 : await generateFiling(module.key, submission())
+            if (!answer.generated) {
+                // The engine's own checks refused the submission, as the
+                // Streamlit generation step did: nothing is produced.
+                setOutput(null)
+                setRefusal(answer.errors)
+                toast.error(`The ${module.label} filing was not generated: ${answer.errors.length} issue(s) to fix.`)
+                return
+            }
+            const produced: FilingOutput = {
+                filename: answer.filename, label: answer.label, media_type: answer.media_type,
+                content: answer.content, content_base64: answer.content_base64,
+            }
+            setRefusal([])
             setOutput(produced)
 
             // The preview and the audit trail both work off the chain, so
@@ -108,6 +122,15 @@ const FilingGeneration: React.FC = () => {
                     </button>
                 )}
             </div>
+
+            {refusal.length > 0 && (
+                <section className="flex flex-col gap-2 rounded-lg border border-red-200 bg-red-50 p-5">
+                    <h2 className="text-sm font-semibold text-red-800">Validation issues</h2>
+                    <ul className="list-disc pl-5 text-sm text-red-700">
+                        {refusal.map((message) => <li key={message}>{message}</li>)}
+                    </ul>
+                </section>
+            )}
 
             {output && (
                 <section className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-5">

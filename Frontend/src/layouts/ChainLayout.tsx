@@ -32,6 +32,17 @@ const ChainLayout: React.FC<{ module: ModuleNav }> = ({ module }) => {
         <div className="flex flex-col gap-6 lg:flex-row">
             <aside className="w-full shrink-0 lg:w-64">
                 <div className="sticky top-32 rounded-lg border border-slate-200 bg-white p-4">
+                    {/* The reporting's Home page: what it is and where its filings stand. */}
+                    <NavLink to={`/${module.key}`} end
+                        className={({ isActive }) => [
+                            "mb-3 block rounded-md px-2 py-2 text-sm transition",
+                            isActive
+                                ? "bg-slate-100 font-semibold text-[#0A2647]"
+                                : "text-slate-600 hover:bg-slate-50 hover:text-[#0A2647]",
+                        ].join(" ")}>
+                        {module.title} — overview
+                    </NavLink>
+
                     <span className="block pb-3 text-xs font-semibold uppercase tracking-wide
                                      text-slate-500">
                         Production chain

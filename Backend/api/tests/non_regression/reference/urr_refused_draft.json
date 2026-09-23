@@ -1,0 +1,9 @@
+{
+ "errors": [
+  "CSSF code of the sender (1030) is required.",
+  "Share class #1: ISIN (4040) must be 2 letters + 10 characters.",
+  "LEI (2040) must be 20 characters when provided."
+ ],
+ "files": [],
+ "generated": false
+}

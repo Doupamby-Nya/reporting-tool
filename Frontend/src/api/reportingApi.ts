@@ -1,7 +1,7 @@
 import { api } from "@api/api"
 import type {
     ApiEnvelope, AuditEntry, BclCodes, BclReportsResponse, DraftSummary,
-    FatcaClassification, FatcaGeneration, FilingOutput, FilingRegime, FormSchema, Fund,
+    FatcaClassification, FatcaGeneration, FilingRegime, FilingResult, FormSchema, Fund,
     GenerationResult, InspectionResult, RegulationDocument, RegulatoryModule,
     RulesCatalogue, TrackedDocument, ValidationResult,
 } from "src/types/reportingType"
@@ -112,7 +112,7 @@ export const parseFilingWorkbook = (regimeKey: string, file: File) => {
 }
 
 export const generateFiling = (regimeKey: string, payload: unknown) =>
-    unwrap<FilingOutput>(api.post(`/${regimeKey}/generate`, payload))
+    unwrap<FilingResult>(api.post(`/${regimeKey}/generate`, payload))
 
 // --- workflow, audit and drafts ----------------------------------------------
 
@@ -169,7 +169,7 @@ export const inspectFilingFile = (regimeKey: string, file: File) => {
 }
 
 export const generateEsefPackage = (payload: unknown) =>
-    unwrap<FilingOutput>(api.post(`/esef/generate`, payload, { params: { as_package: true } }))
+    unwrap<FilingResult>(api.post(`/esef/generate`, payload, { params: { as_package: true } }))
 
 // --- PRIIPs KID --------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
-import { MODULES, firstStepOf } from "@config/navigation"
+import { MODULES } from "@config/navigation"
 import { fetchAuditLog, fetchDocuments, fetchFunds } from "@api/reportingApi"
 import KpiRow from "@components/KpiRow"
 import PageTitle from "@components/PageTitle"
@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
                     {MODULES.map((module) => {
                         const row = rows.find((candidate) => candidate.key === module.key)
                         return (
-                            <Link key={module.key} to={`/${module.key}/${firstStepOf(module)}`}
+                            <Link key={module.key} to={`/${module.key}`}
                                 className="rounded-lg border border-slate-200 bg-white p-4 transition
                                            hover:border-[#0A2647]">
                                 <p className="text-sm font-semibold text-slate-900">{module.label}</p>

@@ -8,7 +8,7 @@ import { useCurrentUser } from "@hooks/useCurrentUser"
 import { setGeneration } from "@store/chainSlice"
 import { takeFile } from "@store/fileVault"
 import type { FatcaClassification, GeneratedFile } from "src/types/reportingType"
-import type { FatcaParameters } from "./FatcaIngestion"
+import type { FatcaParameters } from "./Ingestion"
 
 /**
  * Builds the AEOI return from the workbook classified at the ingestion step.

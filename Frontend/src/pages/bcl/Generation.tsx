@@ -11,8 +11,8 @@ import { setGeneration } from "@store/chainSlice"
 import type {
     BclChartLine, BclReport, GenerationResult, InspectionResult,
 } from "src/types/reportingType"
-import type { BclDraft, ItemRows } from "./BclIngestion"
-import { dateOrNull, numberOrNull } from "./bcl/fields"
+import type { BclDraft, ItemRows } from "./Ingestion"
+import { dateOrNull, numberOrNull } from "./forms/fields"
 
 const MODULE_KEY = "bcl"
 

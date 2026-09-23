@@ -185,6 +185,15 @@ export type FilingOutput = {
     content_base64?: string | null
 }
 
+/**
+ * What a workbook-driven regime's /generate answers. A submission that fails
+ * the engine's own checks is refused rather than turned into a filing:
+ * `generated` is then false, `errors` says why, and there is no file.
+ */
+export type FilingResult =
+    | ({ generated: true; errors: string[] } & FilingOutput)
+    | { generated: false; errors: string[] }
+
 /** One row of a rules-engine mapping table. */
 export type RulesRow = {
     key: string
