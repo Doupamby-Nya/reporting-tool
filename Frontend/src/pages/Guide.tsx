@@ -35,7 +35,7 @@ const CHAIN_LABELS: Record<string, string> = {
 }
 
 const REGISTER_LIMIT = "Schema validation proves a filing is well-formed. The checks a regulator runs against its "
-    + "own register — that an entity code exists, that a period has not already been filed — cannot be "
+    + "own register, such as whether an entity code exists or a period was already filed, cannot be "
     + "reproduced here and remain the preparer's responsibility."
 
 const Guide: React.FC = () => {
@@ -50,7 +50,7 @@ const SubscriberGuide: React.FC<{ modules: ModuleNav[] }> = ({ modules }) => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="User Guide" subtitle="Your modules, step by step." />
+            <PageTitle title="User guide" subtitle="Your modules, step by step." />
 
             <div className="flex flex-wrap gap-2" role="tablist" aria-label="Your modules">
                 {modules.map((candidate) => (
@@ -119,8 +119,8 @@ const PublicGuide: React.FC = () => {
     const { me } = useCurrentUser()
     return (
         <section className="flex flex-col gap-10">
-            <PageTitle title="User Guide"
-                subtitle="What the platform does, module by module — and how a filing goes through it." />
+            <PageTitle title="User guide"
+                subtitle="What the platform does, module by module, and how a filing goes through it." />
 
             <div className="grid gap-5 md:grid-cols-2">
                 {MODULES.map((module) => {

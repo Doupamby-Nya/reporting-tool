@@ -46,7 +46,7 @@ const XmlPreview: React.FC = () => {
     if (!file) {
         return (
             <section className="flex flex-col gap-6">
-                <PageTitle title={`${module.title} — ${step?.label ?? "Preview"}`} />
+                <PageTitle eyebrow={module.title} title={step?.label ?? "Preview"} />
                 <p className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
                     Nothing has been generated yet. Produce a filing at the previous step first.
                 </p>
@@ -56,7 +56,7 @@ const XmlPreview: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-4">
-            <PageTitle title={`${module.title} — ${step?.label ?? "Preview"}`}
+            <PageTitle eyebrow={module.title} title={step?.label ?? "Preview"}
                 subtitle="Read the generated document, and correct it here if it needs it. An edit only
                           replaces the filing once you save it." />
 

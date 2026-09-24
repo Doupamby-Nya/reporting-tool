@@ -43,7 +43,7 @@ const Cell: React.FC<{
         return (
             <select value={String(value ?? "")} onChange={(event) => onChange(event.target.value)}
                 className={INPUT}>
-                <option value="">—</option>
+                <option value="">Select</option>
                 {countries.map(([code, label]) => <option key={code} value={code}>{label}</option>)}
             </select>
         )

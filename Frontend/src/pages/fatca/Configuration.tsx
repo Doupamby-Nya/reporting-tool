@@ -75,7 +75,7 @@ const FatcaConfiguration: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="FATCA & CRS — Configuration"
+            <PageTitle eyebrow="FATCA & CRS" title="Configuration"
                 subtitle="The preparer records a return can be filed under. A return names one of these;
                           it cannot name a contact that is not on file." />
 
@@ -122,7 +122,7 @@ const FatcaConfiguration: React.FC = () => {
                     </div>
 
                     <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-5">
-                        <h2 className="text-sm font-semibold text-slate-900">{selected || "—"}</h2>
+                        <h2 className="text-sm font-semibold text-slate-900">{selected || "No preparer selected"}</h2>
                         {Object.entries(record).map(([field, value]) => (
                             <label key={field} className="flex flex-col gap-1 text-sm">
                                 <span className="font-medium text-slate-700">

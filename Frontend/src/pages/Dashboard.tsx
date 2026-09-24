@@ -82,7 +82,7 @@ const Dashboard: React.FC = () => {
                                 <p className="text-sm font-semibold text-slate-900">{module.label}</p>
                                 <p className="text-xs text-slate-500">{module.authority}</p>
                                 <p className="mt-2 text-xs text-slate-600">
-                                    {row ? `${row.total} filing(s) · ${row.review} under review` : "—"}
+                                    {row ? `${row.total} filing(s) · ${row.review} under review` : ""}
                                 </p>
                             </Link>
                         )
@@ -114,7 +114,7 @@ const Dashboard: React.FC = () => {
                                     <tr>
                                         <td colSpan={5} className="px-3 py-3 text-sm text-slate-500">
                                             {funds.length === 0
-                                                ? "The registry is empty — populate it from the PRIIPs KID ingestion step."
+                                                ? "The registry is empty. Fill it from the PRIIPs KID ingestion step."
                                                 : "No fund matches your search."}
                                         </td>
                                     </tr>
@@ -142,10 +142,10 @@ const Dashboard: React.FC = () => {
                     ) : log.map((entry, index) => (
                         <div key={index} className="rounded-md border border-slate-200 bg-white px-4 py-2">
                             <p className="text-xs text-slate-500">
-                                {entry.timestamp.slice(0, 16).replace("T", " ")} — {entry.user}
+                                {entry.timestamp.slice(0, 16).replace("T", " ")} · {entry.user}
                             </p>
                             <p className="text-sm font-semibold text-slate-900">{entry.action}</p>
-                            <p className="text-xs text-slate-600">{entry.subject} — {entry.detail}</p>
+                            <p className="text-xs text-slate-600">{entry.subject}{entry.detail ? `: ${entry.detail}` : ""}</p>
                         </div>
                     ))}
                 </section>

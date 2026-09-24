@@ -4,6 +4,7 @@ import { toast } from "react-toastify"
 import { fetchFilingRules } from "@api/reportingApi"
 import KpiRow from "@components/KpiRow"
 import PageTitle from "@components/PageTitle"
+import { splitCode } from "@components/splitCode"
 import { useChain, useModule } from "@hooks/useChain"
 import type { RulesCatalogue as Catalogue } from "src/types/reportingType"
 
@@ -31,7 +32,7 @@ const RulesCatalogue: React.FC = () => {
     if (!catalogue) {
         return (
             <section className="flex flex-col gap-6">
-                <PageTitle title={`${module.title} — Rules Engine`} />
+                <PageTitle eyebrow={module.title} title="Rules engine" />
                 <p className="text-sm text-slate-500">Loading the mapping catalogue…</p>
             </section>
         )
@@ -39,7 +40,7 @@ const RulesCatalogue: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title={catalogue.title} subtitle={catalogue.description} />
+            <PageTitle eyebrow={module.title} title={catalogue.title} subtitle={catalogue.description} />
 
             {!chain.ingestion && (
                 <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
@@ -70,36 +71,45 @@ const RulesCatalogue: React.FC = () => {
                 </p>
             )}
 
-            {catalogue.tables.map((table) => (
+            {catalogue.tables.map((table) => {
+                const hasCodes = table.rows.some((row) => splitCode(row.label).code)
+                return (
                 <section key={table.title} className="flex flex-col gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">{table.title}</h2>
                     <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
                         <table className="w-full text-sm">
-                            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+                            <caption className="sr-only">{table.title}</caption>
+                            <thead className="bg-slate-50 text-left text-xs text-slate-500">
                                 <tr>
-                                    <th className="px-3 py-2">Field</th>
-                                    <th className="px-3 py-2">{table.column}</th>
-                                    <th className="px-3 py-2 text-center">In submission</th>
+                                    {hasCodes && <th scope="col" className="w-20 px-3 py-2 font-semibold">Code</th>}
+                                    <th scope="col" className="px-3 py-2 font-semibold">Description</th>
+                                    <th scope="col" className="px-3 py-2 font-semibold">{table.column}</th>
+                                    <th scope="col" className="w-28 px-3 py-2 text-center font-semibold">In submission</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {table.rows.map((row) => (
-                                    <tr key={row.key} className="border-t border-slate-100">
-                                        <td className="px-3 py-2 text-slate-700">{row.label}</td>
-                                        <td className="px-3 py-2 font-mono text-xs text-slate-600">{row.path}</td>
-                                        <td className="px-3 py-2 text-center">
-                                            {row.filled
-                                                ? <span className="text-emerald-600">✓</span>
-                                                : <span className="text-slate-300">—</span>}
-                                        </td>
-                                    </tr>
-                                ))}
+                                {table.rows.map((row) => {
+                                    const { code, text } = splitCode(row.label)
+                                    return (
+                                        <tr key={row.key} className="border-t border-slate-100">
+                                            {hasCodes && <td className="px-3 py-2 align-top font-mono text-xs text-slate-500">{code}</td>}
+                                            <td className="px-3 py-2 align-top text-slate-700">{text}</td>
+                                            <td className="px-3 py-2 align-top font-mono text-xs text-slate-600">{row.path}</td>
+                                            <td className="px-3 py-2 text-center align-top">
+                                                {row.filled
+                                                    ? <span className="text-emerald-600" aria-label="Provided">✓</span>
+                                                    : <span className="sr-only">Not provided</span>}
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </table>
                     </div>
                     {table.note && <p className="text-xs text-slate-500">{table.note}</p>}
                 </section>
-            ))}
+                )
+            })}
 
             <section className="rounded-lg border border-slate-200 bg-white p-4">
                 <h2 className="text-sm font-semibold text-slate-900">About this mapping</h2>

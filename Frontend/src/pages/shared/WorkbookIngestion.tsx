@@ -109,7 +109,7 @@ const WorkbookIngestion: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title={`${module.title} — Ingestion`}
+            <PageTitle eyebrow={module.title} title="Ingestion"
                 subtitle={schema?.description
                     ?? "Fill the form in directly, or bring a workbook you have already filled."} />
 

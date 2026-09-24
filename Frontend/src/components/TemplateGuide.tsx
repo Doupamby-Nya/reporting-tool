@@ -37,7 +37,7 @@ const TemplateGuide: React.FC<{ schema: FormSchema; values: Record<string, unkno
 
                 {chosen ? (
                     <p className="text-sm text-slate-800">
-                        <span className="font-semibold">{chosen}</span> —{" "}
+                        <span className="font-semibold">{chosen}</span>:{" "}
                         {rule.options[chosen] ?? "unknown content type"}
                     </p>
                 ) : (
@@ -59,7 +59,7 @@ const TemplateGuide: React.FC<{ schema: FormSchema; values: Record<string, unkno
                                         ? "border-emerald-300 bg-emerald-50 text-emerald-900"
                                         : "border-slate-200 bg-white text-slate-500",
                                 ].join(" ")}>
-                                <span aria-hidden="true">{applies ? "✓" : "—"}</span>
+                                <span aria-hidden="true">{applies ? "✓" : ""}</span>
                                 <span>
                                     <span className="font-medium">{name}</span>
                                     <span className="block text-xs opacity-80">{when}</span>

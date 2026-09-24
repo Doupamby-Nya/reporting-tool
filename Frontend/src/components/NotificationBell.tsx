@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { fetchDocuments } from "@api/reportingApi"
 import { useCurrentUser } from "@hooks/useCurrentUser"
+import { useDismiss } from "@hooks/useDismiss"
 
 type Pending = { module: string; moduleLabel: string; label: string; status: string }
 
@@ -18,6 +19,7 @@ const NotificationBell: React.FC = () => {
     const { modules } = useCurrentUser()
     const [pending, setPending] = useState<Pending[]>([])
     const [open, setOpen] = useState(false)
+    const ref = useDismiss<HTMLDivElement>(open, useCallback(() => setOpen(false), []))
 
     useEffect(() => {
         let cancelled = false
@@ -43,8 +45,8 @@ const NotificationBell: React.FC = () => {
     }, [modules.map((module) => module.key).join()])
 
     return (
-        <div className="relative">
-            <button type="button" onClick={() => setOpen(!open)}
+        <div ref={ref} className="relative">
+            <button type="button" onClick={() => setOpen(!open)} aria-expanded={open}
                 aria-label={`${pending.length} filing(s) awaiting review`}
                 className="relative rounded-md p-2 text-slate-600 transition hover:bg-slate-100">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"

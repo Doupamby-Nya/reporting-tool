@@ -49,9 +49,9 @@ const Home: React.FC = () => {
                         Regulatory reporting,<br />checked before it is filed.
                     </h1>
                     <p className="max-w-2xl text-lg text-white/85">
-                        Eight regulatory regimes for management companies and their funds — prepared from
-                        your data, validated against each regulator's own rules and schema, reviewed by a
-                        second pair of eyes.
+                        Eight regulatory regimes for management companies and their funds. Prepared from
+                        your data, validated against each regulator's own rules and schema, and reviewed by
+                        a second pair of eyes.
                     </p>
                     <div className="flex flex-wrap justify-center gap-3 pt-2">
                         {primaryCta}

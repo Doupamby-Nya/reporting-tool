@@ -51,7 +51,7 @@ const FilingGeneration: React.FC = () => {
     }
 
     const run = async (asPackage = false) => {
-        if (!chain.ingestion) return toast.error("Ingest a workbook first — there is nothing to generate from.")
+        if (!chain.ingestion) return toast.error("Ingest a workbook first. There is nothing to generate from yet.")
         setBusy(true)
         try {
             const answer = asPackage
@@ -94,7 +94,7 @@ const FilingGeneration: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title={`${module.title} — ${step?.label ?? "Generation"}`}
+            <PageTitle eyebrow={module.title} title={step?.label ?? "Generation"}
                 subtitle="Builds the filing from the submission read at the ingestion step." />
 
 

@@ -98,12 +98,12 @@ export const PITCHES: Record<string, ModulePitch> = {
 
 /** What each step of a production chain is for, as the guide explains it. */
 export const STEP_HELP: Record<string, string> = {
-    ingestion: "Download the standard workbook, fill it in offline and upload it back — or open a saved draft. "
+    ingestion: "Download the standard workbook, fill it in offline and upload it back, or open a saved draft. "
         + "What was read is shown exactly as the generator will receive it.",
     engine: "Run the calculations: the summary risk indicator, the costs over each holding period and the four "
         + "performance scenarios.",
     rules: "The regulator's own controls applied to your submission: what is filled, what is missing, which "
-        + "cross-checks fail — each with the regulator's control code.",
+        + "cross-checks fail. Each finding carries the regulator's control code.",
     generation: "The filing is built, then validated against the regulator's schema. Nothing that fails can be "
         + "downloaded.",
     preview: "Read the produced document and correct it if needed. An edit replaces the filing only once saved.",
@@ -118,7 +118,7 @@ export const PROMISES: { title: string; text: string }[] = [
     { title: "Checked twice before it leaves",
       text: "Against the regulator's own business rules, then against its XML schema. A filing that fails either cannot be downloaded." },
     { title: "Four eyes, for real",
-      text: "The person who approves a filing is never the one who prepared it — enforced by the platform, not by habit." },
+      text: "The person who approves a filing is never the one who prepared it. The platform enforces this, not habit." },
     { title: "Every action on record",
       text: "Generation, review, approval, deletion: each is written to an audit trail against the account that did it." },
     { title: "Your data stays yours",

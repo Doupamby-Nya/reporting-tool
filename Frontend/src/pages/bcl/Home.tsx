@@ -10,7 +10,7 @@ const FACTS: ReportingFact[] = [
 ]
 
 const SUMMARY =
-    "Banque centrale du Luxembourg statistical reporting — S 1.3, S 2.13, S 1.6, S 2.20, S 4.4 and TPTOBS Layout 3."
+    "Banque centrale du Luxembourg statistical reporting: S 1.3, S 2.13, S 1.6, S 2.20, S 4.4 and TPTOBS Layout 3."
 
 /** The BCL statistical reports home page: the landing page of /bcl. */
 const BclHome: React.FC = () => {

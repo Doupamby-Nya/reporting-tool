@@ -10,7 +10,7 @@ const FACTS: ReportingFact[] = [
 ]
 
 const SUMMARY =
-    "Annual financial report line items (Commission Delegated Regulation (EU) 2019/815) — one submission per reporting entity and financial year."
+    "Annual financial report line items under Commission Delegated Regulation (EU) 2019/815. One submission per reporting entity and financial year."
 
 /** The ESEF home page: the landing page of /esef. */
 const EsefHome: React.FC = () => {

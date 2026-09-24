@@ -40,7 +40,7 @@ const ChainLayout: React.FC<{ module: ModuleNav }> = ({ module }) => {
                                 ? "bg-slate-100 font-semibold text-[#0A2647]"
                                 : "text-slate-600 hover:bg-slate-50 hover:text-[#0A2647]",
                         ].join(" ")}>
-                        {module.title} — overview
+                        Overview
                     </NavLink>
 
                     <span className="block pb-3 text-xs font-semibold uppercase tracking-wide

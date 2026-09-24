@@ -74,7 +74,7 @@ const PriipsKid: React.FC = () => {
             anchor.click()
             URL.revokeObjectURL(url)
 
-            await recordGenerated("priips", filename, `KID — ${kid.product_name}`)
+            await recordGenerated("priips", filename, `KID for ${kid.product_name}`)
             toast.success("KID exported.")
         } catch (error) {
             toast.error((error as Error).message)
@@ -86,7 +86,7 @@ const PriipsKid: React.FC = () => {
     if (funds.length === 0) {
         return (
             <section className="flex flex-col gap-6">
-                <PageTitle title="PRIIPs KID — KID Generation" />
+                <PageTitle eyebrow="PRIIPs KID" title="KID generation" />
                 <p className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
                     The registry is empty. Populate it at the ingestion step first.
                 </p>
@@ -96,7 +96,7 @@ const PriipsKid: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="PRIIPs KID — KID Generation"
+            <PageTitle eyebrow="PRIIPs KID" title="KID generation"
                 subtitle="One key information document per fund and share class: preview it, then export
                           the PDF that is distributed." />
 
@@ -109,7 +109,7 @@ const PriipsKid: React.FC = () => {
                                    focus:border-[#0A2647]">
                         {funds.map((candidate) => (
                             <option key={candidate.fund_id} value={candidate.fund_id}>
-                                {candidate.fund_name} — {candidate.share_class} ({candidate.isin})
+                                {candidate.fund_name}, {candidate.share_class} ({candidate.isin})
                             </option>
                         ))}
                     </select>
@@ -143,7 +143,7 @@ const PriipsKid: React.FC = () => {
                     <header className="border-b border-slate-200 pb-3">
                         <h2 className="text-xl font-semibold text-slate-900">Key Information Document</h2>
                         <p className="text-sm text-slate-600">
-                            {kid.product_name} — {kid.isin}
+                            {kid.product_name} · {kid.isin}
                         </p>
                         <p className="text-xs text-slate-500">
                             Generated {kid.generation_date} from the “{kid.template_name}” template.

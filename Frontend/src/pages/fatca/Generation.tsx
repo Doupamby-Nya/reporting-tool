@@ -28,7 +28,7 @@ const FatcaGeneration: React.FC = () => {
         const file = takeFile("fatca")
         const parameters = stored?.parameters
         if (!file || !parameters) {
-            toast.error("Upload the workbook again at the ingestion step — this tab no longer holds it.")
+            toast.error("Upload the workbook again at the ingestion step. This tab no longer holds it.")
             return
         }
         setBusy(true)
@@ -72,7 +72,7 @@ const FatcaGeneration: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="FATCA & CRS — XML Generation"
+            <PageTitle eyebrow="FATCA & CRS" title="XML generation"
                 subtitle="Builds the AEOI return from the classified workbook, under the parameters set
                           at the ingestion step." />
 
@@ -90,7 +90,7 @@ const FatcaGeneration: React.FC = () => {
                             {stored.parameters.report_type === "Zero Report" ? "0" : stored.parameters.version}
                             {stored.parameters.filer_category && ` · ${stored.parameters.filer_category}`}
                         </p>
-                        <p className="text-xs text-slate-500">Preparer: {stored.parameters.preparer || "—"}</p>
+                        <p className="text-xs text-slate-500">Preparer: {stored.parameters.preparer || "not set"}</p>
                     </section>
 
                     <button type="button" onClick={run} disabled={busy}

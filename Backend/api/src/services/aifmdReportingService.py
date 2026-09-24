@@ -20,8 +20,8 @@ from models.commonModel import (
 )
 
 FILES = (
-    ("datman", "DATMAN — AIFM-level file", ae.build_datman_xml, ae.build_datman_filename),
-    ("dataif", "DATAIF — AIF-level file", ae.build_dataif_xml, ae.build_dataif_filename),
+    ("datman", "DATMAN (AIFM-level file)", ae.build_datman_xml, ae.build_datman_filename),
+    ("dataif", "DATAIF (AIF-level file)", ae.build_dataif_xml, ae.build_dataif_filename),
 )
 
 

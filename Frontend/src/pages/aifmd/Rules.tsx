@@ -50,7 +50,7 @@ const AifmdRules: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="AIFMD Annex IV — Rules Engine"
+            <PageTitle eyebrow="AIFMD Annex IV" title="Rules engine"
                 subtitle="The CSSF controls of the Technical Guidance, run against the submission saved
                           at the ingestion step." />
 
@@ -68,7 +68,7 @@ const AifmdRules: React.FC = () => {
                     <p className="mt-1 text-sm text-slate-600">
                         ESMA declares these blocks with an exact number of occurrences. They are always
                         sent in full, with the unused ranks padded by the &quot;nothing to report&quot;
-                        code of that block — a filing that omits them is rejected by the schema.
+                        code of that block. A filing that omits them is rejected by the schema.
                     </p>
                     <ul className="mt-3 grid gap-x-8 gap-y-1 text-sm text-slate-700 sm:grid-cols-2">
                         {Object.entries(cardinalities).map(([name, count]) => (

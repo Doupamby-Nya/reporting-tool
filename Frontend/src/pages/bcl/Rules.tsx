@@ -57,7 +57,7 @@ const BclRules: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="BCL statistical reports — Rules Engine"
+            <PageTitle eyebrow="BCL statistical reports" title="Rules engine"
                 subtitle="The code lists a breakdown must draw from, the chart of accounts of the report
                           being captured, and the checks BCL runs between reports." />
 
@@ -78,7 +78,7 @@ const BclRules: React.FC = () => {
             {report && (
                 <section className="flex flex-col gap-3">
                     <h2 className="text-sm font-semibold text-slate-900">
-                        {report.label} — the regulator's own documents
+                        The regulator's documents for {report.label}
                     </h2>
                     <div className="flex flex-wrap gap-2">
                         {([
@@ -99,7 +99,7 @@ const BclRules: React.FC = () => {
 
             <section className="flex flex-col gap-2">
                 <h2 className="text-sm font-semibold text-slate-900">
-                    Chart of accounts — {report?.label ?? "—"}
+                    Chart of accounts{report ? ` for ${report.label}` : ""}
                 </h2>
                 <div className="max-h-[520px] overflow-auto rounded-lg border border-slate-200 bg-white">
                     <table className="w-full text-sm">
@@ -131,7 +131,7 @@ const BclRules: React.FC = () => {
                                     <td className="px-3 py-2 text-center">
                                         {filled.has(line.item)
                                             ? <span className="text-emerald-600">✓</span>
-                                            : <span className="text-slate-300">—</span>}
+                                            : <span className="sr-only">Not captured</span>}
                                     </td>
                                 </tr>
                             ))}
@@ -147,8 +147,8 @@ const BclRules: React.FC = () => {
             <section className="flex flex-col gap-3">
                 <h2 className="text-sm font-semibold text-slate-900">Cross-report checks</h2>
                 <p className="text-sm text-slate-600">
-                    Some of BCL's rules compare one report against another — the balance sheet against
-                    TPTOBS, and against S 2.20 — so they cannot be checked from a single report alone.
+                    Some of BCL's rules compare one report against another: the balance sheet against
+                    TPTOBS, and against S 2.20. They cannot be checked from a single report alone.
                 </p>
                 <button type="button" onClick={check} disabled={!draft}
                     className="w-fit rounded-md border border-[#0A2647] px-4 py-2 text-sm font-medium

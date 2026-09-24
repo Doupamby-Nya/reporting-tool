@@ -57,7 +57,7 @@ const FatcaNotification: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="FATCA & CRS — Data Notification"
+            <PageTitle eyebrow="FATCA & CRS" title="Data notification"
                 subtitle="The data-protection notification letters owed to each account holder named in
                           the filing." />
 
@@ -72,7 +72,7 @@ const FatcaNotification: React.FC = () => {
                     <p className="text-sm text-slate-600">
                         {uploaded
                             ? "Using the filing you uploaded."
-                            : "No filing in this session — upload one produced earlier."}
+                            : "No filing in this session. Upload one produced earlier."}
                     </p>
                 )}
                 <label className="w-fit cursor-pointer rounded-md border border-slate-300 px-3 py-2
@@ -118,8 +118,8 @@ const FatcaNotification: React.FC = () => {
                     </p>
                     {result.pdfs < result.letters && (
                         <p className="mt-1 text-xs text-emerald-800">
-                            {result.pdfs} of {result.letters} were also converted to PDF — that needs a
-                            local MS Word install; the rest are provided as .docx only.
+                            {result.pdfs} of {result.letters} were also converted to PDF. Conversion needs
+                            a local MS Word install, so the rest are provided as .docx only.
                         </p>
                     )}
                 </section>

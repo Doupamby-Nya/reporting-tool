@@ -55,17 +55,17 @@ const TptobsForm: React.FC<{
 
     const lineItems: [string, string][] = [
         ...(report?.assets ?? []), ...(report?.liabilities ?? []),
-    ].map((line) => [line.item, `${line.item} — ${line.label}`])
+    ].map((line) => [line.item, `${line.item} ${line.label}`])
 
     const countries: [string, string][] = [
         ...Object.entries(codes?.special_countries ?? {}).map(([code, label]): [string, string] =>
-            [code, `${code} — ${label}`]),
+            [code, `${code} ${label}`]),
         ...(((codes?.countries as string[]) ?? []).map((code): [string, string] => [code, code])),
     ]
     const currencies: [string, string][] =
         ((codes?.currencies as string[]) ?? []).map((code) => [code, code])
     const sectors: [string, string][] =
-        Object.entries(codes?.sectors ?? {}).map(([code, label]) => [code, `${code} — ${label}`])
+        Object.entries(codes?.sectors ?? {}).map(([code, label]) => [code, `${code} ${label}`])
     const holdTypes = toOptions(codes?.hold_security_types)
     const couponTypes = toOptions(codes?.coupon_types)
     const couponFrequencies = toOptions(codes?.coupon_frequencies)
@@ -96,7 +96,7 @@ const TptobsForm: React.FC<{
                 </div>
             </Section>
 
-            <Section title={`Securities — ${rows.length} reported`}
+            <Section title={`Securities reported (${rows.length})`}
                 hint="One row per security. BCL derives each reported line's total from the securities
                       attached to it, so the totals are computed rather than entered.">
                 <div className="overflow-x-auto rounded-lg border border-slate-200">
@@ -164,7 +164,7 @@ const TptobsForm: React.FC<{
                                                 update(index, "issuer_country", event.target.value)}
                                             className="w-28 rounded-md border border-slate-300 px-2 py-1
                                                        font-mono text-xs outline-none">
-                                            <option value="">—</option>
+                                            <option value="">Select</option>
                                             {countries.map(([code, label]) => (
                                                 <option key={code} value={code}>{label}</option>
                                             ))}
@@ -198,7 +198,7 @@ const TptobsForm: React.FC<{
                 {open !== null && rows[open] && (
                     <div className="rounded-lg border border-[#0A2647] bg-slate-50 p-4">
                         <h3 className="mb-3 text-sm font-semibold text-slate-900">
-                            {rows[open].security_name || `Security ${open + 1}`} — full detail
+                            Full detail of {rows[open].security_name || `security ${open + 1}`}
                         </h3>
                         <div className="grid gap-4 md:grid-cols-3">
                             <Select label="Issuer sector" value={rows[open].issuer_sector}

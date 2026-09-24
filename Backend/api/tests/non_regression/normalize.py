@@ -37,6 +37,11 @@ _FILENAME = (
 # Keys of a JSON result that carry the day it was produced.
 _VOLATILE_KEYS = {"generation_date"}
 
+# KID fields that print that same day: the rendered section repeats
+# generation_date, so it has to be masked with it or the references expire
+# the day after they are captured.
+_VOLATILE_LABELS = {"Date of production of the document"}
+
 
 def text(value: str) -> str:
     """A generated document with its production timestamps masked."""
@@ -56,6 +61,8 @@ def data(value: Any) -> Any:
     """A JSON-like result with its volatile fields masked and its floats
     rounded, so that 0.1 + 0.2 computed in two orders compares equal."""
     if isinstance(value, dict):
+        if value.get("label") in _VOLATILE_LABELS and "value" in value:
+            value = {**value, "value": "<MASKED>"}
         return {k: ("<MASKED>" if k in _VOLATILE_KEYS else data(v)) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
         return [data(v) for v in value]

@@ -81,7 +81,7 @@ const ReportingHome: React.FC<{ module: ModuleNav; summary: string; facts: Repor
                 ) : log.map((entry, index) => (
                     <div key={index} className="rounded-md border border-slate-200 bg-white px-4 py-2">
                         <p className="text-xs text-slate-500">
-                            {entry.timestamp.slice(0, 16).replace("T", " ")} — {entry.user}
+                            {entry.timestamp.slice(0, 16).replace("T", " ")} · {entry.user}
                         </p>
                         <p className="text-sm text-slate-900">
                             <span className="font-semibold">{entry.action}</span> · {entry.subject}

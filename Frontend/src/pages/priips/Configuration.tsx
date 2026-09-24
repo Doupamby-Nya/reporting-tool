@@ -132,9 +132,9 @@ const PriipsConfiguration: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="PRIIPs KID — Configuration"
-                subtitle="The KID narrative template, the RTS calibration behind every figure, and the
-                          organisation's own details — all editable without touching code." />
+            <PageTitle eyebrow="PRIIPs KID" title="Configuration"
+                subtitle="The KID narrative template, the RTS calibration behind every figure, and your
+                          organisation's details. All are editable without touching code." />
 
             <div className="flex flex-wrap gap-2">
                 <button type="button" className={tabClass("template")} onClick={() => setTab("template")}>

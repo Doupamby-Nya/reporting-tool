@@ -66,7 +66,7 @@ def _urr_rules(draft: dict[str, Any]) -> dict[str, Any]:
     ]
 
     return {
-        "title": "U 1.1 — Rules Engine",
+        "title": "Rules engine",
         "description": "Field-to-XML mapping: each Fund_Info, Share_Class and Income & Expenses field "
                        "tagged to its real U 1.1 element name (Circular CSSF 15/627).",
         "coverage": [
@@ -77,19 +77,19 @@ def _urr_rules(draft: dict[str, Any]) -> dict[str, Any]:
             {"label": "Income & expense fields",
              "value": f"{sum(1 for r in income_rows if r['filled'])} / {len(income_rows)}",
              "hint": "filled in this submission"},
-            {"label": "Reporting status", "value": draft.get("reporting_status") or "—", "hint": ""},
+            {"label": "Reporting status", "value": draft.get("reporting_status") or "Not set", "hint": ""},
         ],
         "tables": [
             {"title": "Fund_Info", "column": "Real XML path", "rows": fund_rows},
             {"title": "Share_Classes", "column": "Real XML path", "rows": class_rows,
-             "note": f"{len(share_classes)} share class(es) in this submission — one "
+             "note": f"{len(share_classes)} share class(es) in this submission, one "
                      f"Unit_Share_Information block per class."},
             {"title": "Income & Expenses", "column": "Real XML path", "rows": income_rows},
         ],
         "errors": [],
         "note": "Every element name and nesting above is copied from the generator itself, which was "
                 "built from a real CSSF example workbook (version 5.1 - 12/2025 of the U 1.1 spec). A "
-                "'null report' only tags GeneralInformation and UCISignaBasic — the fields below "
+                "'null report' only tags GeneralInformation and UCISignaBasic. The fields below "
                 "Section 2 are specific to a final report.",
     }
 
@@ -127,14 +127,14 @@ def _o41_rules(draft: dict[str, Any]) -> dict[str, Any]:
         tables.append({"title": section, "column": "EDIFACT wire code", "rows": rows})
 
     if not draft:
-        status = "—"
+        status = "Not set"
     elif formula_errors == 0:
         status = "Consistent"
     else:
         status = f"{formula_errors} mismatch(es)"
 
     return {
-        "title": "O 4.1 — Rules Engine",
+        "title": "Rules engine",
         "description": "Line-code mapping and the validation formulas of Annexe B, Circular IML 97/136, "
                        "evaluated against the submission saved at the ingestion step.",
         "coverage": [
@@ -146,7 +146,7 @@ def _o41_rules(draft: dict[str, Any]) -> dict[str, Any]:
              "hint": "from Annexe B"},
             {"label": "Cross-check status", "value": status, "hint": ""},
             {"label": "Marketing countries total",
-             "value": f"{marketing_total:.1f}%" if marketing_total is not None else "—",
+             "value": f"{marketing_total:.1f}%" if marketing_total is not None else "Not set",
              "hint": "should equal 100%"},
         ],
         "tables": tables,
@@ -178,7 +178,7 @@ def _esef_rules(draft: dict[str, Any]) -> dict[str, Any]:
             "title": statement, "column": "IFRS taxonomy concept",
             "rows": [
                 {"key": m["key"], "label": m["label"], "path": f"ifrs-full:{m['concept']}",
-                 "period_type": m["period_type"], "balance": m["balance"] or "—",
+                 "period_type": m["period_type"], "balance": m["balance"] or "",
                  "filled": m["key"] in facts}
                 for m in items
             ],
@@ -200,7 +200,7 @@ def _esef_rules(draft: dict[str, Any]) -> dict[str, Any]:
     })
 
     return {
-        "title": "ESEF — Rules Engine",
+        "title": "Rules engine",
         "description": "Mapping schema: each statement line item and note tagged to its real IFRS "
                        "Accounting Taxonomy concept (Delegated Regulation (EU) 2019/815).",
         "coverage": coverage,
@@ -208,7 +208,7 @@ def _esef_rules(draft: dict[str, Any]) -> dict[str, Any]:
         "errors": [],
         "note": "The extension schema declares no custom elements, ships no label or calculation "
                 "linkbase, and none of this has been run through an XBRL processor against the official "
-                "ESEF conformance suite — do that before submitting to the OAM.",
+                "ESEF conformance suite. Do that before submitting to the OAM.",
     }
 
 
@@ -221,19 +221,19 @@ def _saq_rules(draft: dict[str, Any]) -> dict[str, Any]:
     year_end = _as_date(draft.get("financial_year_end"))
     answers = draft.get("answers") or {}
 
-    label, months = saq_engine.UCI_TYPES.get(uci_type, (uci_type or "—", 0))
+    label, months = saq_engine.UCI_TYPES.get(uci_type, (uci_type or "Not set", 0))
     deadline = saq_engine.compute_deadline(uci_type, year_end) if uci_type and year_end else None
     sections = dict(saq_engine.SAQ_SECTIONS)
 
     return {
-        "title": "SAQ — Rules Engine",
+        "title": "Rules engine",
         "description": "Applicability scope and submission deadline rule (Circular CSSF 21/790, "
                        "Section 2.1), computed from the submission saved at the ingestion step.",
         "coverage": [
             {"label": "UCI type", "value": label, "hint": ""},
-            {"label": "Filing window", "value": f"{months} months" if months else "—",
+            {"label": "Filing window", "value": f"{months} months" if months else "Not set",
              "hint": "after financial year-end"},
-            {"label": "Submission deadline", "value": deadline.isoformat() if deadline else "—", "hint": ""},
+            {"label": "Submission deadline", "value": deadline.isoformat() if deadline else "Not set", "hint": ""},
             {"label": "Sub-topics self-assessed",
              "value": f"{sum(1 for q in saq_engine.SAQ_QUESTIONS if q['key'] in answers)} / "
                       f"{len(saq_engine.SAQ_QUESTIONS)}", "hint": "in this submission"},

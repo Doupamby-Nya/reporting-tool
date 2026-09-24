@@ -42,7 +42,7 @@ const S44Form: React.FC<{
 
     const countries: [string, string][] = [
         ...Object.entries(codes?.special_countries ?? {}).map(([code, label]): [string, string] =>
-            [code, `${code} — ${label}`]),
+            [code, `${code} ${label}`]),
         ...(((codes?.countries as string[]) ?? []).map((code): [string, string] => [code, code])),
     ]
 
@@ -71,7 +71,7 @@ const S44Form: React.FC<{
             </Section>
 
             <Section title="Marketing countries"
-                hint="Item 2-004000 — the share of units marketed into each country. The shares must total 100 %.">
+                hint="Item 2-004000: the share of units marketed into each country. The shares must total 100 %.">
                 <div className="overflow-x-auto rounded-lg border border-slate-200">
                     <table className="w-full text-sm">
                         <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
@@ -137,7 +137,7 @@ const S44Form: React.FC<{
                                 ? "border-emerald-300 bg-emerald-50 text-emerald-900"
                                 : "border-amber-300 bg-amber-50 text-amber-900",
                         ].join(" ")}>
-                            Total {total.toFixed(2)} %{balanced ? "" : " — BCL requires exactly 100 %"}
+                            Total {total.toFixed(2)} %{balanced ? "" : ". BCL requires exactly 100 %."}
                         </span>
                     )}
                 </div>

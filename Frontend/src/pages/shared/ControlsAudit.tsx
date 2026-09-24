@@ -51,7 +51,7 @@ const Progress: React.FC<{ status: string }> = ({ status }) => {
     }
     const reached = LIFECYCLE.indexOf(status as typeof LIFECYCLE[number])
     return (
-        <span className="flex items-center gap-1" title={`${status} — step ${reached + 1} of 4`}>
+        <span className="flex items-center gap-1" title={`${status}, step ${reached + 1} of 4`}>
             {LIFECYCLE.map((step, index) => (
                 <span key={step} aria-hidden="true"
                     className={[
@@ -156,7 +156,7 @@ const ControlsAudit: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title={`${module.title} — Controls & Audit`}
+            <PageTitle eyebrow={module.title} title="Controls & audit"
                 subtitle="Every generated filing stays under four-eyes review until it is published, and
                           every transition is written to one trail." />
 
@@ -257,7 +257,7 @@ const ControlsAudit: React.FC = () => {
                                                 Next step
                                             </p>
                                             <p className="text-sm text-slate-700">
-                                                {NEXT_STEP[item.status] ?? "—"}
+                                                {NEXT_STEP[item.status] ?? ""}
                                             </p>
                                         </div>
 

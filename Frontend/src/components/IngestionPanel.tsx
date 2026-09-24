@@ -100,10 +100,9 @@ const AiIngestion: React.FC<{ regime: string }> = ({ regime }) => {
                                 bg-white p-4 shadow-lg">
                     <p className="text-sm font-semibold text-slate-900">Not available yet</p>
                     <p className="mt-1 text-sm text-slate-600">
-                        This is where a client&apos;s own file — a trial balance, a custodian extract, a
-                        spreadsheet in whatever shape they keep it — will be read and mapped onto the{" "}
-                        {regime} template, with every mapped field shown for review before anything is
-                        filed.
+                        A client&apos;s own file, such as a trial balance, a custodian extract or a
+                        spreadsheet in any layout, will be read and mapped onto the {regime} template.
+                        Every mapped field is shown for review before anything is filed.
                     </p>
                     <p className="mt-2 text-xs text-slate-500">
                         Until then, use the blank template or fill the form in directly.
@@ -143,8 +142,8 @@ const IngestionPanel: React.FC<{
             <div>
                 <h2 className="text-sm font-semibold text-slate-900">Getting the data in</h2>
                 <p className="mt-0.5 text-xs text-slate-500">
-                    Start from a blank template, bring in a file you have already filled, re-open a filing
-                    produced earlier — or fill the form below by hand.
+                    Start from a blank template, import a file you have already filled, reopen a filing
+                    produced earlier, or fill in the form below.
                 </p>
             </div>
 
@@ -165,7 +164,7 @@ const IngestionPanel: React.FC<{
                 <ul className="flex flex-col gap-0.5 text-xs text-slate-500">
                     {actions.filter((action) => action.hint).map((action) => (
                         <li key={action.label}>
-                            <span className="font-medium">{action.label}</span> — {action.hint}
+                            <span className="font-medium">{action.label}</span>: {action.hint}
                         </li>
                     ))}
                 </ul>

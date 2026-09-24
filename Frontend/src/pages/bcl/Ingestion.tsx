@@ -195,7 +195,7 @@ const BclIngestion: React.FC = () => {
     const countryOptions: [string, string][] = useMemo(() => {
         const iso = ((codes?.countries as string[]) ?? []).map((code): [string, string] => [code, code])
         const special = Object.entries(codes?.special_countries ?? {})
-            .map(([code, label]): [string, string] => [code, `${code} — ${label}`])
+            .map(([code, label]): [string, string] => [code, `${code} ${label}`])
         return [...special, ...iso]
     }, [codes])
 
@@ -204,11 +204,11 @@ const BclIngestion: React.FC = () => {
 
     const sectorOptions: [string, string][] = useMemo(
         () => Object.entries(codes?.sectors ?? {})
-            .map(([code, label]): [string, string] => [code, `${code} — ${label}`]), [codes])
+            .map(([code, label]): [string, string] => [code, `${code} ${label}`]), [codes])
 
     const maturityOptions: [string, string][] = useMemo(
         () => Object.entries(codes?.maturities ?? {})
-            .map(([code, label]): [string, string] => [code, `${code} — ${label}`]), [codes])
+            .map(([code, label]): [string, string] => [code, `${code} ${label}`]), [codes])
 
     /** A dimension cell: a picker where BCL asks for a breakdown, the fixed
      *  code shown plainly where it does not. */
@@ -217,7 +217,7 @@ const BclIngestion: React.FC = () => {
         options: [string, string][], onChange: (next: BreakdownRow) => void,
     ) => {
         if (line[name] !== BREAK) {
-            return <span className="font-mono text-xs text-slate-500">{row[name] || "—"}</span>
+            return <span className="font-mono text-xs text-slate-500">{row[name]}</span>
         }
         return (
             <select value={row[name]} onChange={(event) => onChange({ ...row, [name]: event.target.value })}
@@ -398,7 +398,7 @@ const BclIngestion: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="BCL statistical reports — Ingestion"
+            <PageTitle eyebrow="BCL statistical reports" title="Ingestion"
                 subtitle="Pick the report, then capture its header and its chart of accounts. What is
                           entered here is what the generation step builds from." />
 
@@ -415,8 +415,8 @@ const BclIngestion: React.FC = () => {
             ]}
                 formOpen={formOpen} onToggleForm={() => setFormOpen(!formOpen)}>
                 <p className="text-xs text-slate-500">
-                    BCL reports are filed as XML directly to eDesk — unlike AIFMD there is no fillable
-                    workbook to round-trip, which is why the entry points here are the official reference
+                    BCL reports are filed as XML directly to eDesk. Unlike AIFMD, there is no fillable
+                    workbook to round-trip, so the entry points here are the official reference
                     documents and an existing filing.
                 </p>
 
@@ -519,8 +519,8 @@ const BclIngestion: React.FC = () => {
                                 : "border-amber-300 bg-amber-50 text-amber-900",
                         ].join(" ")}>
                             {Math.abs(difference) < 0.005
-                                ? `Balance sheet balanced — assets and liabilities both total ${assetsTotal.toLocaleString()}.`
-                                : `Balance sheet not balanced — difference ${difference.toLocaleString()}. BCL requires line 1-000000 to equal line 2-000000.`}
+                                ? `Balance sheet balanced: assets and liabilities both total ${assetsTotal.toLocaleString()}.`
+                                : `Balance sheet not balanced, with a difference of ${difference.toLocaleString()}. BCL requires line 1-000000 to equal line 2-000000.`}
                         </p>
                     )}
                 </div>

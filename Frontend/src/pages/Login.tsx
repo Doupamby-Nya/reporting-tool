@@ -60,7 +60,7 @@ const Login: React.FC = () => {
                         <path fill="#f25022" d="M1 1h10v10H1z" /><path fill="#7fba00" d="M12 1h10v10H12z" />
                         <path fill="#00a4ef" d="M1 12h10v10H1z" /><path fill="#ffb900" d="M12 12h10v10H12z" />
                     </svg>
-                    Sign in with Microsoft — coming soon
+                    Sign in with Microsoft (coming soon)
                 </button>
 
                 <div className="my-6 flex items-center gap-3 text-xs text-slate-400">

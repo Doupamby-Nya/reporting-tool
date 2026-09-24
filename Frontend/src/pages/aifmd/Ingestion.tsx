@@ -135,8 +135,8 @@ const AifmdIngestion: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="AIFMD Annex IV — Ingestion"
-                subtitle="The two dictionaries the engine reads — aifm_info and aif_info — plus the
+            <PageTitle eyebrow="AIFMD Annex IV" title="Ingestion"
+                subtitle="The two dictionaries the engine reads, aifm_info and aif_info, plus the
                           reporting period. Dates are ISO strings." />
 
             <IngestionPanel regime="AIFMD Annex IV" busy={busy} actions={[

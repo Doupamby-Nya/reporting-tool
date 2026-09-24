@@ -108,7 +108,7 @@ const DraftsPanel: React.FC<{
     return (
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-auto bg-slate-900/40
                         p-4 pt-16"
-            role="dialog" aria-modal="true" aria-label={`Saved drafts — ${moduleLabel}`}
+            role="dialog" aria-modal="true" aria-label={`Saved drafts for ${moduleLabel}`}
             onClick={onClose}>
             <div className="w-full max-w-4xl rounded-lg border border-slate-200 bg-white shadow-xl"
                 onClick={(event) => event.stopPropagation()}>
@@ -117,7 +117,7 @@ const DraftsPanel: React.FC<{
                     <div>
                         <h2 className="text-base font-semibold text-slate-900">Saved drafts</h2>
                         <p className="mt-0.5 text-sm text-slate-600">
-                            {moduleLabel} — a submission parked part-way through, to pick up later.
+                            {moduleLabel}: submissions saved part-way through, to finish later.
                         </p>
                     </div>
                     <button type="button" onClick={onClose} aria-label="Close"
@@ -215,7 +215,7 @@ const DraftsPanel: React.FC<{
                                             <div className="text-sm">
                                                 <p className="text-xs uppercase tracking-wide
                                                               text-slate-500">Period</p>
-                                                <p className="text-slate-700">{draft.period || "—"}</p>
+                                                <p className="text-slate-700">{draft.period}</p>
                                             </div>
 
                                             <div className="text-sm">

@@ -120,7 +120,7 @@ const PriipsIngestion: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="PRIIPs KID — Ingestion"
+            <PageTitle eyebrow="PRIIPs KID" title="Ingestion"
                 subtitle="A standardised workbook, one row per fund and share class. This registry is
                           what the calculation engine and the KID generation step work from." />
 
@@ -162,7 +162,7 @@ const PriipsIngestion: React.FC = () => {
             {staged.length > 0 && (
                 <section className="flex flex-col gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">
-                        Ready to add — {staged.length} row(s)
+                        Ready to add: {staged.length} row(s)
                     </h2>
                     {table(staged)}
                     <button type="button" onClick={commit}
@@ -176,12 +176,12 @@ const PriipsIngestion: React.FC = () => {
             {formOpen && (
             <section id={FORM_ANCHOR} className="flex flex-col gap-2">
                 <h2 className="text-sm font-semibold text-slate-900">
-                    Registry — {funds.length} share class(es)
+                    Registry: {funds.length} share class(es)
                 </h2>
                 {funds.length === 0 ? (
                     <p className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
                         Nothing under mandate yet. Upload a workbook, or load the demo dataset to walk the
-                        chain end to end — its funds, ISINs and figures are invented.
+                        chain end to end. Its funds, ISINs and figures are invented.
                     </p>
                 ) : table(funds, drop)}
             </section>

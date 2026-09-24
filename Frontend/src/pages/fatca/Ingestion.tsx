@@ -103,7 +103,7 @@ const FatcaIngestion: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="FATCA & CRS — Ingestion"
+            <PageTitle eyebrow="FATCA & CRS" title="Ingestion"
                 subtitle="The reporting parameters this filing is built under, and the data report
                           workbook the accounts are classified from." />
 
@@ -149,7 +149,7 @@ const FatcaIngestion: React.FC = () => {
                         {preparers.length === 0 ? (
                             <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs
                                              text-amber-800">
-                                None configured yet — add one at the configuration step.
+                                None configured yet. Add one at the configuration step.
                             </span>
                         ) : (
                             <select value={parameters.preparer}
@@ -217,7 +217,7 @@ const FatcaIngestion: React.FC = () => {
                                 onChange={(event) => set("filer_category", event.target.value || null)}
                                 className="rounded-md border border-slate-300 px-3 py-2 outline-none
                                            focus:border-[#0A2647]">
-                                <option value="">—</option>
+                                <option value="">Select</option>
                                 {categories.map((name) => <option key={name} value={name}>{name}</option>)}
                             </select>
                         </label>

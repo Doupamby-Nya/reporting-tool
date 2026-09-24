@@ -57,7 +57,7 @@ export const Select: React.FC<{
         <Caption label={label} item={item} expects="one of the regulator's codes"
             note={hint ?? `${options.length} code(s) available.`} />
         <select value={value} onChange={(event) => onChange(event.target.value)} className={INPUT}>
-            <option value="">—</option>
+            <option value="">Select</option>
             {options.map(([code, text]) => <option key={code} value={code}>{text}</option>)}
         </select>
         {hint && <span className="text-xs text-slate-500">{hint}</span>}
@@ -85,7 +85,7 @@ export const Money: React.FC<{
             {item && <span className="w-12 shrink-0 font-mono text-xs text-[#1F5FA8]">{item}</span>}
             <span>{label}</span>
             <FieldHelp code={item} label={label} expects="an amount"
-                note="Leave empty for 'not reported' — that is not the same as reporting a zero." />
+                note="Leave empty for 'not reported'. That is not the same as reporting a zero." />
         </span>
         <input type="number" step="0.01" value={value} onChange={(event) => onChange(event.target.value)}
             placeholder="Not reported"
@@ -128,12 +128,12 @@ export function toOptions(value: unknown): [string, string][] {
     if (Array.isArray(value)) {
         return value.map((entry) =>
             Array.isArray(entry)
-                ? [String(entry[0]), `${String(entry[0])} — ${String(entry[1])}`]
+                ? [String(entry[0]), `${String(entry[0])} ${String(entry[1])}`]
                 : [String(entry), String(entry)])
     }
     if (typeof value === "object") {
         return Object.entries(value as Record<string, unknown>)
-            .map(([code, label]) => [code, `${code} — ${String(label)}`])
+            .map(([code, label]) => [code, `${code} ${String(label)}`])
     }
     return []
 }

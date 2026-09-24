@@ -78,10 +78,10 @@ const SHARE_CLASS_FIELDS: { key: string; label: string; item: string;
     { key: "launch_date", label: "Launch date", item: "4050", kind: "date" },
     { key: "closing_date", label: "Closing date", item: "4060", kind: "date" },
     { key: "reason_for_closing", label: "Reason for closing", item: "4070", kind: "closing" },
-    { key: "spec_instr_fx", label: "Specific instrument — FX", item: "4080", kind: "flag" },
-    { key: "spec_instr_interest_rate", label: "Specific instrument — interest rate", item: "4090",
+    { key: "spec_instr_fx", label: "Specific instrument: FX", item: "4080", kind: "flag" },
+    { key: "spec_instr_interest_rate", label: "Specific instrument: interest rate", item: "4090",
       kind: "flag" },
-    { key: "spec_instr_other", label: "Specific instrument — other", item: "4100", kind: "flag" },
+    { key: "spec_instr_other", label: "Specific instrument: other", item: "4100", kind: "flag" },
     { key: "investor_base", label: "Investor base", item: "4110", kind: "investor" },
     { key: "units_outstanding", label: "Units outstanding", item: "5010", kind: "number" },
     { key: "nav_per_unit_fund_currency", label: "NAV per unit, fund currency", item: "5020",
@@ -269,7 +269,7 @@ const S220Form: React.FC<{
                 </div>
             </Section>
 
-            <Section title={`4. Share classes — ${classes.length}`}
+            <Section title={`4. Share classes (${classes.length})`}
                 hint="Items 4010 to 5110. The table identifies each class; open its detail to fill in
                       every item BCL asks for.">
                 <div className="overflow-x-auto rounded-lg border border-slate-200">
@@ -324,7 +324,7 @@ const S220Form: React.FC<{
                 {openClass !== null && classes[openClass] && (
                     <div className="rounded-lg border border-[#0A2647] bg-slate-50 p-4">
                         <h3 className="mb-3 text-sm font-semibold text-slate-900">
-                            {classes[openClass].name || `Share class ${openClass + 1}`} — every item
+                            Every item of {classes[openClass].name || `share class ${openClass + 1}`}
                         </h3>
                         <div className="grid gap-4 md:grid-cols-3">
                             {SHARE_CLASS_FIELDS.map(({ key, label, item, kind }) => {

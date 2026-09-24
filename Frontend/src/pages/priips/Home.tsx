@@ -5,7 +5,7 @@ import { useModule } from "@hooks/useChain"
 const FACTS: ReportingFact[] = [
     { label: "Legal basis", value: "Regulation (EU) 1286/2014 · Delegated Regulation (EU) 2017/653, as amended by (EU) 2021/2268" },
     { label: "Unit of filing", value: "One KID per fund / share class" },
-    { label: "Input", value: "The fund registry — standardised Excel template, or the demo dataset" },
+    { label: "Input", value: "The fund registry, from the standardised Excel template or the demo dataset" },
     { label: "Output", value: "The KID as a PDF, from one of the configured templates" },
 ]
 

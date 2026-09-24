@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom"
 
@@ -6,6 +6,7 @@ import { fetchMe } from "@api/reportingApi"
 import NotificationBell from "@components/NotificationBell"
 import TabScroller from "@components/TabScroller"
 import { useCurrentUser } from "@hooks/useCurrentUser"
+import { useDismiss } from "@hooks/useDismiss"
 import type { AppDispatch } from "@store/store"
 import { signedIn } from "@store/userSlice"
 
@@ -130,6 +131,7 @@ const AccountMenu: React.FC = () => {
     const { me, signOut } = useCurrentUser()
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
+    const ref = useDismiss<HTMLDivElement>(open, useCallback(() => setOpen(false), []))
     if (!me) return null
 
     const leave = async () => {
@@ -139,7 +141,7 @@ const AccountMenu: React.FC = () => {
     }
 
     return (
-        <div className="relative">
+        <div ref={ref} className="relative">
             <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open}
                 className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-left
                            transition hover:border-[#0A2647]">

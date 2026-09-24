@@ -13,7 +13,7 @@ const titleOf = (key: string) =>
     key.replace(/_/g, " ").replace(/^./, (character) => character.toUpperCase())
 
 const asText = (value: unknown): string => {
-    if (value === null || value === undefined || value === "") return "—"
+    if (value === null || value === undefined || value === "") return ""
     if (typeof value === "object") return JSON.stringify(value)
     return String(value)
 }

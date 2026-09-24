@@ -43,12 +43,12 @@ export type ModuleNav = {
 
 /** The regulator's own texts. Reachable from every module, at any time,
  *  which is exactly why it sits beside the chain rather than inside it. */
-export const REFERENCE_STEP: ChainStep = { path: "regulation", label: "Regulatory Reference" }
+export const REFERENCE_STEP: ChainStep = { path: "regulation", label: "Regulatory reference" }
 
 /** The steps shared by every module, so a chain declares only its order. */
 const INGESTION: ChainStep = { path: "ingestion", label: "Ingestion" }
-const RULES: ChainStep = { path: "rules", label: "Rules Engine" }
-const CONTROLS: ChainStep = { path: "controls", label: "Controls & Audit" }
+const RULES: ChainStep = { path: "rules", label: "Rules engine" }
+const CONTROLS: ChainStep = { path: "controls", label: "Controls & audit" }
 
 export const MODULES: ModuleNav[] = [
     {
@@ -56,8 +56,8 @@ export const MODULES: ModuleNav[] = [
         authority: "Regulation (EU) 1286/2014", regulationKey: "chain",
         steps: [
             INGESTION,
-            { path: "engine", label: "Calculation Engine" },
-            { path: "generation", label: "KID Generation" },
+            { path: "engine", label: "Calculation engine" },
+            { path: "generation", label: "KID generation" },
             CONTROLS,
             { path: "configuration", label: "Configuration" },
         ],
@@ -67,9 +67,9 @@ export const MODULES: ModuleNav[] = [
         authority: "ACD Luxembourg", regulationKey: "fatca",
         steps: [
             INGESTION, RULES,
-            { path: "generation", label: "XML Generation" },
-            { path: "preview", label: "XML Preview" },
-            { path: "notification", label: "Data Notification" },
+            { path: "generation", label: "XML generation" },
+            { path: "preview", label: "XML preview" },
+            { path: "notification", label: "Data notification" },
             CONTROLS,
             { path: "configuration", label: "Configuration" },
         ],
@@ -79,8 +79,8 @@ export const MODULES: ModuleNav[] = [
         authority: "CSSF", regulationKey: "urr",
         steps: [
             INGESTION, RULES,
-            { path: "generation", label: "XML Generation" },
-            { path: "preview", label: "XML Preview" },
+            { path: "generation", label: "XML generation" },
+            { path: "preview", label: "XML preview" },
             CONTROLS,
         ],
     },
@@ -90,7 +90,7 @@ export const MODULES: ModuleNav[] = [
         authority: "CSSF / BCL", regulationKey: "o41",
         steps: [
             INGESTION, RULES,
-            { path: "generation", label: "EDIFACT Generation" },
+            { path: "generation", label: "EDIFACT generation" },
             CONTROLS,
         ],
     },
@@ -99,8 +99,8 @@ export const MODULES: ModuleNav[] = [
         authority: "ESMA", regulationKey: "esef",
         steps: [
             INGESTION, RULES,
-            { path: "generation", label: "iXBRL Generation" },
-            { path: "preview", label: "iXBRL Preview" },
+            { path: "generation", label: "iXBRL generation" },
+            { path: "preview", label: "iXBRL preview" },
             CONTROLS,
         ],
     },
@@ -109,8 +109,8 @@ export const MODULES: ModuleNav[] = [
         authority: "CSSF / ESMA", regulationKey: "aifmd",
         steps: [
             INGESTION, RULES,
-            { path: "generation", label: "XML Generation" },
-            { path: "preview", label: "XML Preview" },
+            { path: "generation", label: "XML generation" },
+            { path: "preview", label: "XML preview" },
             CONTROLS,
         ],
     },
@@ -131,8 +131,8 @@ export const MODULES: ModuleNav[] = [
         authority: "Banque centrale du Luxembourg", regulationKey: "bcl",
         steps: [
             INGESTION, RULES,
-            { path: "generation", label: "XML Generation" },
-            { path: "preview", label: "XML Preview" },
+            { path: "generation", label: "XML generation" },
+            { path: "preview", label: "XML preview" },
             CONTROLS,
         ],
     },

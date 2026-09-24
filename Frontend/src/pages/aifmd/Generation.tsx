@@ -49,7 +49,7 @@ const AifmdGeneration: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="AIFMD Annex IV — XML Generation"
+            <PageTitle eyebrow="AIFMD Annex IV" title="XML generation"
                 subtitle="The AIFM-level (DATMAN) and AIF-level (DATAIF) files, validated against ESMA's
                           own XSD schemas before either can be downloaded." />
 

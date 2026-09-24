@@ -66,7 +66,7 @@ const PriipsEngine: React.FC = () => {
     if (funds.length === 0) {
         return (
             <section className="flex flex-col gap-6">
-                <PageTitle title="PRIIPs KID — Calculation Engine" />
+                <PageTitle eyebrow="PRIIPs KID" title="Calculation engine" />
                 <p className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
                     The registry is empty. Populate it at the ingestion step first.
                 </p>
@@ -76,7 +76,7 @@ const PriipsEngine: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="PRIIPs KID — Calculation Engine"
+            <PageTitle eyebrow="PRIIPs KID" title="Calculation engine"
                 subtitle="The summary risk indicator, the cost structure and the four performance
                           scenarios of the RTS, computed for one share class at a time." />
 
@@ -87,7 +87,7 @@ const PriipsEngine: React.FC = () => {
                                focus:border-[#0A2647]">
                     {funds.map((candidate) => (
                         <option key={candidate.fund_id} value={candidate.fund_id}>
-                            {candidate.fund_name} — {candidate.share_class} ({candidate.isin})
+                            {candidate.fund_name}, {candidate.share_class} ({candidate.isin})
                         </option>
                     ))}
                 </select>
@@ -163,7 +163,7 @@ const PriipsEngine: React.FC = () => {
 
                     <section className="flex flex-col gap-2">
                         <h2 className="text-sm font-semibold text-slate-900">
-                            Costs over time — reduction in yield on {money(calculation.costs.reference_amount)}
+                            Costs over time: reduction in yield on {money(calculation.costs.reference_amount)}
                         </h2>
                         <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
                             <table className="w-full text-sm">
@@ -201,7 +201,7 @@ const PriipsEngine: React.FC = () => {
                         <ScenarioCards horizons={calculation.scenarios.by_horizon}
                             investment={calculation.scenarios.reference_amount} />
                         <p className="text-xs text-slate-500">
-                            The methodology is simplified relative to the RTS — it does not reproduce
+                            The methodology is simplified relative to the RTS. It does not reproduce
                             the Cornish-Fisher approach or the official MRM/CRM combination matrix.
                             Calibrate it before any production use.
                         </p>

@@ -209,7 +209,7 @@ const BclGeneration: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="BCL statistical reports — XML Generation"
+            <PageTitle eyebrow="BCL statistical reports" title="XML generation"
                 subtitle="Builds the report captured at the ingestion step, validated against BCL's own
                           schema and its verification rules before it can be downloaded." />
 

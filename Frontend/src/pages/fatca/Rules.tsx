@@ -24,7 +24,7 @@ const FatcaRules: React.FC = () => {
     if (!classification) {
         return (
             <section className="flex flex-col gap-6">
-                <PageTitle title="FATCA & CRS — Rules Engine" />
+                <PageTitle eyebrow="FATCA & CRS" title="Rules engine" />
                 <p className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
                     Nothing has been classified yet. Upload a workbook at the ingestion step first.
                 </p>
@@ -34,9 +34,9 @@ const FatcaRules: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="FATCA & CRS — Rules Engine"
-                subtitle="How every account in the workbook was classified, and why — the decision the
-                          return is built from." />
+            <PageTitle eyebrow="FATCA & CRS" title="Rules engine"
+                subtitle="How every account in the workbook was classified, and why. The return is
+                          built from this decision." />
 
             <KpiRow items={Object.entries(classification.counts).map(([label, value]) => ({
                 label: label.replace(/_/g, " "), value: String(value),
@@ -80,7 +80,7 @@ const FatcaRules: React.FC = () => {
 
             <section className="flex flex-col gap-2">
                 <h2 className="text-sm font-semibold text-slate-900">
-                    Classified accounts — {classification.accounts.length}
+                    Classified accounts ({classification.accounts.length})
                 </h2>
                 <DataPreview data={{ accounts: classification.accounts }} />
             </section>

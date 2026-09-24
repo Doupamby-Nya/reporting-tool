@@ -28,7 +28,7 @@ const Regulation: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title={`${module.title} — Regulatory Reference`}
+            <PageTitle eyebrow={module.title} title="Regulatory reference"
                 subtitle="The legal and technical texts this module's rules and generation logic are built
                           against." />
 
@@ -51,7 +51,7 @@ const Regulation: React.FC = () => {
                                         ].join(" ")}>
                                             {entry.title}
                                         </span>
-                                        <span className="text-sm italic text-slate-500"> — {entry.issuer}</span>
+                                        <span className="block text-xs text-slate-500">{entry.issuer}</span>
                                         <span className="block text-sm text-slate-600">{entry.description}</span>
                                     </button>
                                 </li>
@@ -77,7 +77,7 @@ const Regulation: React.FC = () => {
                                 <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3">
                                     <p className="text-sm text-amber-800">
                                         This text sits behind an anti-bot or JavaScript-rendered page on the
-                                        official source and could not be bundled locally — open it from the
+                                        official source and could not be bundled locally. Open it from the
                                         publisher instead.
                                     </p>
                                     <a href={document_.url} target="_blank" rel="noreferrer"

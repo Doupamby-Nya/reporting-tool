@@ -4,7 +4,7 @@ import { useModule } from "@hooks/useChain"
 /** What sets FATCA & CRS apart from the other reportings, for its landing page. */
 const FACTS: ReportingFact[] = [
     { label: "Authority", value: "Administration des contributions directes (ACD), Luxembourg" },
-    { label: "Unit of filing", value: "One return per run — CRS or FATCA, data report or zero report" },
+    { label: "Unit of filing", value: "One return per run: CRS or FATCA, data report or zero report" },
     { label: "Input", value: "The data report workbook: CPS, Individual and Active tabs" },
     { label: "Output", value: "AEOI XML return, and the notification letters (Word / PDF)" },
 ]
