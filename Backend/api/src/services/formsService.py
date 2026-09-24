@@ -20,6 +20,7 @@ import re
 from typing import Any, get_args
 
 from domain.aifmd import aifmd_engine
+from domain.aifmd.aifmd_items import AIFMD_ITEMS
 from domain.esef import esef_engine
 from domain.o41 import o41_engine
 from domain.saq import saq_engine
@@ -334,10 +335,18 @@ def _aifmd_sections(prefix: str, keys: list[str], title: str) -> list[dict[str, 
                             for column, kind in _AIFMD_TABLES[key]],
             })
             continue
+        # The regulator's own number and wording where they could be matched
+        # exactly to this key; the key's own words otherwise. A field
+        # labelled with the wrong item number would be checked against the
+        # wrong rule, so a derived label is the safe fallback.
+        item = AIFMD_ITEMS.get(key)
         entry: dict[str, Any] = {
-            "key": key, "label": _humanise(key),
+            "key": key,
+            "label": f"{item[0]} — {item[1]}" if item else _humanise(key),
             "type": _type_of(types.get(key, str)),
         }
+        if item:
+            entry["hint"] = str(item[0])
         listed = _AIFMD_OPTIONS.get(key)
         if listed and hasattr(aifmd_engine, listed):
             codes = getattr(aifmd_engine, listed)

@@ -237,20 +237,38 @@ const ControlsAudit: React.FC = () => {
                     </p>
                 ) : (
                     <div className="flex flex-col gap-2">
+                        {/* One grid, shared by the header and every row, so
+                            the columns line up down the whole list. */}
+                        <div className="hidden grid-cols-[minmax(0,2fr)_180px_minmax(0,1.5fr)_150px_220px]
+                                        gap-4 px-4 pb-1 text-xs font-medium uppercase tracking-wide
+                                        text-slate-500 lg:grid">
+                            <span>Filing</span>
+                            <span>Status</span>
+                            <span>Next step</span>
+                            <span>Prepared</span>
+                            <span className="text-right">Review</span>
+                        </div>
+
                         {filtered.map(([documentId, item]) => {
                             const open = expanded === documentId
                             return (
                                 <article key={documentId}
                                     className="rounded-lg border border-slate-200 bg-white">
-                                    <div className="flex flex-wrap items-center gap-4 p-4">
-                                        <div className="min-w-60 flex-1">
-                                            <p className="font-medium text-slate-900">{item.label}</p>
-                                            <p className="font-mono text-xs text-slate-500">
-                                                {documentId} · v{item.version}
+                                    <div className="grid grid-cols-1 items-center gap-4 p-4
+                                                    lg:grid-cols-[minmax(0,2fr)_180px_minmax(0,1.5fr)_150px_220px]">
+                                        <div className="min-w-0">
+                                            <p className="truncate font-medium text-slate-900"
+                                                title={item.label}>
+                                                {item.label}
                                             </p>
+                                            <p className="truncate font-mono text-xs text-slate-500"
+                                                title={documentId}>
+                                                {documentId}
+                                            </p>
+                                            <p className="text-xs text-slate-400">v{item.version}</p>
                                         </div>
 
-                                        <div className="flex flex-col gap-1">
+                                        <div className="flex flex-col gap-1.5">
                                             <span className={`w-fit rounded-full border px-2.5 py-1 text-xs
                                                 font-medium ${STATUS_STYLES[item.status]
                                                 ?? "border-slate-300 bg-slate-100 text-slate-700"}`}>
@@ -259,27 +277,25 @@ const ControlsAudit: React.FC = () => {
                                             <Progress status={item.status} />
                                         </div>
 
-                                        <div className="min-w-56 flex-1">
-                                            <p className="text-xs font-medium uppercase tracking-wide
-                                                          text-slate-500">
-                                                Next step
-                                            </p>
-                                            <p className="text-sm text-slate-700">
-                                                {NEXT_STEP[item.status] ?? "—"}
-                                            </p>
-                                        </div>
+                                        <p className="min-w-0 text-sm leading-snug text-slate-700">
+                                            {NEXT_STEP[item.status] ?? "—"}
+                                        </p>
 
-                                        <div className="text-right text-xs text-slate-500">
+                                        <div className="min-w-0 text-xs text-slate-500">
                                             <p>{when(item.last_generated)}</p>
-                                            <p>{item.last_generated_by || "unsigned"}</p>
+                                            <p className="truncate" title={item.last_generated_by}>
+                                                {item.last_generated_by || "unsigned"}
+                                            </p>
                                         </div>
 
-                                        <div className="flex flex-wrap items-center gap-1">
+                                        <div className="flex flex-wrap items-center justify-start gap-1.5
+                                                        lg:justify-end">
                                             {(NEXT_STATUS[item.status] ?? []).map((next) => (
                                                 <button key={next} type="button"
                                                     onClick={() => move(documentId, next)}
                                                     className={[
-                                                        "rounded-md px-3 py-1.5 text-xs font-medium transition",
+                                                        "rounded-md px-3 py-1.5 text-xs font-medium",
+                                                        "transition whitespace-nowrap",
                                                         next === "Rejected"
                                                             ? "border border-slate-300 text-slate-700 hover:border-red-400 hover:text-red-700"
                                                             : "bg-[#0A2647] text-white hover:bg-[#123A6B]",
@@ -290,10 +306,10 @@ const ControlsAudit: React.FC = () => {
                                             <button type="button"
                                                 onClick={() => setExpanded(open ? null : documentId)}
                                                 aria-expanded={open}
-                                                className="rounded-md border border-slate-300 px-2 py-1.5
-                                                           text-xs text-slate-600 transition
-                                                           hover:border-[#0A2647]">
-                                                {open ? "Hide history" : "History"}
+                                                className="rounded-md border border-slate-300 px-2.5 py-1.5
+                                                           text-xs whitespace-nowrap text-slate-600
+                                                           transition hover:border-[#0A2647]">
+                                                {open ? "Hide" : "History"}
                                             </button>
                                         </div>
                                     </div>
@@ -306,19 +322,21 @@ const ControlsAudit: React.FC = () => {
                                                     No transition recorded yet.
                                                 </li>
                                             ) : item.history.map((event, index) => (
-                                                <li key={index} className="flex flex-wrap gap-x-3 text-sm">
+                                                <li key={index}
+                                                    className="grid grid-cols-1 gap-x-4 text-sm
+                                                               sm:grid-cols-[130px_180px_150px_minmax(0,1fr)]">
                                                     <span className="font-mono text-xs text-slate-500">
                                                         {when(event.timestamp)}
                                                     </span>
                                                     <span className="font-medium text-slate-800">
                                                         v{event.version} · {event.status}
                                                     </span>
-                                                    <span className="text-slate-600">{event.user}</span>
-                                                    {event.comment && (
-                                                        <span className="italic text-slate-500">
-                                                            “{event.comment}”
-                                                        </span>
-                                                    )}
+                                                    <span className="truncate text-slate-600">
+                                                        {event.user}
+                                                    </span>
+                                                    <span className="italic text-slate-500">
+                                                        {event.comment || ""}
+                                                    </span>
                                                 </li>
                                             ))}
                                         </ol>

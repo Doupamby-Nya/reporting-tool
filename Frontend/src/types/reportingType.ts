@@ -118,6 +118,14 @@ export type InspectionResult = {
     filename?: string | null
     record_count?: number
     schema_validation: SchemaResult
+    /**
+     * The filing read back into the form that would produce it, where the
+     * regime supports it. This is what lets an upload re-open the work
+     * rather than only report on it.
+     */
+    data?: Record<string, unknown> | null
+    root?: string | null
+    namespace?: string | null
 }
 
 /** A generated filing as the workflow tracks it. */

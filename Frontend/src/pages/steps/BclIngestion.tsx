@@ -169,10 +169,33 @@ const BclIngestion: React.FC = () => {
                 return
             }
             if (found.report_key) setReportKey(found.report_key)
+
+            // The filing comes back as the form that would produce it, so an
+            // upload re-opens the work instead of only reporting on it. A
+            // document that failed its schema is still loaded: correcting
+            // what the schema objected to is usually the reason for opening
+            // it at all.
+            const captured = found.data as BclDraft | undefined
+            if (captured) {
+                if (captured.header) setHeader(captured.header)
+                setAssets(captured.assets ?? {})
+                setLiabilities(captured.liabilities ?? {})
+                if (captured.s44) setS44(captured.s44)
+                if (captured.tptobs) setTptobs(captured.tptobs)
+                if (captured.s220) setS220(captured.s220)
+                setFormOpen(true)
+                window.setTimeout(() => {
+                    document.getElementById(FORM_ANCHOR)
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }, 0)
+            }
+
+            const loaded = captured ? " Its values are in the form below." : ""
             if (found.schema_validation.valid) {
-                toast.success(`Identified as ${found.label}, valid against the BCL schema.`)
+                toast.success(`Identified as ${found.label}, valid against the BCL schema.${loaded}`)
             } else {
-                toast.warning(`Identified as ${found.label}, but it does not satisfy the BCL schema.`)
+                toast.warning(
+                    `Identified as ${found.label}, but it does not satisfy the BCL schema.${loaded}`)
             }
         } catch (error) {
             toast.error((error as Error).message)
@@ -238,12 +261,12 @@ const BclIngestion: React.FC = () => {
         <section className="flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
             <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-                <table className="w-full table-fixed text-sm" style={{ minWidth: 1080 }}>
+                <table className="w-full table-fixed text-sm" style={{ minWidth: 1320 }}>
                     {/* Fixed widths: a line gaining or losing its breakdown
                         pickers must not resize the grid under the pointer. */}
                     <colgroup>
                         <col style={{ width: 96 }} />
-                        <col />
+                        <col style={{ width: 340 }} />
                         <col style={{ width: 150 }} />
                         <col style={{ width: 120 }} />
                         <col style={{ width: 150 }} />
@@ -269,7 +292,7 @@ const BclIngestion: React.FC = () => {
                                 return [(
                                     <tr key={line.item} className="border-t-2 border-slate-300 bg-slate-50">
                                         <td className="px-3 py-2 font-mono text-xs">{line.item}</td>
-                                        <td className="px-3 py-2 font-semibold">{line.label}</td>
+                                        <td className="px-3 py-2 font-semibold leading-snug">{line.label}</td>
                                         {([line.country, line.currency, line.sector,
                                            hasMaturity ? line.maturity : "n/a"]).map((code, position) => (
                                             <td key={position}
@@ -303,12 +326,10 @@ const BclIngestion: React.FC = () => {
 
                             if (captured.length === 0) {
                                 return [(
-                                    <tr key={line.item} className="border-t border-slate-100">
+                                    <tr key={line.item} className="border-t border-slate-100 align-top">
                                         <td className="px-3 py-2 font-mono text-xs">{line.item}</td>
                                         <td className="px-3 py-2">
-                                            <span className="block truncate" title={line.label}>
-                                                {line.label}
-                                            </span>
+                                            <span className="block leading-snug">{line.label}</span>
                                         </td>
                                         {([line.country, line.currency, line.sector,
                                            hasMaturity ? line.maturity : "n/a"]).map((code, position) => (
@@ -333,15 +354,13 @@ const BclIngestion: React.FC = () => {
                             }
 
                             return captured.map((row, index) => (
-                                <tr key={`${line.item}-${index}`} className="border-t border-slate-100">
+                                <tr key={`${line.item}-${index}`} className="border-t border-slate-100 align-top">
                                     <td className="px-3 py-2 font-mono text-xs">
                                         {index === 0 ? line.item : ""}
                                     </td>
                                     <td className="px-3 py-2">
                                         {index === 0 && (
-                                            <span className="block truncate" title={line.label}>
-                                                {line.label}
-                                            </span>
+                                            <span className="block leading-snug">{line.label}</span>
                                         )}
                                     </td>
                                     <td className="px-3 py-2">
