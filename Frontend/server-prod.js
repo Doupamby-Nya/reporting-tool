@@ -65,10 +65,12 @@ async function createServer() {
       // Dynamic import of the built server entry
       const { render } = await import(fileURLToPath(new URL('./dist/server/entry-server.js', import.meta.url)))
 
-      const appHtml = await render(url)
-      
-      // Inject app HTML into template
-      const html = templateHtml.replace(`<!--ssr-outlet-->`, appHtml)
+      // Rendered for the signed-in user; the state goes to the client store.
+      const { html: appHtml, state } = await render(url, req.headers.cookie)
+
+      const html = templateHtml
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace(`<!--ssr-state-->`, `<script>window.__PRELOADED_STATE__=${state}</script>`)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

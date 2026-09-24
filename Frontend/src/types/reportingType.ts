@@ -1,6 +1,20 @@
 /** Shapes the regulatory reporting API returns. */
 
 /** Every route answers with this envelope. */
+/** A module the signed-in user can use; `valid_until` is null for a platform administrator. */
+export type ModuleGrant = {
+    key: string
+    valid_until: string | null
+}
+
+export type Me = {
+    email: string
+    name: string
+    role: "platform_admin" | "org_admin" | "user"
+    organisation: string
+    modules: ModuleGrant[]
+}
+
 export type ApiEnvelope<T> = {
     success: boolean
     result?: T

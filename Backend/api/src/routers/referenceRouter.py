@@ -1,14 +1,20 @@
-"""Routes for the reference data shared across the regimes."""
+"""Routes for the reference data shared across the regimes.
+
+The module catalogue is public — the home page presents it to visitors. The
+regulatory library of a module is for that module's users; the rest needs a
+signed-in user.
+"""
 
 from __future__ import annotations
 
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import Response
 
 from models.commonModel import ApiResponse, not_found, ok, server_error
+from routers.dependencies import current_user, require_module_param
 from services import filingsService, referenceService as service
 
 referenceRouter = APIRouter(prefix="/reference", tags=["Reference"])
@@ -25,7 +31,7 @@ def reference_modules_router():
 
 
 @referenceRouter.get("/regulations/{module_key}", summary="Regulator documents bundled for a module",
-    response_model=ApiResponse[list[dict[str, Any]]])
+    response_model=ApiResponse[list[dict[str, Any]]], dependencies=[Depends(require_module_param)])
 def reference_regulations_router(module_key: str):
     try:
         return ok(service.regulations_service(module_key))
@@ -36,7 +42,8 @@ def reference_regulations_router(module_key: str):
         return server_error(f"Could not list the regulatory library: {exc}")
 
 
-@referenceRouter.get("/regulations/{module_key}/{index}/download", summary="Download a regulator document")
+@referenceRouter.get("/regulations/{module_key}/{index}/download", summary="Download a regulator document",
+                     dependencies=[Depends(require_module_param)])
 def reference_regulation_download_router(
     module_key: str, index: int,
     download: bool = Query(default=False,
@@ -65,7 +72,7 @@ def reference_regulation_download_router(
 
 
 @referenceRouter.get("/regimes", summary="The regimes driven by a workbook template",
-    response_model=ApiResponse[list[dict[str, Any]]])
+    response_model=ApiResponse[list[dict[str, Any]]], dependencies=[Depends(current_user)])
 def reference_regimes_router():
     """One catalogue, not one per regime: this is reference data about the
     regimes, so it belongs beside the module list rather than inside any one
@@ -78,7 +85,7 @@ def reference_regimes_router():
 
 
 @referenceRouter.get("/clients", summary="The client records a filing can be prepared for",
-    response_model=ApiResponse[list[dict[str, Any]]])
+    response_model=ApiResponse[list[dict[str, Any]]], dependencies=[Depends(current_user)])
 def reference_clients_router():
     try:
         return ok(service.clients_service())

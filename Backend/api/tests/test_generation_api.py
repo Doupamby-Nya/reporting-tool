@@ -16,13 +16,12 @@ import json
 import zipfile
 from pathlib import Path
 
-from fastapi.testclient import TestClient
 
 from _aifmd_fixture import draft as aifmd_draft
-from main import app
+from _auth import PREPARER, REVIEWER, login_as  # noqa: E402
 from non_regression.cases import ESEF_DRAFT, INPUTS, URR_FINAL, jsonable
 
-client = TestClient(app)
+client = login_as(PREPARER)
 API = "/api/v1"
 
 

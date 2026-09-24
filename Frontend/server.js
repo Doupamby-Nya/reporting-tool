@@ -60,16 +60,14 @@ async function createServer() {
       //     `render` function calls appropriate framework SSR APIs,
       //    e.g. ReactDOMServer.renderToString()
       // render() returns { html, state }, so we need to destructure to get the html string
-      const renderResult = await render(url)
-      const appHtml = renderResult.html || renderResult
-      
-      // Debug: Check if appHtml is a string
-      if (typeof appHtml !== 'string') {
-        console.error('ERROR: appHtml is not a string:', typeof appHtml, appHtml)
-      }
+      //    The browser's cookie goes along so the page is rendered for the
+      //    signed-in user, and the resulting state is handed to the client.
+      const { html: appHtml, state } = await render(url, req.headers.cookie)
 
-      // 5. Inject the app-rendered HTML into the template.
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+      // 5. Inject the app-rendered HTML and its state into the template.
+      const html = template
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace(`<!--ssr-state-->`, `<script>window.__PRELOADED_STATE__=${state}</script>`)
   
       // 6. Send the rendered HTML back.
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
@@ -82,8 +80,9 @@ async function createServer() {
     }
   })
 
-  app.listen(4000, () => {
-    console.log('Server running at http://localhost:4000');
+  const port = Number(process.env.PORT) || 4000
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
   });
 }
 

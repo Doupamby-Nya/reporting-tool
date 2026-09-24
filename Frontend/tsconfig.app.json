@@ -16,6 +16,7 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "types": ["vite/client", "node"],
     "paths": {
       "@assets/*": ["src/assets/*"],

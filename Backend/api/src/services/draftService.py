@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Any
 
 from database.jsonStore import deserialise, read_json, serialise, write_json
-from utils.paths import DRAFTS_DIR
+from utils.paths import drafts_dir
 
 MAX_NAME_LENGTH = 80
 
@@ -26,7 +26,7 @@ def _safe_name(name: str) -> str:
 
 
 def _module_dir(module_key: str):
-    directory = DRAFTS_DIR / _safe_name(module_key)
+    directory = drafts_dir() / _safe_name(module_key)
     return directory
 
 

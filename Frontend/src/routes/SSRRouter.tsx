@@ -1,10 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
+import ModuleGate from "@components/ModuleGate"
 import { MODULES, REFERENCE_STEP, firstStepOf, type ModuleNav } from "@config/navigation"
+import { useCurrentUser } from "@hooks/useCurrentUser"
 import ChainLayout from "@layouts/ChainLayout"
 import MainLayout from "@layouts/MainLayout"
 import Dashboard from "@pages/Dashboard"
 import Guide from "@pages/Guide"
+import Home from "@pages/Home"
+import Login from "@pages/Login"
 
 // Each reporting declares its own pages under pages/<reporting>/: a Home
 // page, which is the landing page of /<reporting>, and the steps that are
@@ -103,14 +107,25 @@ const landingFor = (module: ModuleNav): React.ReactElement => {
 const componentFor = (moduleKey: string, step: string): StepComponent =>
     STEPS[moduleKey]?.[step] ?? SHARED[step] ?? Dashboard
 
+/** The dashboard summarises the user's modules; without any there is nothing to show. */
+const DashboardGate: React.FC = () => {
+    const { me, modules } = useCurrentUser()
+    if (!me) return <Navigate to="/login?next=%2Fdashboard" replace />
+    return modules.length > 0 ? <Dashboard /> : <Navigate to="/" replace />
+}
+
 const SSRRouter: React.FC = () => (
     <Routes>
         <Route path="/" element={<MainLayout />}>
-            <Route index element={<Dashboard />} />
+            {/* Public: the home page, the guide and signing in. */}
+            <Route index element={<Home />} />
             <Route path="guide" element={<Guide />} />
+            <Route path="login" element={<Login />} />
+            <Route path="dashboard" element={<DashboardGate />} />
 
             {MODULES.map((module) => (
-                <Route key={module.key} path={module.key} element={<ChainLayout module={module} />}>
+                <Route key={module.key} path={module.key}
+                    element={<ModuleGate module={module}><ChainLayout module={module} /></ModuleGate>}>
                     <Route index element={landingFor(module)} />
                     {/* The chain, plus the regulatory reference — which is
                         reachable from the module but is not a step of it. */}

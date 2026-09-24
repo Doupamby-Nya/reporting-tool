@@ -6,7 +6,6 @@ import FileDownload from "@components/FileDownload"
 import PageTitle from "@components/PageTitle"
 import ValidationReport from "@components/ValidationReport"
 import { useChain } from "@hooks/useChain"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 import { setGeneration } from "@store/chainSlice"
 import type {
     BclChartLine, BclReport, GenerationResult, InspectionResult,
@@ -90,7 +89,6 @@ const sumOf = (chart: BclChartLine[] | undefined, rows: ItemRows, totalItem: str
  * can be downloaded.
  */
 const BclGeneration: React.FC = () => {
-    const { name: user } = useCurrentUser()
     const { chain, dispatch } = useChain(MODULE_KEY)
     const draft = chain.ingestion as BclDraft | null
 
@@ -186,7 +184,7 @@ const BclGeneration: React.FC = () => {
 
             if (produced.generated) {
                 const file = produced.files[0]
-                if (user) await recordGenerated(MODULE_KEY, file.filename, file.label, user)
+                await recordGenerated(MODULE_KEY, file.filename, file.label)
                 toast.success(`${report.label} generated.`)
             } else {
                 toast.error(`${produced.validation.errors.length} control(s) would reject this filing.`)
@@ -229,13 +227,6 @@ const BclGeneration: React.FC = () => {
                         </p>
                     </article>
 
-                    {!user && (
-                        <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm
-                                      text-amber-800">
-                            Enter your name in the header — a generated filing is registered in the audit
-                            trail against whoever prepared it.
-                        </p>
-                    )}
 
                     <button type="button" onClick={run} disabled={busy}
                         className="w-fit rounded-md bg-[#0A2647] px-5 py-2.5 text-sm font-medium text-white

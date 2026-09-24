@@ -6,7 +6,6 @@ import FileDownload from "@components/FileDownload"
 import PageTitle from "@components/PageTitle"
 import ValidationReport from "@components/ValidationReport"
 import { useChain } from "@hooks/useChain"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 import { setGeneration } from "@store/chainSlice"
 
 const MODULE_KEY = "aifmd"
@@ -17,7 +16,6 @@ const MODULE_KEY = "aifmd"
  * file must carry exactly one reporting record, before either is offered.
  */
 const AifmdGeneration: React.FC = () => {
-    const { name: user } = useCurrentUser()
     const { chain, dispatch } = useChain(MODULE_KEY)
     const [busy, setBusy] = useState(false)
     const [generated, setGenerated] = useState<boolean | null>(null)
@@ -35,10 +33,8 @@ const AifmdGeneration: React.FC = () => {
                 module: MODULE_KEY, files: outcome.files, validation: outcome.validation,
             }))
             if (outcome.generated) {
-                if (user) {
-                    for (const file of outcome.files) {
-                        await recordGenerated(MODULE_KEY, file.filename, file.label, user)
-                    }
+                for (const file of outcome.files) {
+                    await recordGenerated(MODULE_KEY, file.filename, file.label)
                 }
                 toast.success("DATMAN and DATAIF generated.")
             } else {
@@ -57,12 +53,6 @@ const AifmdGeneration: React.FC = () => {
                 subtitle="The AIFM-level (DATMAN) and AIF-level (DATAIF) files, validated against ESMA's
                           own XSD schemas before either can be downloaded." />
 
-            {!user && (
-                <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    Enter your name in the header — a generated filing is registered in the audit trail
-                    against whoever prepared it.
-                </p>
-            )}
 
             <button type="button" onClick={run} disabled={busy}
                 className="w-fit rounded-md bg-[#0A2647] px-5 py-2 text-sm font-medium text-white

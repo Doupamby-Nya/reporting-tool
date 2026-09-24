@@ -16,18 +16,16 @@ from typing import Any
 
 from database.jsonStore import read_json, write_json
 from domain.shared import excel_io, sample_data
-from utils.paths import RUNTIME_DIR
-
-FUNDS_FILE = RUNTIME_DIR / "funds.json"
+from utils.paths import funds_file
 
 
 def _read() -> list[dict[str, Any]]:
-    records = read_json(FUNDS_FILE, [])
+    records = read_json(funds_file(), [])
     return records if isinstance(records, list) else []
 
 
 def _write(records: list[dict[str, Any]]) -> None:
-    write_json(FUNDS_FILE, records)
+    write_json(funds_file(), records)
 
 
 def funds_service() -> list[dict[str, Any]]:

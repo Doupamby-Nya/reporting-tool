@@ -4,7 +4,6 @@ import { toast } from "react-toastify"
 import { generateEsefPackage, generateFiling, recordGenerated } from "@api/reportingApi"
 import PageTitle from "@components/PageTitle"
 import { useChain, useModule } from "@hooks/useChain"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 import { setGeneration } from "@store/chainSlice"
 import type { FilingOutput, GeneratedFile } from "src/types/reportingType"
 
@@ -38,7 +37,6 @@ function download(output: FilingOutput) {
  */
 const FilingGeneration: React.FC = () => {
     const module = useModule()
-    const { name: user } = useCurrentUser()
     const { chain, dispatch } = useChain(module.key)
     const [busy, setBusy] = useState(false)
     const [output, setOutput] = useState<FilingOutput | null>(null)
@@ -83,9 +81,7 @@ const FilingGeneration: React.FC = () => {
             }
             dispatch(setGeneration({ module: module.key, files: [file] }))
 
-            if (user) {
-                await recordGenerated(module.key, produced.filename, produced.label, user)
-            }
+            await recordGenerated(module.key, produced.filename, produced.label)
             toast.success(`${produced.label} generated.`)
         } catch (error) {
             toast.error((error as Error).message)
@@ -101,12 +97,6 @@ const FilingGeneration: React.FC = () => {
             <PageTitle title={`${module.title} — ${step?.label ?? "Generation"}`}
                 subtitle="Builds the filing from the submission read at the ingestion step." />
 
-            {!user && (
-                <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    Enter your name in the header: a generated filing is registered in the audit trail
-                    against whoever prepared it, and an unsigned one is not registered at all.
-                </p>
-            )}
 
             <div className="flex flex-wrap gap-2">
                 <button type="button" onClick={() => run(false)} disabled={busy}

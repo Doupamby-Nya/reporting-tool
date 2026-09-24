@@ -38,12 +38,11 @@ from domain.fatca.lib.core_functions_individual import get_info_Individual, get_
 from domain.fatca.lib.core_functions_passive import get_info_passive, get_info_passive_fatca
 from domain.shared.io_utils import ensure_dir_resilient, write_text_resilient
 
-from utils.paths import RESOURCES_DIR
+from utils.paths import RESOURCES_DIR, org_config_dir
 REFERENCE_DIR = RESOURCES_DIR / "reference"
 CONFIG_DIR = RESOURCES_DIR / "config"
 POSTAL_CODE_PATH = str(REFERENCE_DIR / "post-courrier-colis-telechargements-Codes-Postaux.xlsx")
 REPORTABLE_COUNTRIES_PATH = str(REFERENCE_DIR / "Reportable_Countries.xlsx")
-PREPARERS_FILE = CONFIG_DIR / "fatca_preparers.json"
 PREPARERS_DEFAULT_FILE = CONFIG_DIR / "fatca_preparers.default.json"
 
 FILER_CATEGORIES = [
@@ -74,23 +73,25 @@ ACCT_HOLDER_TYPE_LABELS = {
 
 # --- Preparers (depositor point-of-contact) config -------------------------
 
+def _preparers_file() -> Path:
+    """Each organisation files under its own preparers."""
+    return org_config_dir() / "fatca_preparers.json"
+
+
 def load_preparers() -> dict[str, dict[str, str]]:
-    if PREPARERS_FILE.exists():
-        try:
-            return json.loads(PREPARERS_FILE.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            pass
-    if PREPARERS_DEFAULT_FILE.exists():
-        try:
-            return json.loads(PREPARERS_DEFAULT_FILE.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            pass
-    return {}
+    path = _preparers_file()
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
 
 
 def save_preparers(preparers: dict[str, dict[str, str]]) -> None:
-    ensure_dir_resilient(CONFIG_DIR)
-    write_text_resilient(PREPARERS_FILE, json.dumps(preparers, ensure_ascii=False, indent=2))
+    path = _preparers_file()
+    ensure_dir_resilient(path.parent)
+    write_text_resilient(path, json.dumps(preparers, ensure_ascii=False, indent=2))
 
 
 # --- Ingestion ---------------------------------------------------------------

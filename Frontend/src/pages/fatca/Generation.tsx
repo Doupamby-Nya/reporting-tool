@@ -4,7 +4,6 @@ import { toast } from "react-toastify"
 import { generateFatca, recordGenerated } from "@api/reportingApi"
 import PageTitle from "@components/PageTitle"
 import { useChain } from "@hooks/useChain"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 import { setGeneration } from "@store/chainSlice"
 import { takeFile } from "@store/fileVault"
 import type { FatcaClassification, GeneratedFile } from "src/types/reportingType"
@@ -18,7 +17,6 @@ import type { FatcaParameters } from "./Ingestion"
  * is why the step says so rather than failing obscurely.
  */
 const FatcaGeneration: React.FC = () => {
-    const { name: user } = useCurrentUser()
     const { chain, dispatch } = useChain("fatca")
     const stored = chain.ingestion as {
         parameters?: FatcaParameters; classification?: FatcaClassification
@@ -53,7 +51,7 @@ const FatcaGeneration: React.FC = () => {
             if (files.length === 0) {
                 toast.error("The return was not produced; see the problems below.")
             } else {
-                if (user) await recordGenerated("fatca", files[0].filename, files[0].label, user)
+                await recordGenerated("fatca", files[0].filename, files[0].label)
                 toast.success("Return generated.")
             }
         } catch (error) {

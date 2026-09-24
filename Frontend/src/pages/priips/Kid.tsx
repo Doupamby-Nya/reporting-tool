@@ -3,7 +3,6 @@ import { toast } from "react-toastify"
 
 import { buildKid, fetchFunds, fetchPriipsTemplates, recordGenerated, renderKidPdf } from "@api/reportingApi"
 import PageTitle from "@components/PageTitle"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 import type { Fund } from "src/types/reportingType"
 
 type KidSection = { title?: string; heading?: string; body?: string; text?: string }
@@ -25,7 +24,6 @@ type Kid = {
  * by different code than the deliverable is worth very little.
  */
 const PriipsKid: React.FC = () => {
-    const { name: user } = useCurrentUser()
     const [funds, setFunds] = useState<Fund[]>([])
     const [fundId, setFundId] = useState("")
     const [templates, setTemplates] = useState<string[]>([])
@@ -76,7 +74,7 @@ const PriipsKid: React.FC = () => {
             anchor.click()
             URL.revokeObjectURL(url)
 
-            if (user) await recordGenerated("priips", filename, `KID — ${kid.product_name}`, user)
+            await recordGenerated("priips", filename, `KID — ${kid.product_name}`)
             toast.success("KID exported.")
         } catch (error) {
             toast.error((error as Error).message)
@@ -102,12 +100,6 @@ const PriipsKid: React.FC = () => {
                 subtitle="One key information document per fund and share class: preview it, then export
                           the PDF that is distributed." />
 
-            {!user && (
-                <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    Enter your name in the header — an exported KID is registered in the audit trail
-                    against whoever prepared it.
-                </p>
-            )}
 
             <div className="flex flex-wrap items-end gap-3">
                 <label className="flex min-w-72 flex-1 flex-col gap-1 text-sm">

@@ -1,21 +1,34 @@
 import { useDispatch, useSelector } from "react-redux"
 
+import { signOut } from "@api/reportingApi"
+import { MODULES, type ModuleNav } from "@config/navigation"
 import type { AppDispatch, RootState } from "@store/store"
-import { setUser } from "@store/userSlice"
+import { signedOut } from "@store/userSlice"
 
 /**
- * Who the audit trail records against.
+ * The signed-in account, and the modules it can use, in navigation order.
  *
- * Until the platform has authentication this is typed in and kept in the
- * store, so every page writes the same name and a preparer only enters it
- * once. `name` is empty until they do, which is what lets a page refuse to
- * generate rather than silently signing a filing as nobody.
+ * `me` is null for a visitor. `modules` is what the tabs, the dashboard and
+ * the guide are built from; the API applies the same rule to every call.
  */
 export function useCurrentUser() {
-    const name = useSelector((state: RootState) => state.user.name)
+    const me = useSelector((state: RootState) => state.user.me)
     const dispatch = useDispatch<AppDispatch>()
+
+    const granted = new Set(me?.modules.map((grant) => grant.key) ?? [])
+    const modules: ModuleNav[] = MODULES.filter((module) => granted.has(module.key))
+
     return {
-        name,
-        setName: (value: string) => dispatch(setUser(value)),
+        me,
+        modules,
+        canUse: (key: string) => granted.has(key),
+        validUntil: (key: string) => me?.modules.find((grant) => grant.key === key)?.valid_until ?? null,
+        signOut: async () => {
+            try {
+                await signOut()
+            } finally {
+                dispatch(signedOut())
+            }
+        },
     }
 }

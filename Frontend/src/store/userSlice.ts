@@ -1,32 +1,37 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
+import type { Me } from "src/types/reportingType"
+
 /**
- * Who is preparing a filing.
+ * Who is signed in, and which modules they can use.
  *
- * Every generation and every review step is written to the audit trail
- * against this name, so it is the one piece of state the whole app shares.
- * It is held here rather than passed down because three unrelated pages need
- * it, and because it is where a real identity will land once the platform
- * has authentication — today it is typed in, which is exactly what the audit
- * trail's "who approved this" column depends on.
+ * The server renders every page with this already filled in (see
+ * entry-server.tsx), so the tabs a user sees are right from the first paint
+ * rather than appearing once the browser has asked. `null` is a visitor.
+ *
+ * The API enforces the same rule on every call; this state only decides what
+ * to show.
  */
 export type UserState = {
-    name: string
+    me: Me | null
 }
 
 const initialState: UserState = {
-    name: "",
+    me: null,
 }
 
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUser(state, action: PayloadAction<string>) {
-            state.name = action.payload.trim()
+        signedIn(state, action: PayloadAction<Me>) {
+            state.me = action.payload
+        },
+        signedOut(state) {
+            state.me = null
         },
     },
 })
 
-export const { setUser } = userSlice.actions
+export const { signedIn, signedOut } = userSlice.actions
 export default userSlice.reducer

@@ -21,15 +21,14 @@ import sys
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "non_regression"))
 
 import cases as case_catalogue  # noqa: E402
 import normalize  # noqa: E402
-from main import app  # noqa: E402
+from _auth import PREPARER, REVIEWER, login_as  # noqa: E402
 
-client = TestClient(app)
+client = login_as(PREPARER)
 API = "/api/v1"
 
 

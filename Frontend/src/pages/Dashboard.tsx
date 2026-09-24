@@ -1,30 +1,30 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
-import { MODULES } from "@config/navigation"
 import { fetchAuditLog, fetchDocuments, fetchFunds } from "@api/reportingApi"
 import KpiRow from "@components/KpiRow"
 import PageTitle from "@components/PageTitle"
+import { useCurrentUser } from "@hooks/useCurrentUser"
 import type { AuditEntry, Fund, TrackedDocument } from "src/types/reportingType"
 
 type ModuleRow = { key: string; label: string; total: number; review: number; approved: number }
 
 /**
- * The global summary.
- *
- * Two questions, answered on one screen: what is under mandate, and what is
- * outstanding across the eight regimes. Both are read from the API rather
- * than kept client-side, so the figures are the same ones the review screens
- * work from.
+ * The signed-in user's dashboard: where their filings stand, across the
+ * modules they use, and what was done recently. Read from the API rather
+ * than kept client-side, so the figures are the ones the review screens work
+ * from. The fund registry is shown to PRIIPs users, who maintain it.
  */
 const Dashboard: React.FC = () => {
+    const { modules: MODULES, canUse } = useCurrentUser()
+    const showFunds = canUse("priips")
     const [funds, setFunds] = useState<Fund[]>([])
     const [rows, setRows] = useState<ModuleRow[]>([])
     const [log, setLog] = useState<AuditEntry[]>([])
     const [query, setQuery] = useState("")
 
     useEffect(() => {
-        fetchFunds().then(setFunds).catch(() => setFunds([]))
+        if (showFunds) fetchFunds().then(setFunds).catch(() => setFunds([]))
         fetchAuditLog(8).then(setLog).catch(() => setLog([]))
 
         Promise.all(MODULES.map(async (module) => {
@@ -41,7 +41,8 @@ const Dashboard: React.FC = () => {
                 approved: statuses.filter((status) => ["Approved", "Published"].includes(status)).length,
             }
         })).then(setRows)
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- the module list changes only on sign-in
+    }, [MODULES.map((module) => module.key).join()])
 
     const filtered = useMemo(() => {
         const needle = query.trim().toLowerCase()
@@ -58,20 +59,19 @@ const Dashboard: React.FC = () => {
 
     return (
         <section className="flex flex-col gap-6">
-            <PageTitle title="Global Summary"
-                subtitle="What is under mandate, and what is outstanding across the eight reporting
-                          regimes the platform covers." />
+            <PageTitle title="Dashboard"
+                subtitle="Where your filings stand, in the modules your organisation subscribes to." />
 
             <KpiRow items={[
-                { label: "Funds / classes under mandate", value: String(funds.length),
-                  hint: `${mancos} distinct ManCo(s)` },
-                { label: "Filings generated", value: String(totalFilings), hint: "across every regime" },
+                ...(showFunds ? [{ label: "Funds / classes in your registry", value: String(funds.length),
+                  hint: `${mancos} distinct ManCo(s)` }] : []),
+                { label: "Filings generated", value: String(totalFilings), hint: "in your modules" },
                 { label: "Under review (4 eyes)", value: String(underReview), hint: "control in progress" },
                 { label: "Approved / published", value: String(approved), hint: "ready to file" },
             ]} />
 
             <section className="flex flex-col gap-2">
-                <h2 className="text-sm font-semibold text-slate-900">Reporting regimes</h2>
+                <h2 className="text-sm font-semibold text-slate-900">Your modules</h2>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                     {MODULES.map((module) => {
                         const row = rows.find((candidate) => candidate.key === module.key)
@@ -90,9 +90,9 @@ const Dashboard: React.FC = () => {
                 </div>
             </section>
 
-            <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-                <section className="flex flex-col gap-2">
-                    <h2 className="text-sm font-semibold text-slate-900">Funds under mandate</h2>
+            <div className={showFunds ? "grid gap-6 lg:grid-cols-[1.4fr_1fr]" : "grid gap-6"}>
+                {showFunds && <section className="flex flex-col gap-2">
+                    <h2 className="text-sm font-semibold text-slate-900">Your fund registry</h2>
                     <input value={query} onChange={(event) => setQuery(event.target.value)}
                         placeholder="Search by fund, ISIN, share class or ManCo"
                         className="rounded-md border border-slate-300 px-3 py-2 text-sm outline-none
@@ -130,7 +130,7 @@ const Dashboard: React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-                </section>
+                </section>}
 
                 <section className="flex flex-col gap-2">
                     <h2 className="text-sm font-semibold text-slate-900">Recent activity</h2>

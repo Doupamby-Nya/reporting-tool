@@ -5,7 +5,6 @@ import { fetchAuditLog, fetchDocuments, transitionDocument } from "@api/reportin
 import KpiRow from "@components/KpiRow"
 import PageTitle from "@components/PageTitle"
 import { useModule } from "@hooks/useChain"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 import type { AuditEntry, TrackedDocument } from "src/types/reportingType"
 
 /**
@@ -79,7 +78,6 @@ const Progress: React.FC<{ status: string }> = ({ status }) => {
  */
 const ControlsAudit: React.FC = () => {
     const module = useModule()
-    const { name: user } = useCurrentUser()
 
     const [documents, setDocuments] = useState<Record<string, TrackedDocument>>({})
     const [entries, setEntries] = useState<AuditEntry[]>([])
@@ -110,14 +108,8 @@ const ControlsAudit: React.FC = () => {
     }, [refresh])
 
     const move = async (documentId: string, next: string) => {
-        // A four-eyes review signed by nobody is not a review, so the
-        // transition is refused here rather than written to the trail as "".
-        if (!user) {
-            toast.error("Enter your name in the header before moving a filing through the review.")
-            return
-        }
         try {
-            await transitionDocument(module.key, documentId, next, user, comment)
+            await transitionDocument(module.key, documentId, next, comment)
             toast.success(`${documentId} is now ${next.toLowerCase()}.`)
             setComment("")
             await refresh()

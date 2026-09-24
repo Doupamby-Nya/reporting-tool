@@ -7,19 +7,23 @@ from typing import Any
 import yaml
 from domain.shared.io_utils import ensure_dir_resilient, write_bytes_resilient, write_text_resilient
 
-from utils.paths import RESOURCES_DIR
-CLIENTS_DIR = RESOURCES_DIR / "clients_info"
+from utils.paths import org_config_dir
+
+
+def _clients_dir() -> Path:
+    """An organisation's client records are its own."""
+    return org_config_dir() / "clients_info"
 
 
 def _ensure_clients_dir() -> None:
-    ensure_dir_resilient(CLIENTS_DIR)
+    ensure_dir_resilient(_clients_dir())
 
 
 def get_all_clients() -> list[dict[str, Any]]:
     """Returns a list of all clients found in the clients_info directory."""
     _ensure_clients_dir()
     clients = []
-    for f in CLIENTS_DIR.glob("*.yaml"):
+    for f in _clients_dir().glob("*.yaml"):
         try:
             with open(f, "r", encoding="utf-8") as file:
                 client_data = yaml.safe_load(file) or {}
@@ -36,7 +40,7 @@ def get_client(client_id: str) -> dict[str, Any] | None:
     if not client_id:
         return None
     _ensure_clients_dir()
-    f = CLIENTS_DIR / f"{client_id}.yaml"
+    f = _clients_dir() / f"{client_id}.yaml"
     if f.exists():
         try:
             with open(f, "r", encoding="utf-8") as file:
@@ -58,7 +62,7 @@ def save_client(client_id: str, client_data: dict[str, Any]) -> None:
     data_to_save = dict(client_data)
     data_to_save.pop("client_id", None)
     
-    f = CLIENTS_DIR / f"{client_id}.yaml"
+    f = _clients_dir() / f"{client_id}.yaml"
     yaml_str = yaml.dump(data_to_save, allow_unicode=True, default_flow_style=False, sort_keys=False)
     write_text_resilient(f, yaml_str)
 
@@ -67,7 +71,7 @@ def delete_client(client_id: str) -> None:
     """Deletes a client configuration and its logo."""
     if not client_id:
         return
-    f = CLIENTS_DIR / f"{client_id}.yaml"
+    f = _clients_dir() / f"{client_id}.yaml"
     if f.exists():
         f.unlink()
     # also remove logo
@@ -82,7 +86,7 @@ def get_client_logo_path(client_id: str) -> Path | None:
         return None
     _ensure_clients_dir()
     for ext in [".png", ".jpg", ".jpeg"]:
-        p = CLIENTS_DIR / f"{client_id}_logo{ext}"
+        p = _clients_dir() / f"{client_id}_logo{ext}"
         if p.exists():
             return p
     return None
@@ -114,7 +118,7 @@ def save_client_logo(client_id: str, content: bytes, filename: str) -> None:
     if ext not in [".png", ".jpg", ".jpeg"]:
         raise ValueError("Only PNG and JPG/JPEG files are supported.")
         
-    p = CLIENTS_DIR / f"{client_id}_logo{ext}"
+    p = _clients_dir() / f"{client_id}_logo{ext}"
     write_bytes_resilient(p, content)
 
 

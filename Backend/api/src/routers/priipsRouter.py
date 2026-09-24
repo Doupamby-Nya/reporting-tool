@@ -5,6 +5,10 @@ RTS calculation chain — the summary risk indicator, the costs and the four
 performance scenarios — and renders a document rather than an XML filing. It
 also carries its own configuration: the KID narrative template, the RTS
 calibration and the organisation's own settings.
+
+The templates and the calibration are shared by every organisation, so only
+a platform administrator may change them; the settings are each
+organisation's own.
 """
 
 from __future__ import annotations
@@ -12,11 +16,12 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Body, Query
+from fastapi import APIRouter, Body, Depends, Query
 from fastapi.responses import Response
 
 from models.commonModel import ApiResponse, fail, ok, server_error
 from models.priipsModel import KidRenderRequest, KidRequest, PriipsCalculationRequest, TemplateTextRequest
+from routers.dependencies import require_platform_admin
 from services import priipsReportingService
 
 priipsRouter = APIRouter(tags=["PRIIPs KID"])
@@ -87,7 +92,8 @@ def priips_template_text_router(template_name: str,
         return server_error(f"Could not read this template: {exc}")
 
 
-@priipsRouter.put("/templates/{template_name}", summary="Save a KID template", response_model=ApiResponse[dict[str, Any]])
+@priipsRouter.put("/templates/{template_name}", summary="Save a KID template", response_model=ApiResponse[dict[str, Any]],
+                  dependencies=[Depends(require_platform_admin)])
 def priips_save_template_router(template_name: str, request: TemplateTextRequest):
     """The text is parsed before it is written: a template that does not
     parse is rejected here rather than breaking the next generation."""
@@ -101,7 +107,8 @@ def priips_save_template_router(template_name: str, request: TemplateTextRequest
         return server_error(f"Could not save this template: {exc}")
 
 
-@priipsRouter.post("/templates/{template_name}/reset", summary="Restore a template's default", response_model=ApiResponse[dict[str, Any]])
+@priipsRouter.post("/templates/{template_name}/reset", summary="Restore a template's default", response_model=ApiResponse[dict[str, Any]],
+                   dependencies=[Depends(require_platform_admin)])
 def priips_reset_template_router(template_name: str):
     try:
         return ok(priipsReportingService.priips_reset_template_service(template_name))
@@ -110,7 +117,8 @@ def priips_reset_template_router(template_name: str):
         return server_error(f"Could not reset this template: {exc}")
 
 
-@priipsRouter.put("/parameters", summary="Save the RTS calibration", response_model=ApiResponse[dict[str, Any]])
+@priipsRouter.put("/parameters", summary="Save the RTS calibration", response_model=ApiResponse[dict[str, Any]],
+                  dependencies=[Depends(require_platform_admin)])
 def priips_save_parameters_router(
         payload: dict[str, Any] = Body(description="The whole calibration, as GET /priips/parameters returns it")):
     try:
@@ -120,7 +128,8 @@ def priips_save_parameters_router(
         return server_error(f"Could not save these parameters: {exc}")
 
 
-@priipsRouter.post("/parameters/reset", summary="Restore the default RTS calibration", response_model=ApiResponse[dict[str, Any]])
+@priipsRouter.post("/parameters/reset", summary="Restore the default RTS calibration", response_model=ApiResponse[dict[str, Any]],
+                   dependencies=[Depends(require_platform_admin)])
 def priips_reset_parameters_router():
     try:
         return ok(priipsReportingService.priips_reset_parameters_service())
