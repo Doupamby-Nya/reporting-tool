@@ -9,12 +9,40 @@ from the client through to the filing.
 from __future__ import annotations
 
 from datetime import date
-from typing import Any
+from typing import Any, get_args
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
-class BclHeaderModel(BaseModel):
+class BclModel(BaseModel):
+    """The base every request shape here builds on.
+
+    A capture form holds an unreported field as an empty string, because
+    that is what an empty input contains. The engines hold it as ``None``,
+    because an unreported amount is not a zero. Converting at the boundary
+    means a form can be posted exactly as it is held — including one
+    populated by importing an existing filing, where most optional fields
+    are legitimately empty.
+    """
+
+    @model_validator(mode="before")
+    @classmethod
+    def _blank_is_not_reported(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        cleaned = {}
+        for key, value in data.items():
+            blank = isinstance(value, str) and value.strip() == ""
+            # Only where the field may genuinely be absent. A field declared
+            # as text keeps its empty string: "" is a legitimate value for a
+            # name or a code that the regulator simply does not require.
+            field = cls.model_fields.get(key)
+            optional = field is not None and type(None) in get_args(field.annotation)
+            cleaned[key] = None if (blank and optional) else value
+        return cleaned
+
+
+class BclHeaderModel(BclModel):
     """The header of every BCL report (endMonthDate ... layout)."""
 
     end_month_date: date | None = Field(default=None, description="header/endMonthDate — last day of the period")
@@ -35,7 +63,7 @@ class BclHeaderModel(BaseModel):
         )
 
 
-class ReportedLineModel(BaseModel):
+class ReportedLineModel(BclModel):
     """One <reportedLine> of a balance-sheet report."""
 
     item: str = Field(description="Account item, e.g. 1-003000")
@@ -49,7 +77,7 @@ class ReportedLineModel(BaseModel):
         return self.model_dump()
 
 
-class LedgerRequest(BaseModel):
+class LedgerRequest(BclModel):
     """S 1.3, S 2.13 and S 1.6 — a header plus two sides of reported lines."""
 
     header: BclHeaderModel = BclHeaderModel()
@@ -59,7 +87,7 @@ class LedgerRequest(BaseModel):
     sequence: int = Field(default=1, ge=0, le=999, description="The nnn counter of the file name")
 
 
-class MarketingCountryModel(BaseModel):
+class MarketingCountryModel(BclModel):
     """One line of S 4.4 — the share of units placed in a country."""
 
     item: str = Field(default="2-004000")
@@ -70,14 +98,14 @@ class MarketingCountryModel(BaseModel):
         return self.model_dump()
 
 
-class S44Request(BaseModel):
+class S44Request(BclModel):
     header: BclHeaderModel = BclHeaderModel()
     marketing_countries: list[MarketingCountryModel] = []
     creation_date: date | None = None
     sequence: int = Field(default=1, ge=0, le=999)
 
 
-class SecurityModel(BaseModel):
+class SecurityModel(BclModel):
     """One security of the TPTOBS look-through report. Which fields apply
     depends on the identifier type, the balance-sheet line and the ESA 2010
     class — see the BCL instructions, §5.2."""
@@ -117,7 +145,7 @@ class SecurityModel(BaseModel):
         return self.model_dump()
 
 
-class TptobsRequest(BaseModel):
+class TptobsRequest(BclModel):
     """TPTOBS — the line totals are derived from the securities, so a caller
     only has to send the securities themselves."""
 
@@ -127,7 +155,7 @@ class TptobsRequest(BaseModel):
     sequence: int = Field(default=1, ge=0, le=999)
 
 
-class ShareClassModel(BaseModel):
+class ShareClassModel(BclModel):
     """One unit/share class of S 2.20 — items 4010 to 5110."""
 
     cssf_code: str = Field(default="", description="Item 4010 — 4 digits")
@@ -154,7 +182,7 @@ class ShareClassModel(BaseModel):
     expenses_fund_currency: float | None = None
 
 
-class SenderContactModel(BaseModel):
+class SenderContactModel(BclModel):
     """Items 1040 and 1050 — at least one contact is mandatory."""
 
     name: str = ""
@@ -162,7 +190,7 @@ class SenderContactModel(BaseModel):
     email: str = ""
 
 
-class S220Request(BaseModel):
+class S220Request(BclModel):
     """S 2.20 — quarterly financial information, items 1010 to 6100."""
 
     reference_month: str = Field(default="", description="Item 1010 — YYYYMM")
@@ -234,7 +262,7 @@ class S220Request(BaseModel):
     sequence: int = Field(default=1, ge=0, le=999)
 
 
-class BclSubmissionRequest(BaseModel):
+class BclSubmissionRequest(BclModel):
     """A whole BCL submission — used by the cross-report consistency checks,
     which compare the balance sheet against TPTOBS and S 2.20."""
 

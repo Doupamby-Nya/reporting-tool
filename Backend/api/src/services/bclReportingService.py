@@ -13,7 +13,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Any
 
-from domain.bcl import bcl_codes, bcl_xsd
+from domain.bcl import bcl_codes, bcl_parser, bcl_xsd
 from domain.bcl import bcl_engine as be
 from domain.bcl import bcl_s220_engine as s220e
 from models.bclModel import (
@@ -313,8 +313,16 @@ def inspect_upload_service(content: bytes, filename: str | None = None) -> dict[
         }
     label = s220e.REPORT_LABEL if report_key == "s220" else be.REPORT_LABELS.get(report_key, report_key)
     result = bcl_xsd.validate(content, report_key)
+
+    # The filing is read back into the form that would produce it, so an
+    # upload re-opens the work rather than only reporting on it. A document
+    # that fails its schema is still parsed: the point of re-opening it is
+    # usually to correct exactly what the schema objected to.
+    _, captured = bcl_parser.parse(content)
+
     return {
         "recognised": True, "report_key": report_key, "label": label, "filename": filename,
         "schema_validation": SchemaResult(available=result.available, valid=result.valid,
                                           errors=result.errors, detail=result.detail or None),
+        "data": captured,
     }

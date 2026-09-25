@@ -18,6 +18,7 @@ Three things are checked:
 
 from __future__ import annotations
 
+import zipfile
 from datetime import date
 
 from domain.aifmd import aifmd_engine as ae
@@ -25,8 +26,15 @@ from domain.aifmd import aifmd_xsd
 from domain.shared.xml_common import errors_of, warnings_of
 from utils.paths import RESOURCES_DIR
 
-SAMPLES = (RESOURCES_DIR / "regulation" / "aifmd" / "esma_package" / "extracted"
-           / "2013-1358_aifmd_reporting_it_technical_guidance-revision6")
+# The official samples are read straight from ESMA's package rather than from
+# an extracted copy, so the repository keeps a single copy of them.
+ESMA_PACKAGE = RESOURCES_DIR / "regulation" / "aifmd" / "esma_package" / "aifmd_technical_guidance_rev6.zip"
+SAMPLES_FOLDER = "2013-1358_aifmd_reporting_it_technical_guidance-revision6"
+
+
+def sample(name: str) -> bytes:
+    with zipfile.ZipFile(ESMA_PACKAGE) as package:
+        return package.read(f"{SAMPLES_FOLDER}/{name}")
 
 
 # =============================================================================
@@ -155,7 +163,7 @@ def assert_valid(xml: str, key: str) -> None:
 
 def test_official_samples_validate():
     for name, key in (("AIFMSample.xml", "datman"), ("AIFSample.xml", "dataif")):
-        raw = (SAMPLES / name).read_bytes()
+        raw = sample(name)
         assert aifmd_xsd.detect_file(raw) == key, f"{name} was not identified as {key}"
         result = aifmd_xsd.validate(raw, key)
         assert result.valid, f"{name} is invalid:\n" + "\n".join(result.errors[:5])
@@ -171,7 +179,7 @@ def test_detect_file_rejects_a_foreign_document():
 def test_an_aif_file_is_not_accepted_as_an_aifm_file():
     """CSSF controls FOR-003 / FOR-004: the file type in the name must match
     the XML."""
-    raw = (SAMPLES / "AIFSample.xml").read_bytes()
+    raw = sample("AIFSample.xml")
     result = aifmd_xsd.validate(raw, "datman")
     assert not result.valid
     assert "FOR-003" in result.errors[0]
