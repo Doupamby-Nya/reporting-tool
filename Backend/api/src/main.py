@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, FastAPI, Request
+from fastapi.concurrency import run_in_threadpool
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -6,6 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from database.db import init_db
 
 from middlewares.originsMiddleware import originsMiddleware
+from routers.activityRouter import activityRouter
 from routers.adminRouter import adminRouter
 from routers.aifmdRouter import aifmdRouter
 from routers.authRouter import authRouter
@@ -20,6 +22,7 @@ from routers.urrRouter import urrRouter
 from routers.referenceRouter import referenceRouter
 from routers.dependencies import require_module
 from routers.workflowRouter import workflowRouter
+from services import activityService
 from utils.paths import ensure_runtime_dirs
 
 app = FastAPI(
@@ -52,6 +55,22 @@ def http_exception_handler(_request: Request, exc: StarletteHTTPException) -> JS
                         content={"success": False, "message": str(exc.detail)})
 
 
+@app.middleware("http")
+async def record_activity(request: Request, call_next):
+    """Every successful request a signed-in user makes is offered to the
+    activity record, which keeps the ones that stand for work. The user is
+    the one the access check resolved (request.state.user); a route may name
+    what it acted on in request.state.activity_subject."""
+    response = await call_next(request)
+    user = getattr(request.state, "user", None)
+    if user is not None and response.status_code < 400:
+        await run_in_threadpool(
+            activityService.capture, user, request.method, request.url.path,
+            dict(request.query_params), response.status_code,
+            getattr(request.state, "activity_subject", None))
+    return response
+
+
 # The writable root and the account database, created once at import so the
 # first request never has to.
 ensure_runtime_dirs()
@@ -70,6 +89,8 @@ def module(key: str) -> list:
   # signing in, and the platform administration
 api_router.include_router(authRouter)
 api_router.include_router(adminRouter)
+  # usage dashboards: a user's own activity, an organisation's for its administrators
+api_router.include_router(activityRouter)
   # shared reference data: modules, regulatory library, clients
 api_router.include_router(referenceRouter)
   # document lifecycle, audit trail and saved drafts

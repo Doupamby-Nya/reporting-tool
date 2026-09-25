@@ -1,6 +1,7 @@
 import { api } from "@api/api"
 import type {
-    ApiEnvelope, AuditEntry, BclCodes, BclReference, BclReportsResponse, DraftSummary,
+    ActivityFilters, ActivityScope, ActivitySummary, ApiEnvelope, AuditEntry, BclCodes, BclReference,
+    BclReportsResponse, DraftSummary,
     FatcaClassification, FatcaGeneration, FilingRegime, FilingResult, FormSchema, Fund,
     GenerationResult, InspectionResult, Me, RegulationDocument, RegulatoryModule,
     RulesCatalogue, TrackedDocument, ValidationResult, WorkbookPreview,
@@ -340,3 +341,26 @@ export const signOut = () =>
 
 export const fetchMe = () =>
     unwrap<Me>(api.get(`/auth/me`))
+
+// --- activity ----------------------------------------------------------------
+
+/** The viewer's own time zone, so a day on the calendar is their day. */
+const activityParams = (filters: ActivityFilters) => {
+    let tz: string | undefined
+    try {
+        tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+    } catch {
+        tz = undefined
+    }
+    return Object.fromEntries(Object.entries({ ...filters, tz })
+        .filter(([, value]) => value !== null && value !== undefined && value !== ""))
+}
+
+export const fetchMyActivity = (filters: ActivityFilters = {}) =>
+    unwrap<ActivitySummary>(api.get(`/activity/me`, { params: activityParams(filters) }))
+
+export const fetchOrganisationActivity = (filters: ActivityFilters = {}) =>
+    unwrap<ActivitySummary>(api.get(`/activity/organisations`, { params: activityParams(filters) }))
+
+export const fetchActivityScopes = () =>
+    unwrap<ActivityScope[]>(api.get(`/activity/scopes`))

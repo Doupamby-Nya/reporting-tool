@@ -45,11 +45,13 @@ def describe(user: CurrentUser) -> dict[str, Any]:
 
 
 @authRouter.post("/login", summary="Sign in with an email and a password", response_model=ApiResponse[Me])
-def login_router(request: LoginRequest, response: Response, db: Session = Depends(get_session)):
+def login_router(request: LoginRequest, response: Response, http: Request, db: Session = Depends(get_session)):
     try:
         token, user = authService.login(db, request.email, request.password)
     except PermissionError as exc:
         return fail(str(exc), status_code=401)
+    # Nobody was signed in when the request arrived; the sign-in is theirs.
+    http.state.user = user
     response.set_cookie(SESSION_COOKIE, token, httponly=True, samesite="lax", secure=COOKIE_SECURE,
                         max_age=authService.SESSION_HOURS * 3600, path="/")
     return ok(describe(user))

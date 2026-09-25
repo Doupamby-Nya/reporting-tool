@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel, Field
 
 from models.commonModel import ApiResponse, fail, not_found, ok, server_error
@@ -51,8 +51,9 @@ def documents_list_router(module_key: str, _: CurrentUser = Depends(require_modu
 
 @workflowRouter.post("/documents/{module_key}", summary="Register a generated filing",
     response_model=ApiResponse[dict[str, Any]])
-def documents_record_router(module_key: str, request: RecordGeneratedRequest,
+def documents_record_router(module_key: str, request: RecordGeneratedRequest, http: Request,
                             user: CurrentUser = Depends(require_module_param)):
+    http.state.activity_subject = request.document_id
     try:
         return ok(workflowService.record_generated_service(
             module_key, request.document_id, request.label, user.email))
@@ -63,8 +64,10 @@ def documents_record_router(module_key: str, request: RecordGeneratedRequest,
 
 @workflowRouter.post("/documents/{module_key}/{document_id}/status", summary="Move a filing through the review",
     response_model=ApiResponse[dict[str, Any]])
-def documents_transition_router(module_key: str, document_id: str, request: TransitionRequest,
+def documents_transition_router(module_key: str, document_id: str, request: TransitionRequest, http: Request,
                                 user: CurrentUser = Depends(require_module_param)):
+    # The decision is what a reviewer's timeline shows, beside the filing.
+    http.state.activity_subject = f"{document_id} · {request.status}"
     try:
         return ok(workflowService.transition_document_service(
             module_key, document_id, request.status, user.email, request.comment))
@@ -101,8 +104,9 @@ def drafts_list_router(module_key: str, _: CurrentUser = Depends(require_module_
 
 @workflowRouter.post("/drafts/{module_key}", summary="Save the current state of a form",
     response_model=ApiResponse[dict[str, Any]])
-def drafts_save_router(module_key: str, request: SaveDraftRequest,
+def drafts_save_router(module_key: str, request: SaveDraftRequest, http: Request,
                        user: CurrentUser = Depends(require_module_param)):
+    http.state.activity_subject = request.name
     try:
         return ok(draftService.save_draft_service(module_key, request.name, request.data, user.email))
     except ValueError as exc:

@@ -32,6 +32,8 @@ async def current_user(request: Request) -> CurrentUser:
     if user is None:
         raise HTTPException(status_code=401, detail="Sign in to continue.")
     set_current_org(user.organisation_id)
+    # Read back by the activity middleware once the response is ready.
+    request.state.user = user
     return user
 
 
