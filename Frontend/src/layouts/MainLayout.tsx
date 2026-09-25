@@ -160,8 +160,21 @@ const AccountMenu: React.FC = () => {
                     <p className="mt-1 text-xs text-slate-500">
                         {me.organisation}{me.role !== "user" && ` · ${me.role === "platform_admin" ? "platform administrator" : "organisation administrator"}`}
                     </p>
+                    <nav className="mt-3 flex flex-col border-t border-slate-100 pt-2" aria-label="Account">
+                        {[
+                            ["/profile", "Profile"],
+                            ["/profile/usage", "My usage"],
+                            ...(me.role !== "user" ? [["/admin/activity", "Organisation activity"]] : []),
+                        ].map(([to, label]) => (
+                            <Link key={to} to={to} onClick={() => setOpen(false)}
+                                className="rounded-md px-2 py-1.5 text-sm text-slate-700 transition hover:bg-slate-50
+                                           hover:text-[#0A2647]">
+                                {label}
+                            </Link>
+                        ))}
+                    </nav>
                     <button type="button" onClick={leave}
-                        className="mt-3 w-full rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-[#0A2647] hover:bg-slate-50">
+                        className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-[#0A2647] hover:bg-slate-50">
                         Sign out
                     </button>
                 </div>

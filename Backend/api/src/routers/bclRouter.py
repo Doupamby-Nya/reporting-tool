@@ -10,7 +10,7 @@ a loop, and FastAPI must see the model itself rather than its name.
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Body, File, UploadFile
+from fastapi import APIRouter, Body, File, Query, UploadFile
 from fastapi.responses import Response
 
 from models.bclModel import BclSubmissionRequest, LedgerRequest, S44Request, S220Request, TptobsRequest
@@ -111,8 +111,36 @@ async def bcl_inspect_router(file: UploadFile = File(...)):
         return server_error(f"Could not read this file: {exc}")
 
 
+@bclRouter.get("/{report_key}/references", summary="The official documents bundled for a report",
+               response_model=ApiResponse[list[dict[str, Any]]])
+def bcl_references_router(report_key: str):
+    try:
+        return ok(service.bcl_references_service(report_key))
+    except Exception as exc:
+        logging.exception("Listing the BCL reference files failed")
+        return server_error(f"Could not list this report's documents: {exc}")
+
+
+@bclRouter.get("/{report_key}/reference/{kind}/preview",
+               summary="A report's official BCL workbook, as sheets a viewer can draw",
+               response_model=ApiResponse[dict[str, Any]])
+def bcl_reference_preview_router(report_key: str, kind: str):
+    if kind not in REFERENCE_KINDS:
+        return fail(f"Unknown document kind '{kind}'; expected one of {', '.join(REFERENCE_KINDS)}.")
+    try:
+        return ok(service.bcl_reference_preview_service(report_key, kind))
+    except LookupError as exc:
+        return not_found(str(exc))
+    except ValueError as exc:
+        return fail(str(exc))
+    except Exception as exc:
+        logging.exception("Previewing the BCL reference file failed")
+        return server_error(f"Could not read this workbook: {exc}")
+
+
 @bclRouter.get("/{report_key}/reference/{kind}", summary="Download a report's official BCL document")
-def bcl_reference_router(report_key: str, kind: str):
+def bcl_reference_router(report_key: str, kind: str, inline: bool = Query(
+        default=False, description="True shows a PDF in the page; the default saves the file")):
     if kind not in REFERENCE_KINDS:
         return fail(f"Unknown document kind '{kind}'; expected one of {', '.join(REFERENCE_KINDS)}.")
     try:
@@ -125,5 +153,8 @@ def bcl_reference_router(report_key: str, kind: str):
     extension = filename.rsplit(".", 1)[-1].lower()
     return Response(
         content=payload, media_type=MEDIA_TYPES.get(extension, "application/octet-stream"),
-        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        # Only a PDF can be drawn by the browser itself; a workbook is always
+        # saved, and previewed through the /preview route instead.
+        headers={"Content-Disposition":
+                 f'{"inline" if inline and extension == "pdf" else "attachment"}; filename="{filename}"'},
     )

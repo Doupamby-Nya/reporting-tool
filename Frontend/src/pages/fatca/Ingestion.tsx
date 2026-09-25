@@ -7,6 +7,7 @@ import {
 import DraftsPanel from "@components/DraftsPanel"
 import IngestionPanel, { FORM_ANCHOR } from "@components/IngestionPanel"
 import KpiRow from "@components/KpiRow"
+import Notice, { InlineNotice, NoticeList } from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import { useChain } from "@hooks/useChain"
 import { useDrafts } from "@hooks/useDrafts"
@@ -147,10 +148,9 @@ const FatcaIngestion: React.FC = () => {
                     <label className="flex flex-col gap-1 text-sm">
                         <span className="font-medium text-slate-700">Preparer</span>
                         {preparers.length === 0 ? (
-                            <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs
-                                             text-amber-800">
+                            <InlineNotice>
                                 None configured yet. Add one at the configuration step.
-                            </span>
+                            </InlineNotice>
                         ) : (
                             <select value={parameters.preparer}
                                 onChange={(event) => set("preparer", event.target.value)}
@@ -249,15 +249,10 @@ const FatcaIngestion: React.FC = () => {
                     }))} />
 
                     {classification.warnings.length > 0 && (
-                        <section className="flex flex-col gap-1">
-                            <h2 className="text-sm font-semibold text-slate-900">Warnings</h2>
-                            {classification.warnings.map((message, index) => (
-                                <p key={index} className="rounded-md border border-amber-200 bg-amber-50
-                                                          px-3 py-2 text-sm text-amber-800">
-                                    {message}
-                                </p>
-                            ))}
-                        </section>
+                        <Notice eyebrow="Classification"
+                            title={`${classification.warnings.length} warning(s) to look at`}>
+                            <NoticeList items={classification.warnings} />
+                        </Notice>
                     )}
                 </>
             )}

@@ -4,6 +4,7 @@ import { toast } from "react-toastify"
 import { bclReferenceUrl, fetchBclCodes, fetchBclReports, inspectBclFile } from "@api/reportingApi"
 import DraftsPanel from "@components/DraftsPanel"
 import IngestionPanel, { FORM_ANCHOR } from "@components/IngestionPanel"
+import { InlineNotice } from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import ValidationReport from "@components/ValidationReport"
 import { useChain } from "@hooks/useChain"
@@ -246,7 +247,7 @@ const BclIngestion: React.FC = () => {
             <select value={row[name]} onChange={(event) => onChange({ ...row, [name]: event.target.value })}
                 className={[
                     "w-full rounded-md border px-2 py-1 font-mono text-xs outline-none",
-                    row[name] ? "border-slate-300" : "border-amber-400 bg-amber-50",
+                    row[name] ? "border-slate-300" : "border-dashed border-[#E09B00] bg-white",
                 ].join(" ")}>
                 <option value="">choose…</option>
                 {options.map(([code, label]) => <option key={code} value={code}>{label}</option>)}
@@ -523,24 +524,24 @@ const BclIngestion: React.FC = () => {
                         "2-000000", liabilitiesTotal)}
 
                     {incomplete > 0 && (
-                        <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm
-                                      text-amber-900">
+                        <InlineNotice>
                             {incomplete} reported row(s) are missing a breakdown code. BCL rejects a line
                             whose country, currency, sector or maturity is not a valid code.
-                        </p>
+                        </InlineNotice>
                     )}
 
                     {(assetsTotal > 0 || liabilitiesTotal > 0) && report.key !== "s16" && (
-                        <p className={[
-                            "rounded-md border px-3 py-2 text-sm",
-                            Math.abs(difference) < 0.005
-                                ? "border-emerald-300 bg-emerald-50 text-emerald-900"
-                                : "border-amber-300 bg-amber-50 text-amber-900",
-                        ].join(" ")}>
-                            {Math.abs(difference) < 0.005
-                                ? `Balance sheet balanced: assets and liabilities both total ${assetsTotal.toLocaleString()}.`
-                                : `Balance sheet not balanced, with a difference of ${difference.toLocaleString()}. BCL requires line 1-000000 to equal line 2-000000.`}
-                        </p>
+                        Math.abs(difference) < 0.005 ? (
+                            <p className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm
+                                          text-emerald-900">
+                                Balance sheet balanced: assets and liabilities both total {assetsTotal.toLocaleString()}.
+                            </p>
+                        ) : (
+                            <InlineNotice>
+                                Balance sheet not balanced, with a difference of {difference.toLocaleString()}.
+                                BCL requires line 1-000000 to equal line 2-000000.
+                            </InlineNotice>
+                        )
                     )}
                 </div>
             )}

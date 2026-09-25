@@ -1,15 +1,27 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
-import { bclReferenceUrl, fetchBclCodes, fetchBclReports, runBclCrossChecks } from "@api/reportingApi"
+import {
+    bclReferenceUrl, fetchBclCodes, fetchBclReferencePreview, fetchBclReferences, fetchBclReports,
+    runBclCrossChecks,
+} from "@api/reportingApi"
+import DocumentViewer from "@components/DocumentViewer"
+import type { ViewerDocument } from "@components/DocumentViewer"
 import KpiRow from "@components/KpiRow"
 import PageTitle from "@components/PageTitle"
 import ValidationReport from "@components/ValidationReport"
 import { useChain } from "@hooks/useChain"
-import type { BclCodes, BclReport, ValidationResult } from "src/types/reportingType"
+import type { BclCodes, BclReference, BclReport, ValidationResult } from "src/types/reportingType"
 import type { BclDraft } from "./Ingestion"
 
 const MODULE_KEY = "bcl"
+
+/** How each of a report's official documents is presented on the shelf. */
+const REFERENCE_LABELS: Record<BclReference["kind"], [string, string]> = {
+    instructions: ["Instructions", "BCL's own filing instructions for this report"],
+    rules: ["Verification rules", "The compendium the generation step checks against"],
+    report: ["Chart of accounts", "The official sheet the capture form reproduces"],
+}
 
 /** "(1)" in a chart of accounts means the amount must be broken down over
  *  that dimension rather than carrying a fixed code. */
@@ -27,6 +39,7 @@ const BclRules: React.FC = () => {
     const [reports, setReports] = useState<BclReport[]>([])
     const [codes, setCodes] = useState<BclCodes | null>(null)
     const [crossChecks, setCrossChecks] = useState<ValidationResult | null>(null)
+    const [references, setReferences] = useState<BclReference[]>([])
 
     useEffect(() => {
         Promise.all([fetchBclReports(), fetchBclCodes()])
@@ -38,6 +51,29 @@ const BclRules: React.FC = () => {
     }, [])
 
     const report = reports.find((candidate) => candidate.key === (draft?.report_key ?? "s13"))
+    const reportKey = report?.key
+
+    useEffect(() => {
+        if (!reportKey) return
+        fetchBclReferences(reportKey)
+            .then(setReferences)
+            .catch(() => setReferences([]))
+    }, [reportKey])
+
+    const shelf: ViewerDocument[] = reportKey ? references.map((reference) => {
+        const [title, caption] = REFERENCE_LABELS[reference.kind]
+        const pdf = reference.format === "pdf"
+        return {
+            id: `${reportKey}-${reference.kind}`,
+            title, caption,
+            format: pdf ? "pdf" : "sheet",
+            filename: reference.filename,
+            size: reference.size,
+            viewUrl: pdf ? bclReferenceUrl(reportKey, reference.kind, true) : undefined,
+            downloadUrl: bclReferenceUrl(reportKey, reference.kind),
+            loadSheets: pdf ? undefined : () => fetchBclReferencePreview(reportKey, reference.kind),
+        }
+    }) : []
     const lines = [...(report?.assets ?? []), ...(report?.liabilities ?? [])]
     /** An item counts as captured once it carries at least one reported row.
      *  An item broken down over several countries is still one chart line. */
@@ -75,25 +111,12 @@ const BclRules: React.FC = () => {
                 ]} />
             )}
 
-            {report && (
+            {report && shelf.length > 0 && (
                 <section className="flex flex-col gap-3">
                     <h2 className="text-sm font-semibold text-slate-900">
                         The regulator's documents for {report.label}
                     </h2>
-                    <div className="flex flex-wrap gap-2">
-                        {([
-                            ["instructions", "Instructions", "BCL's own filing instructions for this report"],
-                            ["rules", "Verification rules", "the compendium the generation step checks against"],
-                            ["report", "Chart of accounts", "the official sheet the capture form reproduces"],
-                        ] as const).map(([kind, label, hint]) => (
-                            <a key={kind} href={bclReferenceUrl(report.key, kind)} title={hint}
-                                className="flex flex-col rounded-md border border-slate-300 px-3 py-2
-                                           transition hover:border-[#0A2647]">
-                                <span className="text-xs font-semibold text-slate-800">{label}</span>
-                                <span className="text-[11px] text-slate-500">{hint}</span>
-                            </a>
-                        ))}
-                    </div>
+                    <DocumentViewer documents={shelf} label={`The regulator's documents for ${report.label}`} />
                 </section>
             )}
 

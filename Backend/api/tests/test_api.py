@@ -199,6 +199,37 @@ def test_bcl_reference_documents_download():
     assert response.status_code == 200 and response.headers["content-type"] == "application/pdf"
     payload = client.get("/api/v1/bcl/s13/reference/nope").json()
     assert payload["success"] is False
+    assert response.headers["content-disposition"].startswith("attachment")
+    shown = client.get("/api/v1/bcl/s13/reference/instructions?inline=true")
+    assert shown.headers["content-disposition"].startswith("inline")
+    # A workbook is never sent inline: the browser cannot draw it.
+    workbook = client.get("/api/v1/bcl/s13/reference/report?inline=true")
+    assert workbook.headers["content-disposition"].startswith("attachment")
+
+
+def test_bcl_reference_documents_are_listed_with_their_format():
+    documents = result(client.get("/api/v1/bcl/s13/references"))
+    assert [(d["kind"], d["format"]) for d in documents] == [
+        ("instructions", "pdf"), ("rules", "pdf"), ("report", "xlsx")]
+    # S 1.6 has no verification-rules document; it is left out, not listed empty.
+    assert "rules" not in [d["kind"] for d in result(client.get("/api/v1/bcl/s16/references"))]
+
+
+@pytest.mark.parametrize("report_key", ["s13", "s16", "s220", "s44", "tptobs"])
+def test_bcl_workbooks_preview_as_sheets(report_key):
+    """Both .xlsx and legacy .xls are read, and the viewer opens on the sheet
+    with content rather than on the cover page."""
+    preview = result(client.get(f"/api/v1/bcl/{report_key}/reference/report/preview"))
+    sheets = preview["sheets"]
+    assert sheets and all(len(row) <= sheet["cols"] for sheet in sheets for row in sheet["rows"])
+    opened = sheets[preview["default_sheet"]]
+    assert opened["name"].lower() not in ("cover", "couverture")
+    assert any(cell and cell["v"] for row in opened["rows"] for cell in row)
+
+
+def test_bcl_pdf_is_not_previewed_as_a_workbook():
+    payload = client.get("/api/v1/bcl/s13/reference/instructions/preview").json()
+    assert payload["success"] is False
 
 
 def test_bcl_unknown_report_is_reported_not_crashed():

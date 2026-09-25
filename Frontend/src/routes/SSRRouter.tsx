@@ -5,10 +5,12 @@ import { MODULES, REFERENCE_STEP, firstStepOf, type ModuleNav } from "@config/na
 import { useCurrentUser } from "@hooks/useCurrentUser"
 import ChainLayout from "@layouts/ChainLayout"
 import MainLayout from "@layouts/MainLayout"
+import ActivityAdmin from "@pages/ActivityAdmin"
 import Dashboard from "@pages/Dashboard"
 import Guide from "@pages/Guide"
 import Home from "@pages/Home"
 import Login from "@pages/Login"
+import Profile from "@pages/Profile"
 
 // Each reporting declares its own pages under pages/<reporting>/: a Home
 // page, which is the landing page of /<reporting>, and the steps that are
@@ -122,6 +124,11 @@ const SSRRouter: React.FC = () => (
             <Route path="guide" element={<Guide />} />
             <Route path="login" element={<Login />} />
             <Route path="dashboard" element={<DashboardGate />} />
+            {/* The signed-in person's own page, and their usage under it. */}
+            <Route path="profile" element={<Profile />} />
+            <Route path="profile/:tab" element={<Profile />} />
+            {/* Administrators: activity across their organisation(s). */}
+            <Route path="admin/activity" element={<ActivityAdmin />} />
 
             {MODULES.map((module) => (
                 <Route key={module.key} path={module.key}

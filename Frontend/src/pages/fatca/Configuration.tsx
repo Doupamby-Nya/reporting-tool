@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
 import { fetchPreparers, savePreparers } from "@api/reportingApi"
+import Notice from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 
 type Preparers = Record<string, Record<string, string>>
@@ -97,9 +98,9 @@ const FatcaConfiguration: React.FC = () => {
             </div>
 
             {names.length === 0 ? (
-                <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    No preparer is configured. A return cannot be generated until at least one exists.
-                </p>
+                <Notice eyebrow="Configuration" title="No preparer is configured">
+                    A return cannot be generated until at least one exists.
+                </Notice>
             ) : (
                 <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
                     <div className="flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-3">

@@ -16,6 +16,7 @@ from typing import Any
 from domain.bcl import bcl_codes, bcl_parser, bcl_xsd
 from domain.bcl import bcl_engine as be
 from domain.bcl import bcl_s220_engine as s220e
+from domain.shared import spreadsheet_preview
 from models.bclModel import (
     BclSubmissionRequest, LedgerRequest, S44Request, S220Request, TptobsRequest,
 )
@@ -104,6 +105,25 @@ def bcl_reference_file_service(report_key: str, kind: str) -> tuple[str, bytes]:
     if reference is None:
         raise LookupError(f"No '{kind}' document is bundled for report '{report_key}'.")
     return reference
+
+
+def bcl_references_service(report_key: str) -> list[dict[str, Any]]:
+    """Which official documents a report has, and in what format, so a viewer
+    knows whether to draw a PDF or a workbook before fetching either."""
+    documents = []
+    for kind in ("instructions", "rules", "report"):
+        reference = be.reference_file(report_key, kind)
+        if reference is None:
+            continue
+        filename, payload = reference
+        documents.append({"kind": kind, "filename": filename, "size": len(payload),
+                          "format": filename.rsplit(".", 1)[-1].lower()})
+    return documents
+
+
+def bcl_reference_preview_service(report_key: str, kind: str) -> dict[str, Any]:
+    filename, payload = bcl_reference_file_service(report_key, kind)
+    return spreadsheet_preview.preview(filename, payload)
 
 
 # =============================================================================

@@ -214,7 +214,7 @@ const S220Form: React.FC<{
                         className={[
                             "w-fit rounded-md border px-3 py-1.5 text-sm font-medium transition",
                             contacts.length === 0
-                                ? "border-amber-400 bg-amber-50 text-amber-900"
+                                ? "border-dashed border-[#E09B00] bg-white text-[#7A4B00] hover:bg-[#FFF8EA]"
                                 : "border-[#0A2647] text-[#0A2647] hover:bg-slate-100",
                         ].join(" ")}>
                         {contacts.length === 0 ? "Add the mandatory contact" : "Add a contact"}

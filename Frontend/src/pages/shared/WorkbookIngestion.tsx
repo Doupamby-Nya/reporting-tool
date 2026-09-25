@@ -6,6 +6,7 @@ import {
 } from "@api/reportingApi"
 import DraftsPanel from "@components/DraftsPanel"
 import IngestionPanel, { FORM_ANCHOR } from "@components/IngestionPanel"
+import Notice, { NoticeList } from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import ValidationReport from "@components/ValidationReport"
 import SchemaForm, { type FormValues } from "@components/SchemaForm"
@@ -150,19 +151,11 @@ const WorkbookIngestion: React.FC = () => {
                 )}
 
                 {problems.length > 0 && (
-                    <div className="flex flex-col gap-1 border-t border-slate-100 pt-3">
-                        <p className="text-sm font-semibold text-slate-900">
-                            {problems.length} problem(s) in the workbook
-                        </p>
-                        {problems.slice(0, 12).map((message, index) => (
-                            <p key={index} className="rounded-md border border-amber-200 bg-amber-50 px-3
-                                                      py-1.5 text-xs text-amber-900">
-                                {message}
-                            </p>
-                        ))}
-                        {problems.length > 12 && (
-                            <p className="text-xs text-slate-500">…and {problems.length - 12} more.</p>
-                        )}
+                    <div className="border-t border-slate-100 pt-1">
+                        <Notice eyebrow="Workbook" title={`${problems.length} problem(s) in the workbook`}>
+                            <NoticeList items={problems.slice(0, 12)}
+                                more={Math.max(0, problems.length - 12)} />
+                        </Notice>
                     </div>
                 )}
             </IngestionPanel>

@@ -326,3 +326,100 @@ export type FormSchema = {
         applies: Record<string, string[]>
     }
 }
+
+/** One official document bundled for a BCL report. */
+export type BclReference = {
+    kind: "instructions" | "rules" | "report"
+    filename: string
+    size: number
+    format: string
+}
+
+/** One cell of a previewed workbook: its displayed value, bold, fill. */
+export type SheetCell = { v: string; b?: 1; bg?: string } | null
+
+/** A sheet as the API reads it for the in-page viewer. `merges` holds
+ *  [row, col, rowSpan, colSpan], zero-based. `widths` are in characters. */
+export type SheetPreview = {
+    name: string
+    rows: SheetCell[][]
+    cols: number
+    merges: [number, number, number, number][]
+    widths: number[]
+    truncated: boolean
+}
+
+export type WorkbookPreview = {
+    filename: string
+    sheets: SheetPreview[]
+    default_sheet: number
+}
+
+// --- activity -----------------------------------------------------------------
+
+export type ActivityAction =
+    | "generated" | "reviewed" | "validated" | "ingested" | "drafted" | "deleted"
+    | "consulted" | "downloaded" | "configured" | "signed_in" | "administered"
+
+export type ActivitySubject = { module: string; subject: string; at: string }
+
+export type ActivityGroup = {
+    action: ActivityAction
+    count: number
+    modules: { module: string; count: number }[]
+    subjects: ActivitySubject[]
+}
+
+export type ActivityUserRow = {
+    user_id: number
+    name: string
+    email: string
+    count: number
+    active_days: number
+    generated: number
+    reviewed: number
+    top_module: string
+    modules: { module: string; count: number }[]
+    last_active: string
+}
+
+/** Everything a usage dashboard draws, for one scope and one period. */
+export type ActivitySummary = {
+    range: { from: string; to: string }
+    timezone: string
+    years: number[]
+    day: string | null
+    total: number
+    /** [ISO date, count], days without activity left out. */
+    days: [string, number][]
+    active_days: number
+    current_streak: number
+    longest_streak: number
+    busiest_day: { date: string; count: number } | null
+    /** What is under the calendar: all of it, or the day picked on it. */
+    shown_total: number
+    by_module: { module: string; count: number }[]
+    by_action: { action: ActivityAction; count: number }[]
+    /** Weekday (Monday first) × hour. */
+    by_hour: number[][]
+    by_user: ActivityUserRow[]
+    by_organisation: { organisation_id: number; name: string; count: number; users: number }[]
+    months: { month: string; total: number; groups: ActivityGroup[] }[]
+    recent: { at: string; module: string; action: ActivityAction; subject: string | null; user: string | null }[]
+}
+
+export type ActivityScope = {
+    id: number
+    name: string
+    kind: string
+    users: { id: number; name: string; email: string; active: boolean }[]
+}
+
+export type ActivityFilters = {
+    year?: number | null
+    day?: string | null
+    module?: string | null
+    action?: string | null
+    organisation_id?: number | null
+    user_id?: number | null
+}

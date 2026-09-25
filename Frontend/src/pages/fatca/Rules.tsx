@@ -1,6 +1,7 @@
 import PageTitle from "@components/PageTitle"
 import DataPreview from "@components/DataPreview"
 import KpiRow from "@components/KpiRow"
+import Notice, { NoticeList } from "@components/Notice"
 import { useChain } from "@hooks/useChain"
 import type { FatcaClassification } from "src/types/reportingType"
 import type { FatcaParameters } from "./Ingestion"
@@ -67,15 +68,10 @@ const FatcaRules: React.FC = () => {
             )}
 
             {classification.warnings.length > 0 && (
-                <section className="flex flex-col gap-1">
-                    <h2 className="text-sm font-semibold text-slate-900">Warnings</h2>
-                    {classification.warnings.map((message, index) => (
-                        <p key={index} className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2
-                                                  text-sm text-amber-800">
-                            {message}
-                        </p>
-                    ))}
-                </section>
+                <Notice eyebrow="Classification"
+                    title={`${classification.warnings.length} warning(s) to look at`}>
+                    <NoticeList items={classification.warnings} />
+                </Notice>
             )}
 
             <section className="flex flex-col gap-2">

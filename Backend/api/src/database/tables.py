@@ -74,3 +74,28 @@ class UserSession(SQLModel, table=True):
     user_id: int = Field(foreign_key="user.id", index=True)
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     expires_at: datetime
+
+
+class ActivityEvent(SQLModel, table=True):
+    """One thing a user did on the platform: a filing generated, a review
+    decision, a workbook ingested, a draft saved, a text consulted.
+
+    Written by the activity middleware after a request succeeds, so every
+    module is covered without each route having to remember to log. The
+    audit trail stays the record of *what happened to a filing*; this is
+    the record of *who worked, where, and when* that the usage dashboards
+    are drawn from.
+    """
+
+    id: int | None = Field(default=None, primary_key=True)
+    occurred_at: datetime = Field(default_factory=lambda: datetime.now(UTC), index=True)
+    organisation_id: int = Field(foreign_key="organisation.id", index=True)
+    user_id: int = Field(foreign_key="user.id", index=True)
+    #: A module key, or "funds" / "platform" for what belongs to none.
+    module: str = Field(index=True)
+    #: One of activityService.ACTIONS.
+    action: str = Field(index=True)
+    #: What it was done to, where known: a filing, a draft, a report.
+    subject: str | None = None
+    method: str
+    path: str
