@@ -3,12 +3,17 @@
     poetry run python seed.py admin --email you@forvismazars.com --name "Your Name" --password "..."
     poetry run python seed.py demo --password "..."
     poetry run python seed.py demo-activity [--reset]
+    poetry run python seed.py user --email ... --name "..." --password "..." --modules bcl,fatca [--organisation "..."]
 
 ``admin`` creates a platform administrator, in the internal organisation
 "Forvis Mazars" (created if needed). ``demo`` builds a demonstration set:
 three organisations with different subscriptions, one of them expired, and
 a user for each situation. Both are idempotent: what exists is left alone.
 Every demo account gets the one password given, so keep it to demo databases.
+
+``user`` adds one account to an existing organisation ("Forvis Mazars" by
+default) with the modules given, so a colleague can work against the same
+API and data — e.g. a second person to test the four-eyes review.
 
 ``demo-activity`` gives the demo accounts a plausible year of activity, so
 the usage dashboards have something to show at a presentation: busier around
@@ -98,6 +103,16 @@ def create_admin(email: str, name: str, password: str) -> None:
         print(f"{email}: {_user(db, email, name, organisation.id, password, Role.platform_admin, [])}")
 
 
+def create_user(email: str, name: str, password: str, modules: list[str], organisation_name: str) -> None:
+    with Session(engine) as db:
+        organisation = db.exec(select(Organisation).where(Organisation.name == organisation_name)).first()
+        if organisation is None:
+            known = ", ".join(o.name for o in db.exec(select(Organisation)).all()) or "none"
+            raise SystemExit(f"No organisation named '{organisation_name}'. Known: {known}.")
+        print(f"{email}: {_user(db, email, name, organisation.id, password, Role.user, modules)}"
+              f" in {organisation.name}, modules {', '.join(modules) or 'none'}")
+
+
 def create_demo(password: str) -> None:
     with Session(engine) as db:
         ids = {}
@@ -185,6 +200,12 @@ def main() -> None:
     admin.add_argument("--password", required=True)
     demo = commands.add_parser("demo", help="create the demonstration organisations and accounts")
     demo.add_argument("--password", required=True, help="given to every demo account (12 characters or more)")
+    user = commands.add_parser("user", help="add an account to an existing organisation")
+    user.add_argument("--email", required=True)
+    user.add_argument("--name", required=True)
+    user.add_argument("--password", required=True, help="12 characters or more")
+    user.add_argument("--modules", default="", help="comma-separated module keys, e.g. bcl,fatca")
+    user.add_argument("--organisation", default=INTERNAL)
     activity = commands.add_parser("demo-activity", help="give the demo accounts a year of activity")
     activity.add_argument("--reset", action="store_true", help="remove the demo activity instead")
     args = parser.parse_args()
@@ -192,6 +213,9 @@ def main() -> None:
     init_db()
     if args.command == "admin":
         create_admin(args.email, args.name, args.password)
+    elif args.command == "user":
+        modules = [key.strip() for key in args.modules.split(",") if key.strip()]
+        create_user(args.email, args.name, args.password, modules, args.organisation)
     elif args.command == "demo-activity":
         create_demo_activity(args.reset)
     else:
