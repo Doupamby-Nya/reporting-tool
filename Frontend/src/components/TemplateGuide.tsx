@@ -1,3 +1,4 @@
+import { InlineNotice } from "@components/Notice"
 import type { FormSchema } from "src/types/reportingType"
 
 /**
@@ -41,11 +42,10 @@ const TemplateGuide: React.FC<{ schema: FormSchema; values: Record<string, unkno
                         {rule.options[chosen] ?? "unknown content type"}
                     </p>
                 ) : (
-                    <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm
-                                  text-amber-900">
+                    <InlineNotice>
                         No {rule.label.toLowerCase()} chosen yet, so the applicable templates cannot be
                         determined. Set it in the AIF file section below.
-                    </p>
+                    </InlineNotice>
                 )}
 
                 <ul className="grid gap-2 sm:grid-cols-2">

@@ -326,3 +326,31 @@ export type FormSchema = {
         applies: Record<string, string[]>
     }
 }
+
+/** One official document bundled for a BCL report. */
+export type BclReference = {
+    kind: "instructions" | "rules" | "report"
+    filename: string
+    size: number
+    format: string
+}
+
+/** One cell of a previewed workbook: its displayed value, bold, fill. */
+export type SheetCell = { v: string; b?: 1; bg?: string } | null
+
+/** A sheet as the API reads it for the in-page viewer. `merges` holds
+ *  [row, col, rowSpan, colSpan], zero-based. `widths` are in characters. */
+export type SheetPreview = {
+    name: string
+    rows: SheetCell[][]
+    cols: number
+    merges: [number, number, number, number][]
+    widths: number[]
+    truncated: boolean
+}
+
+export type WorkbookPreview = {
+    filename: string
+    sheets: SheetPreview[]
+    default_sheet: number
+}

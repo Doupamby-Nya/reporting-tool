@@ -6,6 +6,7 @@ import {
 } from "@api/reportingApi"
 import DraftsPanel from "@components/DraftsPanel"
 import IngestionPanel, { FORM_ANCHOR } from "@components/IngestionPanel"
+import Notice, { NoticeList } from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import SchemaForm, { type FormValues } from "@components/SchemaForm"
 import TemplateGuide from "@components/TemplateGuide"
@@ -151,19 +152,11 @@ const AifmdIngestion: React.FC = () => {
             ]}
                 formOpen={formOpen} onToggleForm={() => setFormOpen(!formOpen)}>
                 {parseErrors.length > 0 && (
-                    <div className="flex flex-col gap-1 border-t border-slate-100 pt-3">
-                        <p className="text-sm font-semibold text-slate-900">
-                            {parseErrors.length} problem(s) in the workbook
-                        </p>
-                        {parseErrors.slice(0, 15).map((message, index) => (
-                            <p key={index} className="rounded-md border border-amber-200 bg-amber-50 px-3
-                                                      py-1.5 text-xs text-amber-900">
-                                {message}
-                            </p>
-                        ))}
-                        {parseErrors.length > 15 && (
-                            <p className="text-xs text-slate-500">…and {parseErrors.length - 15} more.</p>
-                        )}
+                    <div className="border-t border-slate-100 pt-1">
+                        <Notice eyebrow="Workbook" title={`${parseErrors.length} problem(s) in the workbook`}>
+                            <NoticeList items={parseErrors.slice(0, 15)}
+                                more={Math.max(0, parseErrors.length - 15)} />
+                        </Notice>
                     </div>
                 )}
 

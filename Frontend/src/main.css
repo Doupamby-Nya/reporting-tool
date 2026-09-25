@@ -21,3 +21,238 @@
 .mz-tabs::-webkit-scrollbar-track {
     background: transparent;
 }
+
+/* ---------------------------------------------------------------------------
+   Notice (components/Notice.tsx)
+   A card that tilts under the pointer, with a hatched spine and a beacon on
+   its top edge whose tip follows the pointer. The pointer only ever writes
+   CSS variables; every visual decision lives here.
+   ------------------------------------------------------------------------- */
+.mz-notice-stage {
+    perspective: 1100px;
+    padding-top: 34px; /* room for the beacon above the card */
+}
+
+.mz-notice {
+    --mz-accent: #E09B00;
+    --mz-accent-soft: #FFC53D;
+    --mz-ink: #7A4B00;
+    --mz-tint: #FFF8EA;
+    --mz-tilt-x: 0deg;
+    --mz-tilt-y: 0deg;
+    --mz-sheen-x: 50%;
+    --mz-sheen-y: 0%;
+    position: relative;
+    border-radius: 14px;
+    border: 1px solid rgba(10, 38, 71, 0.12);
+    background-color: #fff;
+    /* Fine dotted "paper" over a warm wash fading into white. */
+    background-image:
+        radial-gradient(rgba(10, 38, 71, 0.07) 1px, transparent 1.2px),
+        linear-gradient(135deg, var(--mz-tint) 0%, #FFFFFF 62%);
+    background-size: 12px 12px, 100% 100%;
+    /* The last shadow is the card's thickness: a solid slab under its edge. */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 1px 2px rgba(10, 38, 71, 0.06),
+        0 18px 36px -18px rgba(10, 38, 71, 0.38),
+        0 5px 0 -1px color-mix(in srgb, var(--mz-accent) 26%, #E7EAF0);
+    transform: rotateX(var(--mz-tilt-x)) rotateY(var(--mz-tilt-y));
+    transform-style: preserve-3d;
+    transition: transform 380ms cubic-bezier(.2, .8, .2, 1), box-shadow 380ms ease;
+}
+
+.mz-notice[data-lit="1"] {
+    transition: transform 90ms linear, box-shadow 200ms ease;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 1px 2px rgba(10, 38, 71, 0.06),
+        0 26px 44px -20px rgba(10, 38, 71, 0.45),
+        0 6px 0 -1px color-mix(in srgb, var(--mz-accent) 30%, #E7EAF0);
+}
+
+.mz-notice--info {
+    --mz-accent: #1F5FA8;
+    --mz-accent-soft: #5B9BE0;
+    --mz-ink: #0A2647;
+    --mz-tint: #EEF4FB;
+}
+
+.mz-notice--error {
+    --mz-accent: #B3261E;
+    --mz-accent-soft: #E5534B;
+    --mz-ink: #7F1D1D;
+    --mz-tint: #FDF1F0;
+    --mz-glyph: #FFFFFF;
+}
+
+/* Hazard hatching in navy and the accent, bevelled so it reads as an edge. */
+.mz-notice-spine {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 10px;
+    border-radius: 14px 0 0 14px;
+    background: repeating-linear-gradient(-45deg,
+        #0A2647 0 7px, var(--mz-accent) 7px 14px);
+    box-shadow: inset -2px 0 0 rgba(255, 255, 255, 0.35), inset 1px 0 0 rgba(0, 0, 0, 0.15);
+}
+
+.mz-notice-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(420px circle at var(--mz-sheen-x) var(--mz-sheen-y),
+        rgba(255, 255, 255, 0.75), transparent 45%);
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.mz-notice[data-lit="1"] .mz-notice-sheen {
+    opacity: 1;
+}
+
+.mz-notice-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mz-ink);
+}
+
+/* The beacon: its circle sits on the card's top edge, lifted off the card
+   (translateZ) so the tilt gives it parallax. */
+.mz-notice-beacon {
+    --mz-aim: 0deg;
+    position: absolute;
+    top: -35px;
+    left: 18px;
+    width: 44px;
+    height: 51.33px;
+    transform: translateZ(28px);
+    filter: drop-shadow(0 6px 8px rgba(10, 38, 71, 0.28));
+    z-index: 2;
+}
+
+.mz-notice-beacon-shape {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform: rotate(var(--mz-aim));
+    transform-origin: 50% 64.29%; /* the circle's centre: 36 / 56 */
+    transition: transform 140ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.mz-beacon-stop-a { stop-color: var(--mz-accent-soft); }
+.mz-beacon-stop-b { stop-color: var(--mz-accent); }
+
+/* The glyph stays upright while the drop turns around it. */
+.mz-notice-glyph {
+    position: absolute;
+    left: 50%;
+    top: 64.29%;
+    transform: translate(-50%, -50%);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--mz-glyph, #0A2647);
+}
+
+/* A slow ring off the beacon, so the notice is found without shouting. */
+.mz-notice-beacon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 64.29%;
+    width: 34px;
+    height: 34px;
+    border-radius: 9999px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--mz-accent) 55%, transparent);
+    animation: mz-beacon-ping 2.8s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes mz-beacon-ping {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--mz-accent) 50%, transparent); }
+    70%, 100% { box-shadow: 0 0 0 14px transparent; }
+}
+
+/* A list of messages inside a full notice: one beacon for the group. */
+.mz-notice-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2px;
+    border-top: 1px dashed color-mix(in srgb, var(--mz-accent) 35%, transparent);
+}
+
+.mz-notice-list > li {
+    position: relative;
+    padding: 7px 0 7px 18px;
+    border-bottom: 1px dashed rgba(10, 38, 71, 0.08);
+}
+
+.mz-notice-list > li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 14px;
+    width: 7px;
+    height: 7px;
+    transform: rotate(45deg);
+    border-radius: 1px;
+    background: var(--mz-accent);
+}
+
+.mz-notice-list > li.mz-notice-list-more {
+    color: #64748B;
+    border-bottom: 0;
+}
+
+.mz-notice-list > li.mz-notice-list-more::before {
+    display: none;
+}
+
+/* The inline notice: the same material at the size of a line of text. */
+.mz-notice--inline {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 14px 9px 22px;
+    border-radius: 10px;
+    transform: none;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 1px 2px rgba(10, 38, 71, 0.06),
+        0 3px 0 -1px color-mix(in srgb, var(--mz-accent) 24%, #E7EAF0);
+}
+
+.mz-notice--inline .mz-notice-spine {
+    width: 6px;
+    border-radius: 10px 0 0 10px;
+    background: repeating-linear-gradient(-45deg,
+        #0A2647 0 4px, var(--mz-accent) 4px 8px);
+}
+
+.mz-notice-drop {
+    position: relative;
+    flex: none;
+    width: 17px;
+    height: 19.83px;
+    margin-top: -1px;
+    filter: drop-shadow(0 1px 1.5px rgba(10, 38, 71, 0.25));
+}
+
+.mz-notice-drop .mz-notice-glyph {
+    font-size: 9.5px;
+}
+
+/* Less motion: the card stays flat and unlit and the ring stops; the beacon
+   still turns towards the pointer, without easing. */
+@media (prefers-reduced-motion: reduce) {
+    .mz-notice { transition: none; transform: none; }
+    .mz-notice-sheen { display: none; }
+    .mz-notice-beacon-shape { transition: none; }
+    .mz-notice-beacon::after { animation: none; }
+}

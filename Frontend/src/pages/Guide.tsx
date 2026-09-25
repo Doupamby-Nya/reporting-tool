@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import {
-    FiAlertTriangle, FiCheckCircle, FiCpu, FiDownload, FiEye, FiFileText, FiSend, FiSettings,
+    FiCheckCircle, FiCpu, FiDownload, FiEye, FiFileText, FiSend, FiSettings,
     FiShield, FiUploadCloud,
 } from "react-icons/fi"
 import type { IconType } from "react-icons"
 
 import ModuleLogo from "@components/ModuleLogo"
+import Notice from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import { PITCHES, STEP_HELP } from "@config/catalogue"
 import { MODULES, type ModuleNav } from "@config/navigation"
@@ -179,11 +180,12 @@ const PublicGuide: React.FC = () => {
 }
 
 const Limits: React.FC<{ limitation?: string }> = ({ limitation }) => (
-    <div className="flex flex-col gap-2 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-        <p className="flex items-center gap-2 font-bold"><FiAlertTriangle aria-hidden="true" /> Good to know</p>
-        {limitation && <p>{limitation}</p>}
-        <p>{REGISTER_LIMIT}</p>
-    </div>
+    <Notice eyebrow="Limits" title="Good to know">
+        <div className="flex flex-col gap-2">
+            {limitation && <p>{limitation}</p>}
+            <p>{REGISTER_LIMIT}</p>
+        </div>
+    </Notice>
 )
 
 export default Guide

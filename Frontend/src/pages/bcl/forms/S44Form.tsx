@@ -1,3 +1,4 @@
+import { InlineNotice } from "@components/Notice"
 import { Field, Section } from "./fields"
 import type { BclCodes } from "src/types/reportingType"
 
@@ -96,7 +97,7 @@ const S44Form: React.FC<{
                                                 update(index, { ...row, country: event.target.value })}
                                             className={[
                                                 "w-full rounded-md border px-2 py-1 font-mono text-xs outline-none",
-                                                row.country ? "border-slate-300" : "border-amber-400 bg-amber-50",
+                                                row.country ? "border-slate-300" : "border-dashed border-[#E09B00] bg-white",
                                             ].join(" ")}>
                                             <option value="">choose…</option>
                                             {countries.map(([code, label]) => (
@@ -130,16 +131,14 @@ const S44Form: React.FC<{
                                    text-[#0A2647] transition hover:bg-slate-100">
                         Add a country
                     </button>
-                    {rows.length > 0 && (
-                        <span className={[
-                            "rounded-md border px-3 py-1.5 text-sm",
-                            balanced
-                                ? "border-emerald-300 bg-emerald-50 text-emerald-900"
-                                : "border-amber-300 bg-amber-50 text-amber-900",
-                        ].join(" ")}>
-                            Total {total.toFixed(2)} %{balanced ? "" : ". BCL requires exactly 100 %."}
+                    {rows.length > 0 && (balanced ? (
+                        <span className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-sm
+                                         text-emerald-900">
+                            Total {total.toFixed(2)} %
                         </span>
-                    )}
+                    ) : (
+                        <InlineNotice>Total {total.toFixed(2)} %. BCL requires exactly 100 %.</InlineNotice>
+                    ))}
                 </div>
             </Section>
         </>

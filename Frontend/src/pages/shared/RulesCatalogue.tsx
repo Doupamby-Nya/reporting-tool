@@ -3,6 +3,7 @@ import { toast } from "react-toastify"
 
 import { fetchFilingRules } from "@api/reportingApi"
 import KpiRow from "@components/KpiRow"
+import Notice from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import { splitCode } from "@components/splitCode"
 import { useChain, useModule } from "@hooks/useChain"
@@ -43,10 +44,10 @@ const RulesCatalogue: React.FC = () => {
             <PageTitle eyebrow={module.title} title={catalogue.title} subtitle={catalogue.description} />
 
             {!chain.ingestion && (
-                <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    Nothing has been ingested yet, so the coverage below is empty. The mapping itself is
+                <Notice tone="info" eyebrow="Coverage" title="Nothing has been ingested yet">
+                    The coverage below stays empty until a submission is ingested. The mapping itself is
                     the regime's own and does not depend on a submission.
-                </p>
+                </Notice>
             )}
 
             <KpiRow items={catalogue.coverage.map((item) => ({

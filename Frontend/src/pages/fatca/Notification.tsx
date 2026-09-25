@@ -2,6 +2,7 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 
 import { generateNotifications } from "@api/reportingApi"
+import Notice from "@components/Notice"
 import PageTitle from "@components/PageTitle"
 import { useChain } from "@hooks/useChain"
 
@@ -125,10 +126,10 @@ const FatcaNotification: React.FC = () => {
                 </section>
             )}
 
-            <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            <Notice eyebrow="Before sending" title="Review each letter before it goes to an account holder">
                 The wording and legal references are reused verbatim from the approved data-protection
-                notification templates. Review each letter before it is sent to an account holder.
-            </p>
+                notification templates.
+            </Notice>
         </section>
     )
 }

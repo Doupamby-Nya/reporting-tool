@@ -1,9 +1,9 @@
 import { api } from "@api/api"
 import type {
-    ApiEnvelope, AuditEntry, BclCodes, BclReportsResponse, DraftSummary,
+    ApiEnvelope, AuditEntry, BclCodes, BclReference, BclReportsResponse, DraftSummary,
     FatcaClassification, FatcaGeneration, FilingRegime, FilingResult, FormSchema, Fund,
     GenerationResult, InspectionResult, Me, RegulationDocument, RegulatoryModule,
-    RulesCatalogue, TrackedDocument, ValidationResult,
+    RulesCatalogue, TrackedDocument, ValidationResult, WorkbookPreview,
 } from "src/types/reportingType"
 
 /**
@@ -78,8 +78,14 @@ export const inspectBclFile = (file: File) => {
     return unwrap<InspectionResult>(api.post(`/bcl/inspect`, form))
 }
 
-export const bclReferenceUrl = (reportKey: string, kind: "report" | "instructions" | "rules") =>
-    downloadUrl(`/bcl/${reportKey}/reference/${kind}`)
+export const bclReferenceUrl = (reportKey: string, kind: "report" | "instructions" | "rules", inline = false) =>
+    downloadUrl(`/bcl/${reportKey}/reference/${kind}${inline ? "?inline=true" : ""}`)
+
+export const fetchBclReferences = (reportKey: string) =>
+    unwrap<BclReference[]>(api.get(`/bcl/${reportKey}/references`))
+
+export const fetchBclReferencePreview = (reportKey: string, kind: BclReference["kind"]) =>
+    unwrap<WorkbookPreview>(api.get(`/bcl/${reportKey}/reference/${kind}/preview`))
 
 // --- AIFMD -------------------------------------------------------------------
 

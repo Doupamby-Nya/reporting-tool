@@ -1,3 +1,4 @@
+import { InlineNotice } from "@components/Notice"
 import type { Issue, SchemaResult, ValidationResult } from "src/types/reportingType"
 
 /**
@@ -10,18 +11,14 @@ import type { Issue, SchemaResult, ValidationResult } from "src/types/reportingT
  * which is how a preparer looks the rule up in the published rule set.
  */
 
-const LEVEL_STYLES: Record<Issue["level"], string> = {
-    error: "border-red-300 bg-red-50 text-red-900",
-    warning: "border-amber-300 bg-amber-50 text-amber-900",
-}
-
 export const IssueList: React.FC<{ issues: Issue[] }> = ({ issues }) => (
     <ul className="flex flex-col gap-2">
         {issues.map((issue, index) => (
-            <li key={`${issue.code}-${index}`}
-                className={`rounded-md border px-3 py-2 text-sm ${LEVEL_STYLES[issue.level]}`}>
-                <code className="mr-2 font-mono text-xs font-semibold">{issue.code}</code>
-                <span>{issue.message}</span>
+            <li key={`${issue.code}-${index}`}>
+                <InlineNotice tone={issue.level === "error" ? "error" : "warning"}>
+                    <code className="mr-2 font-mono text-xs font-semibold text-[#0A2647]">{issue.code}</code>
+                    <span>{issue.message}</span>
+                </InlineNotice>
             </li>
         ))}
     </ul>
