@@ -1,11 +1,18 @@
 # core_functions.py
 import pandas as pd
 import re
-import os
 import numpy as np
 import math
 from dicttoxml import dicttoxml
 import xml.etree.ElementTree as ET
+
+from utils.paths import RESOURCES_DIR
+
+# The country reference tables, read from the API's bundled resources rather
+# than from beside this file: one copy of each, wherever the service runs.
+REFERENCE_DIR = RESOURCES_DIR / "reference"
+REPORTABLE_COUNTRIES_FILE = str(REFERENCE_DIR / "Reportable_Countries.xlsx")
+ADDITIONAL_COUNTRIES_FILE = str(REFERENCE_DIR / "Additional list of countries.xlsx")
 
 def process_fixed_parts(user_data):
     """
@@ -146,14 +153,7 @@ def transform_country_code(country_name):
     Returns:
         str: Le code pays trouvé dans la colonne "A-2", ou None si non trouvé.
     """
-    # Récupère le chemin du dossier courant (celui de core_functions.py)
-    CODE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-    # Construire les chemins RELATIFS
-    REPORTABLE_COUNTRIES_PATH = os.path.join(CODE_DIR, "Reportable_Countries.xlsx")
-    ADDITIONAL_COUNTRIES_PATH = os.path.join(CODE_DIR, "Additional list of countries.xlsx")
-
-    file_paths = [REPORTABLE_COUNTRIES_PATH, ADDITIONAL_COUNTRIES_PATH]
+    file_paths = [REPORTABLE_COUNTRIES_FILE, ADDITIONAL_COUNTRIES_FILE]
     
     for file in file_paths:
         try:
@@ -170,7 +170,7 @@ def transform_country_code(country_name):
                 code = df.loc[mask_code, "A-2"].iloc[0]
                 return str(code).strip()
         except Exception as e:
-            logger.warning("Error reading file {file}: %s", type(e).__name__)
+            logger.warning("Error reading file %s: %s", file, type(e).__name__)
     
     # If not found in any file, return the original country_name.
     return country_name
@@ -185,13 +185,7 @@ def country_code_to_name(alpha2_code):
     Returns:
         str: The matching country name from the "Country" column, or the original code if not found.
     """
-    # Get the directory where this script lives
-    code_dir = os.path.dirname(os.path.abspath(__file__))
-
-    # Paths to your lookup tables
-    reportable = os.path.join(code_dir, "Reportable_Countries.xlsx")
-    additional = os.path.join(code_dir, "Additional list of countries.xlsx")
-    files = [reportable, additional]
+    files = [REPORTABLE_COUNTRIES_FILE, ADDITIONAL_COUNTRIES_FILE]
 
     # Normalize the input
     key = str(alpha2_code).strip().lower()
@@ -632,7 +626,7 @@ def create_FATCA_DataReport_Initial_XML(depositor_info, CPS_info,
                                           active_accounts, individual_accounts,
                                           controlling_accounts, passive_accounts,
                                           report_type, selection, version, filer_category,
-                                          reportable_countries_path="S:\\Risk Consulting\\03. Projects\\8 - AI\\FATCA CRS\\3. Code\\Reportable_Countries.xlsx"):
+                                          reportable_countries_path=REPORTABLE_COUNTRIES_FILE):
     """
     Constructs the final FATCA XML.
     

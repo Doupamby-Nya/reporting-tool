@@ -47,7 +47,13 @@ def priips_templates_service() -> dict[str, Any]:
 def priips_build_kid_service(fund: dict[str, Any], parameters: dict[str, Any] | None = None,
                              template_name: str = "standard") -> dict[str, Any]:
     """Assembles the KID: the calculated figures merged into the narrative
-    template, ready to be rendered."""
+    template, ready to be rendered.
+
+    Without explicit parameters the configured RTS calibration is used, as
+    the Streamlit KID step did — not the engine's built-in defaults, which
+    would make the KID disagree with the calculation step as soon as the
+    calibration is edited."""
+    parameters = parameters or templates.load_rts_parameters()
     calculation = priips_engine.run_full_calculation(fund, parameters)
     settings = templates.load_app_settings()
     template = templates.load_kid_template(template_name)
@@ -60,7 +66,7 @@ def priips_render_service(kid: dict[str, Any]) -> tuple[str, bytes, str]:
     settings = templates.load_app_settings()
     logo = templates.get_logo_bytes()
     payload = kid_generator.render_kid_pdf(
-        kid, settings.get("organisation_name", "Forvis Mazars"), logo[0] if logo else None)
+        kid, settings.get("organisation_name") or "Forvis Mazars Luxembourg", logo[0] if logo else None)
     return _filename(kid, "pdf"), payload, "application/pdf"
 
 

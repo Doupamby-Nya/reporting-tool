@@ -1,0 +1,11 @@
+{
+ "errors": [],
+ "files": [
+  {
+   "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SBS xmlns=\"http://www.bcl.lu/2007/SBS\" version=\"1.5\" creationDateTime=\"<DATETIME>\">\n\t<header>\n\t\t<endMonthDate>2025-12-31</endMonthDate>\n\t\t<closingDate>2025-12-31</closingDate>\n\t\t<reporterID>\n\t\t\t<type>23</type>\n\t\t\t<code>789</code>\n\t\t</reporterID>\n\t\t<declarantID>\n\t\t\t<type>26</type>\n\t\t\t<code>001220003</code>\n\t\t</declarantID>\n\t\t<reportingCurrency>EUR</reportingCurrency>\n\t\t<layout>3</layout>\n\t</header>\n\t<OBS>\n\t\t<assets>\n\t\t\t<reportedLine>\n\t\t\t\t<id>\n\t\t\t\t\t<item>1-003000</item>\n\t\t\t\t\t<country>XX</country>\n\t\t\t\t\t<currency>XXX</currency>\n\t\t\t\t\t<sector>90000</sector>\n\t\t\t\t</id>\n\t\t\t\t<ISIN>\n\t\t\t\t\t<security>\n\t\t\t\t\t\t<securityID>\n\t\t\t\t\t\t\t<codeType>1</codeType>\n\t\t\t\t\t\t\t<code>USG9328DAH38</code>\n\t\t\t\t\t\t</securityID>\n\t\t\t\t\t\t<holdSecurityType>01</holdSecurityType>\n\t\t\t\t\t\t<debt>\n\t\t\t\t\t\t\t<percentageQuoted>\n\t\t\t\t\t\t\t\t<nominalAmount>2000000</nominalAmount>\n\t\t\t\t\t\t\t\t<nominalCurrency>USD</nominalCurrency>\n\t\t\t\t\t\t\t</percentageQuoted>\n\t\t\t\t\t\t</debt>\n\t\t\t\t\t\t<reportedAmount>1840000</reportedAmount>\n\t\t\t\t\t</security>\n\t\t\t\t</ISIN>\n\t\t\t\t<totalReportedAmount>1840000</totalReportedAmount>\n\t\t\t</reportedLine>\n\t\t</assets>\n\t</OBS>\n</SBS>\n",
+   "filename": "TPTOBS_L3_202512_B000000789_O001220003_<CREATED>_001.xml",
+   "schema_valid": true
+  }
+ ],
+ "generated": true
+}

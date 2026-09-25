@@ -1,0 +1,385 @@
+{
+ "data": {
+  "costs": {
+   "by_horizon": [
+    {
+     "horizon_label": "1 year",
+     "horizon_years": 1,
+     "incidental_pct": 3.0,
+     "one_off_amortized_pct": 5.0,
+     "ongoing_pct": 2.1,
+     "riy_amount_annual": 1010.0,
+     "riy_amount_cumulative": 1010.0,
+     "riy_pct": 10.1
+    },
+    {
+     "horizon_label": "4 years (1/2 RHP)",
+     "horizon_years": 4,
+     "incidental_pct": 3.0,
+     "one_off_amortized_pct": 1.25,
+     "ongoing_pct": 2.1,
+     "riy_amount_annual": 635.0,
+     "riy_amount_cumulative": 2540.0,
+     "riy_pct": 6.35
+    },
+    {
+     "horizon_label": "8 years (RHP)",
+     "horizon_years": 8,
+     "incidental_pct": 3.0,
+     "one_off_amortized_pct": 0.625,
+     "ongoing_pct": 2.1,
+     "riy_amount_annual": 572.5,
+     "riy_amount_cumulative": 4580.0,
+     "riy_pct": 5.725
+    }
+   ],
+   "incidental_pct_annual": 3.0,
+   "one_off_pct_total": 5.0,
+   "ongoing_pct_annual": 2.1,
+   "reference_amount": 10000,
+   "rhp_years": 8
+  },
+  "kid": {
+   "context": {
+    "asset_class": "European Real Estate",
+    "benchmark": "No benchmark",
+    "category": 3,
+    "contact_placeholder": "kid-support@example-manco.lu",
+    "credit_quality_step": 2,
+    "crm_class": "N/A",
+    "currency": "EUR",
+    "duration_years": 6.0,
+    "entry_cost_pct": 3.0,
+    "exit_cost_pct": 2.0,
+    "fund_id": "LUX-AIF-008",
+    "fund_name": "Belport Real Estate Income Fund",
+    "generation_date": "<MASKED>",
+    "incidental_pct_annual": 3.0,
+    "investor_profile_text": "Professional or eligible investor accepting significant illiquidity and a long investment horizon.",
+    "isin": "LU8234567898",
+    "launch_date": "2019-10-01",
+    "legal_form": "SCSp",
+    "manco": "Belport Management Company",
+    "mgmt_fee_pct": 1.5,
+    "mrm_class": 3,
+    "mu_pct": 5.2,
+    "objective_text": "Seek a regular rental income and capital appreciation through a diversified portfolio of European real estate assets.",
+    "one_off_pct_total": 5.0,
+    "ongoing_pct_annual": 2.1,
+    "other_ongoing_pct": 0.4,
+    "perf_fee_pct": 10.0,
+    "promoter": "Belport Private Markets",
+    "regime": "AIF",
+    "rhp_years": 8,
+    "share_class": "Class B (Dist) EUR",
+    "sigma_pct": 9.1,
+    "sri_class": 3,
+    "stress_sigma_mult": 2.3,
+    "sub_fund": "Belport Real Estate Income Fund",
+    "transaction_cost_pct": 0.2
+   },
+   "costs": {
+    "by_horizon": [
+     {
+      "horizon_label": "1 year",
+      "horizon_years": 1,
+      "incidental_pct": 3.0,
+      "one_off_amortized_pct": 5.0,
+      "ongoing_pct": 2.1,
+      "riy_amount_annual": 1010.0,
+      "riy_amount_cumulative": 1010.0,
+      "riy_pct": 10.1
+     },
+     {
+      "horizon_label": "4 years (1/2 RHP)",
+      "horizon_years": 4,
+      "incidental_pct": 3.0,
+      "one_off_amortized_pct": 1.25,
+      "ongoing_pct": 2.1,
+      "riy_amount_annual": 635.0,
+      "riy_amount_cumulative": 2540.0,
+      "riy_pct": 6.35
+     },
+     {
+      "horizon_label": "8 years (RHP)",
+      "horizon_years": 8,
+      "incidental_pct": 3.0,
+      "one_off_amortized_pct": 0.625,
+      "ongoing_pct": 2.1,
+      "riy_amount_annual": 572.5,
+      "riy_amount_cumulative": 4580.0,
+      "riy_pct": 5.725
+     }
+    ],
+    "incidental_pct_annual": 3.0,
+    "one_off_pct_total": 5.0,
+    "ongoing_pct_annual": 2.1,
+    "reference_amount": 10000,
+    "rhp_years": 8
+   },
+   "fund_id": "LUX-AIF-008",
+   "generation_date": "<MASKED>",
+   "isin": "LU8234567898",
+   "layout": "classic",
+   "product_name": "Belport Real Estate Income Fund — Class B (Dist) EUR",
+   "scenarios": {
+    "by_horizon": [
+     {
+      "favourable": {
+       "amount": 10653.88,
+       "return_pct": 6.54
+      },
+      "horizon_label": "1 year",
+      "horizon_years": 1,
+      "moderate": {
+       "amount": 9482.47,
+       "return_pct": -5.18
+      },
+      "stress": {
+       "amount": 6328.18,
+       "return_pct": -36.72
+      },
+      "unfavourable": {
+       "amount": 8439.85,
+       "return_pct": -15.6
+      }
+     },
+     {
+      "favourable": {
+       "amount": 12895.99,
+       "return_pct": 3.23
+      },
+      "horizon_label": "8 years (RHP)",
+      "horizon_years": 8,
+      "moderate": {
+       "amount": 9276.28,
+       "return_pct": -0.93
+      },
+      "stress": {
+       "amount": 3202.79,
+       "return_pct": -13.27
+      },
+      "unfavourable": {
+       "amount": 6672.58,
+       "return_pct": -4.93
+      }
+     }
+    ],
+    "reference_amount": 10000,
+    "rhp_years": 8
+   },
+   "sections": [
+    {
+     "body": "This document provides you with key information about this investment product. It is not marketing material. The information is required by law to help you understand the nature, risks, costs, potential gains and losses of this product and to help you compare it with other products.",
+     "fields": [],
+     "id": "purpose",
+     "performance_scenarios_note": "",
+     "title": "Purpose"
+    },
+    {
+     "body": "",
+     "fields": [
+      {
+       "label": "Product name",
+       "value": "Belport Real Estate Income Fund — Class B (Dist) EUR"
+      },
+      {
+       "label": "ISIN code",
+       "value": "LU8234567898"
+      },
+      {
+       "label": "Manufacturer (ManCo)",
+       "value": "Belport Management Company"
+      },
+      {
+       "label": "Promoter",
+       "value": "Belport Private Markets"
+      },
+      {
+       "label": "Competent authority",
+       "value": "Commission de Surveillance du Secteur Financier (CSSF)"
+      },
+      {
+       "label": "Date of production of the document",
+       "value": "<MASKED>"
+      },
+      {
+       "label": "For more information",
+       "value": "Belport Management Company — kid-support@example-manco.lu"
+      }
+     ],
+     "id": "identification",
+     "performance_scenarios_note": "",
+     "title": "Product identification"
+    },
+    {
+     "body": "",
+     "fields": [
+      {
+       "label": "Type",
+       "value": "SCSp under Luxembourg law, AIF regime"
+      },
+      {
+       "label": "Term",
+       "value": "No maturity date. Recommended holding period: 8 years."
+      },
+      {
+       "label": "Objectives",
+       "value": "Seek a regular rental income and capital appreciation through a diversified portfolio of European real estate assets."
+      },
+      {
+       "label": "Benchmark",
+       "value": "No benchmark"
+      },
+      {
+       "label": "Intended retail investor",
+       "value": "Professional or eligible investor accepting significant illiquidity and a long investment horizon."
+      }
+     ],
+     "id": "what_is_it",
+     "performance_scenarios_note": "",
+     "title": "What is this product?"
+    },
+    {
+     "body": "The summary risk indicator is a guide to the level of risk of this product compared to other products. It shows how likely it is that the product will lose money because of movements in the markets or because we are not able to pay you.",
+     "fields": [
+      {
+       "label": "Summary risk indicator (1 to 7)",
+       "value": "3"
+      },
+      {
+       "label": "Market risk measure (MRM)",
+       "value": "3"
+      },
+      {
+       "label": "Credit risk measure (CRM)",
+       "value": "N/A"
+      },
+      {
+       "label": "Maximum possible loss",
+       "value": "It is possible that you will not receive the expected amounts and that you could lose some or all of your investment."
+      }
+     ],
+     "id": "risk_and_return",
+     "performance_scenarios_note": "The figures shown include all the costs of the product itself. The figures do not take into account your personal tax situation, which may also affect how much you get back. What you will get from this product depends on future market performance, which is uncertain and cannot be accurately predicted.",
+     "title": "What are the risks and what could I get in return?"
+    },
+    {
+     "body": "The product is a legal entity separate from the manufacturer; assets are held with an independent depositary in accordance with applicable regulation. In the event of the failure of the manufacturer or the manager, this should not result in a financial loss directly caused by that failure.",
+     "fields": [],
+     "id": "insolvency",
+     "performance_scenarios_note": "",
+     "title": "What happens if Belport Management Company is unable to pay out?"
+    },
+    {
+     "body": "The Reduction In Yield (RIY) shows what impact the total costs you pay will have on the investment return you might get. The total costs take into account one-off, ongoing and incidental costs.",
+     "fields": [
+      {
+       "label": "One-off costs (entry/exit)",
+       "value": "5.0 %"
+      },
+      {
+       "label": "Annual ongoing costs",
+       "value": "2.1 %"
+      },
+      {
+       "label": "Incidental costs (performance fee)",
+       "value": "3.0 %"
+      }
+     ],
+     "id": "costs",
+     "performance_scenarios_note": "",
+     "title": "What are the costs?"
+    },
+    {
+     "body": "Recommended holding period: 8 years. This product has no minimum holding period but is designed for a medium/long-term investment.",
+     "fields": [],
+     "id": "holding_period",
+     "performance_scenarios_note": "",
+     "title": "How long should I hold it and can I take money out early?"
+    },
+    {
+     "body": "Any complaint regarding the product or the conduct of the manufacturer or the distributor may be sent in writing to Belport Management Company, or to the distributor who advised you. Full contact details are available on request.",
+     "fields": [],
+     "id": "complaints",
+     "performance_scenarios_note": "",
+     "title": "How can I complain?"
+    },
+    {
+     "body": "Additional information (prospectus, latest annual and semi-annual reports, net asset values) is available free of charge, in French and/or English, from Belport Management Company and on its website. This product may be subject to country-specific information depending on the country of distribution.",
+     "fields": [],
+     "id": "other_information",
+     "performance_scenarios_note": "",
+     "title": "Other relevant information"
+    }
+   ],
+   "sri": {
+    "credit_risk_material": false,
+    "crm_class": null,
+    "mrm_class": 3,
+    "sri_class": 3
+   },
+   "table_border_color": null,
+   "table_header_bg": null,
+   "template_name": "Standard PRIIPs KID — UCITS / AIF",
+   "template_version": "2021/2268 (amending RTS)",
+   "theme_color": null,
+   "title_alignment": "left"
+  },
+  "scenarios": {
+   "by_horizon": [
+    {
+     "favourable": {
+      "amount": 10653.88,
+      "return_pct": 6.54
+     },
+     "horizon_label": "1 year",
+     "horizon_years": 1,
+     "moderate": {
+      "amount": 9482.47,
+      "return_pct": -5.18
+     },
+     "stress": {
+      "amount": 6328.18,
+      "return_pct": -36.72
+     },
+     "unfavourable": {
+      "amount": 8439.85,
+      "return_pct": -15.6
+     }
+    },
+    {
+     "favourable": {
+      "amount": 12895.99,
+      "return_pct": 3.23
+     },
+     "horizon_label": "8 years (RHP)",
+     "horizon_years": 8,
+     "moderate": {
+      "amount": 9276.28,
+      "return_pct": -0.93
+     },
+     "stress": {
+      "amount": 3202.79,
+      "return_pct": -13.27
+     },
+     "unfavourable": {
+      "amount": 6672.58,
+      "return_pct": -4.93
+     }
+    }
+   ],
+   "reference_amount": 10000,
+   "rhp_years": 8
+  },
+  "sri": {
+   "credit_risk_material": false,
+   "crm_class": null,
+   "mrm_class": 3,
+   "sri_class": 3
+  }
+ },
+ "errors": [],
+ "files": [],
+ "generated": true
+}

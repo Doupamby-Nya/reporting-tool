@@ -22,11 +22,16 @@ import yaml
 from domain.shared.io_utils import ensure_dir_resilient, write_bytes_resilient, write_text_resilient
 from domain.priips.priips_engine import DEFAULT_RTS_PARAMETERS
 
-from utils.paths import RESOURCES_DIR
+from utils.paths import RESOURCES_DIR, org_config_dir
 CONFIG_DIR = RESOURCES_DIR / "config"
 TEMPLATES_DIR = RESOURCES_DIR / "templates"
 RTS_PARAMETERS_JSON = CONFIG_DIR / "rts_parameters.json"
-APP_SETTINGS_JSON = CONFIG_DIR / "app_settings.json"
+
+
+def _app_settings_json() -> Path:
+    """The settings are the organisation's own: its name and logo go on
+    every KID it produces."""
+    return org_config_dir() / "app_settings.json"
 
 
 DEFAULT_KID_TEMPLATE: dict[str, Any] = {
@@ -218,8 +223,6 @@ def ensure_default_files() -> None:
         _write_yaml(std_yaml, DEFAULT_KID_TEMPLATE)
     if not RTS_PARAMETERS_JSON.exists():
         _write_json(RTS_PARAMETERS_JSON, DEFAULT_RTS_PARAMETERS)
-    if not APP_SETTINGS_JSON.exists():
-        _write_json(APP_SETTINGS_JSON, DEFAULT_APP_SETTINGS)
 
 
 # --- Template PRIIPs KID -----------------------------------------------------
@@ -290,11 +293,16 @@ def reset_rts_parameters() -> dict[str, Any]:
 
 def load_app_settings() -> dict[str, Any]:
     ensure_default_files()
-    return json.loads(APP_SETTINGS_JSON.read_text(encoding="utf-8"))
+    path = _app_settings_json()
+    if not path.exists():
+        return dict(DEFAULT_APP_SETTINGS)
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def save_app_settings(data: dict[str, Any]) -> None:
-    _write_json(APP_SETTINGS_JSON, data)
+    path = _app_settings_json()
+    ensure_dir_resilient(path.parent)
+    write_text_resilient(path, json.dumps(data, ensure_ascii=False, indent=2))
 
 
 # --- Logo de l'entreprise ---------------------------------------------------
@@ -305,9 +313,9 @@ def save_logo(file_bytes: bytes, original_filename: str) -> str:
     if ext not in LOGO_ALLOWED_EXTENSIONS:
         raise ValueError("Format non supporte : utilisez un fichier PNG ou JPG.")
     remove_logo()
-    _ensure_dir()
+    ensure_dir_resilient(org_config_dir())
     filename = f"logo{ext}"
-    write_bytes_resilient(CONFIG_DIR / filename, file_bytes)
+    write_bytes_resilient(org_config_dir() / filename, file_bytes)
     settings = load_app_settings()
     settings["logo_filename"] = filename
     save_app_settings(settings)
@@ -317,7 +325,7 @@ def save_logo(file_bytes: bytes, original_filename: str) -> str:
 def remove_logo() -> None:
     settings = load_app_settings()
     for ext in LOGO_ALLOWED_EXTENSIONS:
-        candidate = CONFIG_DIR / f"logo{ext}"
+        candidate = org_config_dir() / f"logo{ext}"
         if candidate.exists():
             candidate.unlink()
     if settings.get("logo_filename"):
@@ -331,7 +339,7 @@ def get_logo_bytes() -> tuple[bytes, str] | None:
     filename = settings.get("logo_filename")
     if not filename:
         return None
-    path = CONFIG_DIR / filename
+    path = org_config_dir() / filename
     if not path.exists():
         return None
     ext = path.suffix.lower()

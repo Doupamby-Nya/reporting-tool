@@ -13,7 +13,7 @@ from datetime import datetime
 from typing import Any
 
 from database.jsonStore import read_json, write_json
-from utils.paths import AUDIT_LOG_FILE, DOC_STORE_FILE
+from utils.paths import audit_log_file, doc_store_file
 
 STATUS_NOT_STARTED = "Not started"
 STATUS_GENERATED = "Generated"
@@ -43,11 +43,11 @@ MAX_AUDIT_PAGE = 1000
 
 
 def _documents() -> dict[str, dict[str, Any]]:
-    return read_json(DOC_STORE_FILE, {})
+    return read_json(doc_store_file(), {})
 
 
 def _save_documents(store: dict[str, Any]) -> None:
-    write_json(DOC_STORE_FILE, store)
+    write_json(doc_store_file(), store)
 
 
 def list_documents_service(module_key: str | None = None) -> dict[str, Any]:
@@ -128,11 +128,9 @@ def _enforce_four_eyes(entry: dict[str, Any], new_status: str, user: str) -> Non
     generate a filing and approve it a second later, and the audit trail
     will faithfully record them doing it.
 
-    Identity is a typed-in name until the platform has authentication, so
-    this is as strong as the honesty of the name entered. That is a real
-    limit, and it is a reason to add authentication rather than a reason to
-    leave the check out: it already stops the accidental case, which is the
-    common one.
+    ``user`` is the signed-in account's email, taken from the session by the
+    router — never from the request body — so the preparer and the reviewer
+    are two authenticated accounts, not two names somebody typed.
     """
     if new_status not in REVIEW_STATES:
         return
@@ -149,7 +147,8 @@ def _enforce_four_eyes(entry: dict[str, Any], new_status: str, user: str) -> Non
             f"It has to be reviewed by somebody else.")
 
 
-def log_audit_service(action: str, subject: str, user: str, detail: str = "") -> None:
+def log_audit_service(action: str, subject: str, user: str, detail: str = "",
+                      organisation_id: int | None = None) -> None:
     """Appends to the single trail every module writes to.
 
     The trail is never trimmed. It was capped at 500 entries, which quietly
@@ -157,17 +156,25 @@ def log_audit_service(action: str, subject: str, user: str, detail: str = "") ->
     for. A file that grows is a problem to solve by archiving it, not by
     dropping evidence.
     """
-    entries = read_json(AUDIT_LOG_FILE, [])
+    path = audit_log_file(organisation_id)
+    entries = read_json(path, [])
     entries.insert(0, {
         "timestamp": datetime.now().isoformat(timespec="seconds"),
         "action": action, "subject": subject, "user": user, "detail": detail,
     })
-    write_json(AUDIT_LOG_FILE, entries)
+    write_json(path, entries)
 
 
-def audit_log_service(limit: int = 100, module_key: str | None = None) -> list[dict[str, Any]]:
-    entries = read_json(AUDIT_LOG_FILE, [])
+def audit_log_service(limit: int = 100, module_key: str | None = None,
+                      visible_modules: set[str] | None = None) -> list[dict[str, Any]]:
+    """The organisation's trail, newest first. An entry's action starts with
+    its module's key (``BCL generation``) or with ``ADMIN``; ``visible_modules``
+    keeps only the modules the reader can use, and ``None`` keeps everything."""
+    entries = read_json(audit_log_file(), [])
     if module_key:
         prefix = module_key.upper()
         entries = [e for e in entries if str(e.get("action", "")).upper().startswith(prefix)]
+    if visible_modules is not None:
+        prefixes = tuple(key.upper() + " " for key in visible_modules)
+        entries = [e for e in entries if str(e.get("action", "")).upper().startswith(prefixes)]
     return entries[: max(1, min(limit, MAX_AUDIT_PAGE))]

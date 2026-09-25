@@ -1,0 +1,385 @@
+{
+ "data": {
+  "costs": {
+   "by_horizon": [
+    {
+     "horizon_label": "1 year",
+     "horizon_years": 1,
+     "incidental_pct": 0.0,
+     "one_off_amortized_pct": 1.5,
+     "ongoing_pct": 1.45,
+     "riy_amount_annual": 295.0,
+     "riy_amount_cumulative": 295.0,
+     "riy_pct": 2.95
+    },
+    {
+     "horizon_label": "2 years (1/2 RHP)",
+     "horizon_years": 2,
+     "incidental_pct": 0.0,
+     "one_off_amortized_pct": 0.75,
+     "ongoing_pct": 1.45,
+     "riy_amount_annual": 220.0,
+     "riy_amount_cumulative": 440.0,
+     "riy_pct": 2.2
+    },
+    {
+     "horizon_label": "5 years (RHP)",
+     "horizon_years": 5,
+     "incidental_pct": 0.0,
+     "one_off_amortized_pct": 0.3,
+     "ongoing_pct": 1.45,
+     "riy_amount_annual": 175.0,
+     "riy_amount_cumulative": 875.0,
+     "riy_pct": 1.75
+    }
+   ],
+   "incidental_pct_annual": 0.0,
+   "one_off_pct_total": 1.5,
+   "ongoing_pct_annual": 1.45,
+   "reference_amount": 10000,
+   "rhp_years": 5
+  },
+  "kid": {
+   "context": {
+    "asset_class": "Diversified / Multi-Asset",
+    "benchmark": "50% MSCI World / 50% Bloomberg Euro Agg",
+    "category": 2,
+    "contact_placeholder": "kid-support@example-manco.lu",
+    "credit_quality_step": 1,
+    "crm_class": "N/A",
+    "currency": "EUR",
+    "duration_years": 2.0,
+    "entry_cost_pct": 1.5,
+    "exit_cost_pct": 0.0,
+    "fund_id": "LUX-MA-004",
+    "fund_name": "Nordvest Balanced Allocation Fund",
+    "generation_date": "<MASKED>",
+    "incidental_pct_annual": 0.0,
+    "investor_profile_text": "Investor seeking a balanced risk/return profile, 5-year investment horizon.",
+    "isin": "LU4234567894",
+    "launch_date": "2012-06-01",
+    "legal_form": "SICAV",
+    "manco": "Nordvest ManCo S.A.",
+    "mgmt_fee_pct": 1.1,
+    "mrm_class": 3,
+    "mu_pct": 4.6,
+    "objective_text": "Offer moderate capital growth by combining a diversified allocation between equities and bonds.",
+    "one_off_pct_total": 1.5,
+    "ongoing_pct_annual": 1.45,
+    "other_ongoing_pct": 0.2,
+    "perf_fee_pct": 0.0,
+    "promoter": "Nordvest Asset Management",
+    "regime": "UCITS",
+    "rhp_years": 5,
+    "share_class": "Class A (Cap) EUR",
+    "sigma_pct": 8.2,
+    "sri_class": 3,
+    "stress_sigma_mult": 1.5,
+    "sub_fund": "Nordvest Balanced Allocation Fund",
+    "transaction_cost_pct": 0.15
+   },
+   "costs": {
+    "by_horizon": [
+     {
+      "horizon_label": "1 year",
+      "horizon_years": 1,
+      "incidental_pct": 0.0,
+      "one_off_amortized_pct": 1.5,
+      "ongoing_pct": 1.45,
+      "riy_amount_annual": 295.0,
+      "riy_amount_cumulative": 295.0,
+      "riy_pct": 2.95
+     },
+     {
+      "horizon_label": "2 years (1/2 RHP)",
+      "horizon_years": 2,
+      "incidental_pct": 0.0,
+      "one_off_amortized_pct": 0.75,
+      "ongoing_pct": 1.45,
+      "riy_amount_annual": 220.0,
+      "riy_amount_cumulative": 440.0,
+      "riy_pct": 2.2
+     },
+     {
+      "horizon_label": "5 years (RHP)",
+      "horizon_years": 5,
+      "incidental_pct": 0.0,
+      "one_off_amortized_pct": 0.3,
+      "ongoing_pct": 1.45,
+      "riy_amount_annual": 175.0,
+      "riy_amount_cumulative": 875.0,
+      "riy_pct": 1.75
+     }
+    ],
+    "incidental_pct_annual": 0.0,
+    "one_off_pct_total": 1.5,
+    "ongoing_pct_annual": 1.45,
+    "reference_amount": 10000,
+    "rhp_years": 5
+   },
+   "fund_id": "LUX-MA-004",
+   "generation_date": "<MASKED>",
+   "isin": "LU4234567894",
+   "layout": "classic",
+   "product_name": "Nordvest Balanced Allocation Fund — Class A (Cap) EUR",
+   "scenarios": {
+    "by_horizon": [
+     {
+      "favourable": {
+       "amount": 11253.54,
+       "return_pct": 12.54
+      },
+      "horizon_label": "1 year",
+      "horizon_years": 1,
+      "moderate": {
+       "amount": 10132.25,
+       "return_pct": 1.32
+      },
+      "stress": {
+       "amount": 7802.39,
+       "return_pct": -21.98
+      },
+      "unfavourable": {
+       "amount": 9122.68,
+       "return_pct": -8.77
+      }
+     },
+     {
+      "favourable": {
+       "amount": 14338.85,
+       "return_pct": 7.47
+      },
+      "horizon_label": "5 years (RHP)",
+      "horizon_years": 5,
+      "moderate": {
+       "amount": 11339.31,
+       "return_pct": 2.55
+      },
+      "stress": {
+       "amount": 6384.85,
+       "return_pct": -8.58
+      },
+      "unfavourable": {
+       "amount": 8967.24,
+       "return_pct": -2.16
+      }
+     }
+    ],
+    "reference_amount": 10000,
+    "rhp_years": 5
+   },
+   "sections": [
+    {
+     "body": "This document provides you with key information about this investment product. It is not marketing material. The information is required by law to help you understand the nature, risks, costs, potential gains and losses of this product and to help you compare it with other products.",
+     "fields": [],
+     "id": "purpose",
+     "performance_scenarios_note": "",
+     "title": "Purpose"
+    },
+    {
+     "body": "",
+     "fields": [
+      {
+       "label": "Product name",
+       "value": "Nordvest Balanced Allocation Fund — Class A (Cap) EUR"
+      },
+      {
+       "label": "ISIN code",
+       "value": "LU4234567894"
+      },
+      {
+       "label": "Manufacturer (ManCo)",
+       "value": "Nordvest ManCo S.A."
+      },
+      {
+       "label": "Promoter",
+       "value": "Nordvest Asset Management"
+      },
+      {
+       "label": "Competent authority",
+       "value": "Commission de Surveillance du Secteur Financier (CSSF)"
+      },
+      {
+       "label": "Date of production of the document",
+       "value": "<MASKED>"
+      },
+      {
+       "label": "For more information",
+       "value": "Nordvest ManCo S.A. — kid-support@example-manco.lu"
+      }
+     ],
+     "id": "identification",
+     "performance_scenarios_note": "",
+     "title": "Product identification"
+    },
+    {
+     "body": "",
+     "fields": [
+      {
+       "label": "Type",
+       "value": "SICAV under Luxembourg law, UCITS regime"
+      },
+      {
+       "label": "Term",
+       "value": "No maturity date. Recommended holding period: 5 years."
+      },
+      {
+       "label": "Objectives",
+       "value": "Offer moderate capital growth by combining a diversified allocation between equities and bonds."
+      },
+      {
+       "label": "Benchmark",
+       "value": "50% MSCI World / 50% Bloomberg Euro Agg"
+      },
+      {
+       "label": "Intended retail investor",
+       "value": "Investor seeking a balanced risk/return profile, 5-year investment horizon."
+      }
+     ],
+     "id": "what_is_it",
+     "performance_scenarios_note": "",
+     "title": "What is this product?"
+    },
+    {
+     "body": "The summary risk indicator is a guide to the level of risk of this product compared to other products. It shows how likely it is that the product will lose money because of movements in the markets or because we are not able to pay you.",
+     "fields": [
+      {
+       "label": "Summary risk indicator (1 to 7)",
+       "value": "3"
+      },
+      {
+       "label": "Market risk measure (MRM)",
+       "value": "3"
+      },
+      {
+       "label": "Credit risk measure (CRM)",
+       "value": "N/A"
+      },
+      {
+       "label": "Maximum possible loss",
+       "value": "It is possible that you will not receive the expected amounts and that you could lose some or all of your investment."
+      }
+     ],
+     "id": "risk_and_return",
+     "performance_scenarios_note": "The figures shown include all the costs of the product itself. The figures do not take into account your personal tax situation, which may also affect how much you get back. What you will get from this product depends on future market performance, which is uncertain and cannot be accurately predicted.",
+     "title": "What are the risks and what could I get in return?"
+    },
+    {
+     "body": "The product is a legal entity separate from the manufacturer; assets are held with an independent depositary in accordance with applicable regulation. In the event of the failure of the manufacturer or the manager, this should not result in a financial loss directly caused by that failure.",
+     "fields": [],
+     "id": "insolvency",
+     "performance_scenarios_note": "",
+     "title": "What happens if Nordvest ManCo S.A. is unable to pay out?"
+    },
+    {
+     "body": "The Reduction In Yield (RIY) shows what impact the total costs you pay will have on the investment return you might get. The total costs take into account one-off, ongoing and incidental costs.",
+     "fields": [
+      {
+       "label": "One-off costs (entry/exit)",
+       "value": "1.5 %"
+      },
+      {
+       "label": "Annual ongoing costs",
+       "value": "1.45 %"
+      },
+      {
+       "label": "Incidental costs (performance fee)",
+       "value": "0.0 %"
+      }
+     ],
+     "id": "costs",
+     "performance_scenarios_note": "",
+     "title": "What are the costs?"
+    },
+    {
+     "body": "Recommended holding period: 5 years. This product has no minimum holding period but is designed for a medium/long-term investment.",
+     "fields": [],
+     "id": "holding_period",
+     "performance_scenarios_note": "",
+     "title": "How long should I hold it and can I take money out early?"
+    },
+    {
+     "body": "Any complaint regarding the product or the conduct of the manufacturer or the distributor may be sent in writing to Nordvest ManCo S.A., or to the distributor who advised you. Full contact details are available on request.",
+     "fields": [],
+     "id": "complaints",
+     "performance_scenarios_note": "",
+     "title": "How can I complain?"
+    },
+    {
+     "body": "Additional information (prospectus, latest annual and semi-annual reports, net asset values) is available free of charge, in French and/or English, from Nordvest ManCo S.A. and on its website. This product may be subject to country-specific information depending on the country of distribution.",
+     "fields": [],
+     "id": "other_information",
+     "performance_scenarios_note": "",
+     "title": "Other relevant information"
+    }
+   ],
+   "sri": {
+    "credit_risk_material": false,
+    "crm_class": null,
+    "mrm_class": 3,
+    "sri_class": 3
+   },
+   "table_border_color": null,
+   "table_header_bg": null,
+   "template_name": "Standard PRIIPs KID — UCITS / AIF",
+   "template_version": "2021/2268 (amending RTS)",
+   "theme_color": null,
+   "title_alignment": "left"
+  },
+  "scenarios": {
+   "by_horizon": [
+    {
+     "favourable": {
+      "amount": 11253.54,
+      "return_pct": 12.54
+     },
+     "horizon_label": "1 year",
+     "horizon_years": 1,
+     "moderate": {
+      "amount": 10132.25,
+      "return_pct": 1.32
+     },
+     "stress": {
+      "amount": 7802.39,
+      "return_pct": -21.98
+     },
+     "unfavourable": {
+      "amount": 9122.68,
+      "return_pct": -8.77
+     }
+    },
+    {
+     "favourable": {
+      "amount": 14338.85,
+      "return_pct": 7.47
+     },
+     "horizon_label": "5 years (RHP)",
+     "horizon_years": 5,
+     "moderate": {
+      "amount": 11339.31,
+      "return_pct": 2.55
+     },
+     "stress": {
+      "amount": 6384.85,
+      "return_pct": -8.58
+     },
+     "unfavourable": {
+      "amount": 8967.24,
+      "return_pct": -2.16
+     }
+    }
+   ],
+   "reference_amount": 10000,
+   "rhp_years": 5
+  },
+  "sri": {
+   "credit_risk_material": false,
+   "crm_class": null,
+   "mrm_class": 3,
+   "sri_class": 3
+  }
+ },
+ "errors": [],
+ "files": [],
+ "generated": true
+}

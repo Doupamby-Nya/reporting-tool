@@ -15,15 +15,15 @@ import sys
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
 
 SRC = Path(__file__).resolve().parent.parent / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from main import app  # noqa: E402
+from _auth import PREPARER, REVIEWER, login_as  # noqa: E402
 
-client = TestClient(app)
+client = login_as(PREPARER)
+reviewer = login_as(REVIEWER)
 
 HEADER = {
     "end_month_date": "2025-12-31", "closing_date": "2025-12-31",
@@ -285,19 +285,20 @@ def test_bcl_cross_checks_flag_a_mismatch():
 def test_document_lifecycle_and_audit_trail():
     document_id = "TEST_LIFECYCLE.xml"
     assert result(client.post("/api/v1/documents/bcl",
-                              json={"document_id": document_id, "label": "S 1.3", "user": "cj"}))
+                              json={"document_id": document_id, "label": "S 1.3"}))
 
     # The preparer may send their own filing for review; the approval has to
     # come from somebody else.
-    for status, who in (("Under review", "cj"), ("Approved", "reviewer"),
-                        ("Published", "reviewer")):
-        entry = result(client.post(f"/api/v1/documents/bcl/{document_id}/status",
-                                   json={"status": status, "user": who, "comment": "ok"}))
+    for status, who in (("Under review", client), ("Approved", reviewer),
+                        ("Published", reviewer)):
+        entry = result(who.post(f"/api/v1/documents/bcl/{document_id}/status",
+                                json={"status": status, "comment": "ok"}))
         assert entry["status"] == status
+    assert entry["history"][-1]["user"] == REVIEWER
 
     # A published filing has nowhere further to go.
-    refused = client.post(f"/api/v1/documents/bcl/{document_id}/status",
-                          json={"status": "Approved", "user": "reviewer"}).json()
+    refused = reviewer.post(f"/api/v1/documents/bcl/{document_id}/status",
+                            json={"status": "Approved"}).json()
     assert refused["success"] is False
 
 
@@ -307,18 +308,19 @@ def test_a_preparer_cannot_approve_their_own_filing():
     second later, and the trail will faithfully record them doing it."""
     document_id = "TEST_FOUR_EYES.xml"
     result(client.post("/api/v1/documents/bcl",
-                       json={"document_id": document_id, "label": "S 1.3", "user": "cj"}))
+                       json={"document_id": document_id, "label": "S 1.3"}))
     result(client.post(f"/api/v1/documents/bcl/{document_id}/status",
-                       json={"status": "Under review", "user": "cj"}))
+                       json={"status": "Under review"}))
 
+    # A name in the body is ignored: the session says who is acting.
     response = client.post(f"/api/v1/documents/bcl/{document_id}/status",
-                           json={"status": "Approved", "user": "CJ"})
+                           json={"status": "Approved", "user": "someone else"})
     assert response.status_code == 400
     assert "cannot also approve" in response.json()["message"]
 
     # Somebody else can.
-    entry = result(client.post(f"/api/v1/documents/bcl/{document_id}/status",
-                               json={"status": "Approved", "user": "someone else"}))
+    entry = result(reviewer.post(f"/api/v1/documents/bcl/{document_id}/status",
+                                 json={"status": "Approved"}))
     assert entry["status"] == "Approved"
 
     entries = result(client.get("/api/v1/audit?limit=50"))
@@ -327,13 +329,13 @@ def test_a_preparer_cannot_approve_their_own_filing():
 
 def test_transition_of_an_unknown_document_is_reported():
     payload = client.post("/api/v1/documents/bcl/nothing.xml/status",
-                          json={"status": "Approved", "user": "cj"}).json()
+                          json={"status": "Approved"}).json()
     assert payload["success"] is False
 
 
 def test_draft_round_trip_keeps_dates_and_tables():
     body = ledger_body()
-    assert result(client.post("/api/v1/drafts/bcl", json={"name": "Test draft", "data": body, "user": "cj"}))
+    assert result(client.post("/api/v1/drafts/bcl", json={"name": "Test draft", "data": body}))
     names = [d["name"] for d in result(client.get("/api/v1/drafts/bcl"))]
     assert "Test draft" in names
 

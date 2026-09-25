@@ -1,6 +1,8 @@
 import { useState } from "react"
 
 import FieldHelp from "@components/FieldHelp"
+import CodeLabel from "@components/CodeLabel"
+import { splitCode } from "@components/splitCode"
 import RepeatingBlock from "@components/RepeatingBlock"
 import type { FormField, FormSchema, FormSection } from "src/types/reportingType"
 
@@ -53,11 +55,12 @@ const codeOf = (field: FormField): string | undefined => {
 }
 
 const Caption: React.FC<{ field: FormField; note?: string }> = ({ field, note }) => {
-    const code = codeOf(field)
+    const split = splitCode(field.label)
+    const code = codeOf(field) ?? split.code ?? undefined
     return (
         <span className="flex flex-1 items-start gap-1.5 font-medium leading-snug text-slate-700">
             {code && <span className="font-mono text-xs text-[#1F5FA8]">{code}</span>}
-            <span>{field.label}</span>
+            <span>{split.text}</span>
             <FieldHelp code={code} label={field.label} target={code ? undefined : field.hint}
                 expects={EXPECTS[field.type] ?? "text"} note={note} />
         </span>
@@ -91,7 +94,7 @@ const Scalar: React.FC<{
             {options.length > 0 ? (
                 <select value={String(value ?? "")} onChange={(event) => onChange(event.target.value)}
                     className={INPUT}>
-                    <option value="">—</option>
+                    <option value="">Select</option>
                     {options.map(([code, label]) => <option key={code} value={code}>{label}</option>)}
                 </select>
             ) : (
@@ -136,7 +139,7 @@ const Amount: React.FC<{
         child ? "pl-6" : "",
     ].join(" ")}>
         <Caption field={field}
-            note="Leave empty for 'not reported' — that is not the same as reporting a zero." />
+            note="Leave empty for 'not reported'. That is not the same as reporting a zero." />
         <input type="number" step="0.01" value={String(value ?? "")} placeholder="Not reported"
             onChange={(event) => onChange(event.target.value)}
             className="w-44 shrink-0 rounded-md border border-slate-300 px-2 py-1 text-right text-sm
@@ -296,7 +299,7 @@ const SchemaForm: React.FC<{
                                     <div className="flex flex-col gap-4">
                                         {group.fields.map((field) => (
                                             <div key={field.key} className="flex flex-col gap-1">
-                                                <p className="text-sm text-slate-800">{field.label}</p>
+                                                <p className="text-sm text-slate-800"><CodeLabel label={field.label} /></p>
                                                 {field.hint && (
                                                     <p className="text-xs italic text-slate-500">
                                                         {field.hint}

@@ -22,7 +22,10 @@ dependencies = [
     # The FATCA/CRS pipeline builds its returns through dicttoxml; it is a
     # hard import, so the API will not start without it.
     "dicttoxml (>=1.7,<2)",
-    "xlrd (>=2.0,<3)"
+    "xlrd (>=2.0,<3)",
+    # Accounts, organisations and subscriptions. SQLite by default;
+    # DATABASE_URL points it at PostgreSQL.
+    "sqlmodel (>=0.0.47,<0.1.0)"
 ]
 
 [tool.poetry]

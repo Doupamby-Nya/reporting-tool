@@ -1,0 +1,175 @@
+{
+ "errors": [],
+ "files": [
+  {
+   "cells": {
+    "Self-Assessment": [
+     [
+      "section",
+      "question",
+      "answer",
+      "comment",
+      "source"
+     ],
+     [
+      "1. Organisation of the Fund",
+      "Do the dirigeants hold formal meetings at a frequency adequate for the UCI's activity (at least quarterly for open-ended UCIs), covering all key oversight topics (portfolio management, oversight of delegates/IFM, valuation, capital transactions, conflicts of interest, regulatory developments, relationship with depositary)?",
+      "Yes",
+      "Fictitious comment on question 1.",
+      "Feedback Report §1.2.1 (Formal meetings of the dirigeants of UCIs)"
+     ],
+     [
+      "1. Organisation of the Fund",
+      "Does the UCI have an effective conflicts of interest policy and procedures in place — taking into account the policies of the appointed IFM where applicable — to identify and manage conflicts of interest entailing a material risk of damage to the UCI or its investors?",
+      "No",
+      null,
+      "Feedback Report §1.2.2 (Conflicts of interest); CSSF Reg. 10-4 Art. 20; CDR 231/2013 Art. 31"
+     ],
+     [
+      "1. Organisation of the Fund",
+      "For SIFs/SICARs: are procedures in place to verify that all investors — including in closed-ended sub-funds — qualify as well-informed investors?",
+      null,
+      null,
+      "Feedback Report §1.2.3 (Investors in UCIs, SIFs and SICARs); SIF Law Art. 2; SICAR Law Art. 2"
+     ],
+     [
+      "2. Investment Compliance",
+      "Is there a formalised policy covering the treatment of active and passive investment breaches that may occur at (sub-)fund level?",
+      "Yes",
+      "Fictitious comment on question 4.",
+      "Feedback Report §2.1 (Treatment of active and passive breaches); Circular CSSF 24/856"
+     ],
+     [
+      "2. Investment Compliance",
+      "Is there a materialised (standardised and/or IT-backed manual or automated) ex-post investment compliance control framework covering all legal, regulatory and contractual investment restrictions applicable to the UCI, including SFDR investment rules?",
+      "No",
+      null,
+      "Feedback Report §2.2 (Investment compliance control framework)"
+     ],
+     [
+      "2. Investment Compliance",
+      "For UCITS investing in securities under the 'trash ratio' (Article 41(2)(a) UCI Law): are documented pre-trade liquidity analyses and forecasts performed, and compliance verified, before investing in such securities?",
+      null,
+      null,
+      "Feedback Report §2.3 (Eligibility requirements for investments by UCITS); UCI Law Art. 41(2)(a); CSSF Reg. 10-4 Art. 26"
+     ],
+     [
+      "3. Valuation",
+      "Have the dirigeants formally approved (e.g. board minutes/resolution) the valuation policies and procedures applicable to the UCI, going beyond the mere approval of the prospectus provisions?",
+      "Yes",
+      "Fictitious comment on question 7.",
+      "Feedback Report §3.1.1 (Formal approval of the valuation policy/procedures)"
+     ],
+     [
+      "3. Valuation",
+      "Is there a formal escalation process to the dirigeants for significant (UCI-specific or market-driven) valuation issues that may impact investors' interests?",
+      "No",
+      null,
+      "Feedback Report §3.1.2 (Escalation process of material valuation issues)"
+     ],
+     [
+      "3. Valuation",
+      "For open-ended UCIs: is the valuation frequency of investments aligned with the frequency of the net asset value determination?",
+      null,
+      null,
+      "Feedback Report §3.1.3 (Valuation frequency of investments of the UCIs); CDR 231/2013 Art. 74"
+     ],
+     [
+      "3. Valuation",
+      "Is there a documented procedure ensuring that transactions on quoted and unquoted investments (including FDIs) concluded with related parties to the UCI are done on an arm's length basis?",
+      "Yes",
+      "Fictitious comment on question 10.",
+      "Feedback Report §3.1.4 (Arm's length character of transactions)"
+     ],
+     [
+      "3. Valuation",
+      "For investments valued on the basis of prices/valuations obtained from a source which is not independent (e.g. issuer-provided prices for structured products): are cross-checks or reasonableness tests performed to ensure a reliable, independent valuation?",
+      "No",
+      null,
+      "Feedback Report §3.1.5 (Independent valuation source)"
+     ],
+     [
+      "3. Valuation",
+      "Did the statutory auditor issue a modified audit opinion and/or raise management letter observations for this UCI in the reporting period?",
+      null,
+      null,
+      "Feedback Report §3.2 (Modified audit opinions and Management letter observations); Circular CSSF 21/790 §2.2"
+     ],
+     [
+      "4. NAV determination",
+      "Which accounting standard does the UCI apply for the preparation of its annual report?",
+      "Lux GAAP",
+      "Fictitious comment on question 13.",
+      "Feedback Report §4.1 (Accounting standards)"
+     ],
+     [
+      "4. NAV determination",
+      "Has a specific, documented assessment of market timing risk been performed for each active sub-fund — upon launch or upon material changes to its exposure profile — beyond general coverage of the risk in the prospectus?",
+      "No",
+      null,
+      "Feedback Report §4.2 (Market timing); Circular CSSF 04/146"
+     ],
+     [
+      "4. NAV determination",
+      "Does the UCI have a documented internal policy/procedure for each Liquidity Management Tool available to it (anti-dilution levy, swing pricing, lock-up, redemption gating, redemption deferral, redemption in kind, side pocket, dual pricing, temporary suspension)?",
+      null,
+      null,
+      "Feedback Report §4.3 (Liquidity Management Tools)"
+     ],
+     [
+      "5. Expenses",
+      "Is there a formalised assessment verifying that costs/fees — together with the level of ORC/TER of the UCI's different share classes — are proportionate to market standards, discussed at least annually in a formal meeting of the dirigeants?",
+      "Yes",
+      "Fictitious comment on question 16.",
+      "Feedback Report §5.1 (ORC/TER and formalised assessment of costs/fees)"
+     ],
+     [
+      "5. Expenses",
+      "For UCITS concluding EPM/SFT transactions: is there a comprehensive, documented assessment justifying the ratio of gross revenues to direct and indirect operational costs/fees arising per EPM/SFT?",
+      "No",
+      null,
+      "Feedback Report §5.2 (EPM/SFT operational costs/fees); CSSF FAQ — Use of SFTs by UCITS"
+     ],
+     [
+      "6. Relationship with depositary",
+      "Are robust processes in place with the depositary (reconciliation and safekeeping of assets, cash-flow monitoring) and an active process to follow up on irregularities escalated by the depositary?",
+      null,
+      null,
+      "Feedback Report §6 (Relationship with depositary)"
+     ],
+     [
+      "7. Disclosures",
+      "Does the annual report comply with applicable disclosure requirements — SFDR Article 8/9 Annex IV (including the fossil gas/nuclear energy question), ESMA performance fee disclosure guidelines at share-class level, and securities financing transactions disclosures — where applicable to this UCI?",
+      "Yes",
+      "Fictitious comment on question 19.",
+      "Feedback Report §7 (Disclosures)"
+     ]
+    ],
+    "Summary": [
+     [
+      "Entity name",
+      "Demo Fund S.A."
+     ],
+     [
+      "UCI type",
+      "UCITS (Part I of the UCI Law)"
+     ],
+     [
+      "Financial year-end",
+      "2025-12-31"
+     ],
+     [
+      "Submission deadline",
+      "2026-03-31"
+     ],
+     [
+      "Dirigeants reviewed & validated",
+      "Yes"
+     ]
+    ]
+   },
+   "filename": "SAQ_Demo_Fund_S.A._2025.xlsx"
+  }
+ ],
+ "generated": true
+}

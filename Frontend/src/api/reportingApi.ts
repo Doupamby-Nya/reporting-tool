@@ -1,8 +1,8 @@
 import { api } from "@api/api"
 import type {
     ApiEnvelope, AuditEntry, BclCodes, BclReportsResponse, DraftSummary,
-    FatcaClassification, FatcaGeneration, FilingOutput, FilingRegime, FormSchema, Fund,
-    GenerationResult, InspectionResult, RegulationDocument, RegulatoryModule,
+    FatcaClassification, FatcaGeneration, FilingRegime, FilingResult, FormSchema, Fund,
+    GenerationResult, InspectionResult, Me, RegulationDocument, RegulatoryModule,
     RulesCatalogue, TrackedDocument, ValidationResult,
 } from "src/types/reportingType"
 
@@ -112,23 +112,24 @@ export const parseFilingWorkbook = (regimeKey: string, file: File) => {
 }
 
 export const generateFiling = (regimeKey: string, payload: unknown) =>
-    unwrap<FilingOutput>(api.post(`/${regimeKey}/generate`, payload))
+    unwrap<FilingResult>(api.post(`/${regimeKey}/generate`, payload))
 
 // --- workflow, audit and drafts ----------------------------------------------
 
 export const fetchDocuments = (moduleKey: string) =>
     unwrap<Record<string, TrackedDocument>>(api.get(`/documents/${moduleKey}`))
 
-export const recordGenerated = (moduleKey: string, documentId: string, label: string, user: string) =>
+// The API records the signed-in account as the actor; no name is sent.
+export const recordGenerated = (moduleKey: string, documentId: string, label: string) =>
     unwrap<TrackedDocument>(api.post(`/documents/${moduleKey}`,
-        { document_id: documentId, label, user }))
+        { document_id: documentId, label }))
 
 export const transitionDocument = (
-    moduleKey: string, documentId: string, status: string, user: string, comment = "",
+    moduleKey: string, documentId: string, status: string, comment = "",
 ) =>
     unwrap<TrackedDocument>(api.post(
         `/documents/${moduleKey}/${encodeURIComponent(documentId)}/status`,
-        { status, user, comment }))
+        { status, comment }))
 
 export const fetchAuditLog = (limit = 100, moduleKey?: string) =>
     unwrap<AuditEntry[]>(api.get(`/audit`, { params: { limit, module_key: moduleKey } }))
@@ -136,8 +137,8 @@ export const fetchAuditLog = (limit = 100, moduleKey?: string) =>
 export const listDrafts = (moduleKey: string) =>
     unwrap<DraftSummary[]>(api.get(`/drafts/${moduleKey}`))
 
-export const saveDraft = (moduleKey: string, name: string, data: unknown, user: string) =>
-    unwrap<DraftSummary>(api.post(`/drafts/${moduleKey}`, { name, data, user }))
+export const saveDraft = (moduleKey: string, name: string, data: unknown) =>
+    unwrap<DraftSummary>(api.post(`/drafts/${moduleKey}`, { name, data }))
 
 export const loadDraft = <T = unknown>(moduleKey: string, name: string) =>
     unwrap<{ name: string; saved_at: string; saved_by: string; data: T }>(
@@ -169,7 +170,7 @@ export const inspectFilingFile = (regimeKey: string, file: File) => {
 }
 
 export const generateEsefPackage = (payload: unknown) =>
-    unwrap<FilingOutput>(api.post(`/esef/generate`, payload, { params: { as_package: true } }))
+    unwrap<FilingResult>(api.post(`/esef/generate`, payload, { params: { as_package: true } }))
 
 // --- PRIIPs KID --------------------------------------------------------------
 
@@ -322,3 +323,14 @@ export const parseAifmdTemplate = (file: File) => {
 /** The capture form of a regime, derived by the API from its engine. */
 export const fetchFilingForm = (regimeKey: string) =>
     unwrap<FormSchema>(api.get(`/${regimeKey}/form`))
+
+// --- session ------------------------------------------------------------------
+
+export const signIn = (email: string, password: string) =>
+    unwrap<Me>(api.post(`/auth/login`, { email, password }))
+
+export const signOut = () =>
+    unwrap<{ signed_out: boolean }>(api.post(`/auth/logout`))
+
+export const fetchMe = () =>
+    unwrap<Me>(api.get(`/auth/me`))

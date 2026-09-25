@@ -288,13 +288,13 @@ def cross_checks_service(submission: BclSubmissionRequest) -> ValidationResult:
         assets, liabilities = _ledger_rows(ledger)
         for issue in be.cross_check_ledger_vs_tptobs(assets, liabilities, tptobs_assets,
                                                      tptobs_liabilities, securities):
-            issues.append(DomainIssue(issue.level, issue.code, f"{label} vs TPTOBS — {issue.message}"))
+            issues.append(DomainIssue(issue.level, issue.code, f"{label} vs TPTOBS: {issue.message}"))
         for issue in be.cross_check_ledger_vs_s220(liabilities, nav_ref_month):
-            issues.append(DomainIssue(issue.level, issue.code, f"{label} vs S 2.20 — {issue.message}"))
+            issues.append(DomainIssue(issue.level, issue.code, f"{label} vs S 2.20: {issue.message}"))
 
     if submission.s220 is not None and securities:
         for issue in s220e.cross_check_s220_vs_tptobs(_s220_submission(submission.s220), securities):
-            issues.append(DomainIssue(issue.level, issue.code, f"S 2.20 vs TPTOBS — {issue.message}"))
+            issues.append(DomainIssue(issue.level, issue.code, f"S 2.20 vs TPTOBS: {issue.message}"))
 
     return issues_to_payload(issues)
 

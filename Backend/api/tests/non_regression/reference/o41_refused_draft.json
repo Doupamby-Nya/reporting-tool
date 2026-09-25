@@ -1,0 +1,11 @@
+{
+ "errors": [
+  "Line 1000 (TOTAL ASSETS) should equal 1100 + 1200 + 1300 + 1400 + 1500 = 500.00, but is 1,000.00 (Annexe B validation formula).",
+  "Line 1100 (SECURITIES PORTFOLIO) should equal 1110 + 1120 + 1130 + 1140 = 0.00, but is 400.00 (Annexe B validation formula).",
+  "Line 1200 (FINANCIAL INSTRUMENTS) should equal 1210 + 1220 + 1230 = 0.00, but is 100.00 (Annexe B validation formula).",
+  "Line 3000 (NET ASSETS AT THE END OF THE FINANCIAL YEAR) should equal 1000 - 2000 = 1,000.00, but is 0.00 (Annexe B validation formula).",
+  "Section VI (countries in which the UCI is marketed) percentages must sum to 100 — currently 90.0."
+ ],
+ "files": [],
+ "generated": false
+}

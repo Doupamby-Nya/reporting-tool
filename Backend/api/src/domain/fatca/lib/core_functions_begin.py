@@ -36,10 +36,10 @@ def get_info_CPS(CPS, postal_code_path, message_type, version, report_type, sele
     # Use the first row of CPS.
     row = CPS.iloc[0]
 
-    logger.debug("CPS shape: {CPS.shape}")
-    logger.debug("Colonnes disponibles:", list(CPS.columns))
-    logger.debug("Premières lignes:")
-    logger.debug(CPS.head(3))
+    # Shape and column names only: the rows themselves are account holders'
+    # personal data and must not reach the logs.
+    logger.debug("CPS shape: %s", CPS.shape)
+    logger.debug("Available columns: %s", list(CPS.columns))
     
     # 1. NameReportingFI
     NameReportingFI = str(row["Name of Reporting Financial Institution (RFI)"]).strip()
@@ -247,7 +247,7 @@ def get_address_RFI(row, postal_code_path):
         match_number = re.search(r'(\d+[A-Za-z]{0,3})', address_no_street)
         number = match_number.group(1) if match_number else ""
     else:
-        logger.debug("⚠️ Postal code '{PostalCodePhysical}' not found in reference.")
+        logger.debug("Postal code %r not found in reference.", PostalCodePhysical)
 
     # --- Step 5: Return result ---
     return {

@@ -20,8 +20,7 @@ export const IssueList: React.FC<{ issues: Issue[] }> = ({ issues }) => (
         {issues.map((issue, index) => (
             <li key={`${issue.code}-${index}`}
                 className={`rounded-md border px-3 py-2 text-sm ${LEVEL_STYLES[issue.level]}`}>
-                <span className="font-semibold">{issue.code}</span>
-                <span className="mx-2 opacity-40">—</span>
+                <code className="mr-2 font-mono text-xs font-semibold">{issue.code}</code>
                 <span>{issue.message}</span>
             </li>
         ))}
@@ -46,7 +45,7 @@ export const SchemaBadge: React.FC<{ result: SchemaResult; label: string }> = ({
     return (
         <div className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-900">
             <p className="font-semibold">
-                {label} is not valid against the official schema. Do not submit it — please report this.
+                {label} is not valid against the official schema. Do not submit it, and report the problem.
             </p>
             <ul className="mt-2 list-disc pl-5 font-mono text-xs">
                 {result.errors.slice(0, 10).map((error, index) => <li key={index}>{error}</li>)}
@@ -69,7 +68,7 @@ const ValidationReport: React.FC<{ validation: ValidationResult }> = ({ validati
             {errors.length > 0 && (
                 <section>
                     <h4 className="mb-2 text-sm font-semibold text-red-900">
-                        {errors.length} blocking {errors.length === 1 ? "control" : "controls"} — the filing
+                        {errors.length} blocking {errors.length === 1 ? "control" : "controls"}: the filing
                         would be rejected
                     </h4>
                     <IssueList issues={errors} />
@@ -78,7 +77,7 @@ const ValidationReport: React.FC<{ validation: ValidationResult }> = ({ validati
             {warnings.length > 0 && (
                 <section>
                     <h4 className="mb-2 text-sm font-semibold text-amber-900">
-                        {warnings.length} {warnings.length === 1 ? "warning" : "warnings"} — accepted, but flagged
+                        {warnings.length} {warnings.length === 1 ? "warning" : "warnings"}: accepted, but flagged
                     </h4>
                     <IssueList issues={warnings} />
                 </section>

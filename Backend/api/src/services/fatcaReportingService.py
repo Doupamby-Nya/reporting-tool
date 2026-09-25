@@ -38,7 +38,11 @@ def fatca_template_service(reporting_year: int | None = None) -> tuple[str, byte
 def fatca_classify_service(content: bytes, parameters: dict[str, Any]) -> dict[str, Any]:
     """Reads the workbook and classifies every account. The result says what
     would be reported, and why, before any XML is produced."""
-    template_tabs, _reference_tabs = fatca_pipeline.load_workbook_tabs(content)
+    # The second value is the CPS / Individual / Active tabs matched by name,
+    # which is what the Streamlit tool classified and generated from; the
+    # first is every sheet under its own name, and a client workbook whose
+    # tabs are called e.g. "CPS 2025" would be missed from it.
+    _sheets, template_tabs = fatca_pipeline.load_workbook_tabs(content)
     result = fatca_pipeline.classify(template_tabs, parameters)
     return {
         "counts": getattr(result, "counts", {}),
@@ -61,7 +65,7 @@ def fatca_generate_service(content: bytes, parameters: dict[str, Any],
     A filing is one document per run: the regime, report type and selection
     in the parameters pick which one.
     """
-    template_tabs, _reference_tabs = fatca_pipeline.load_workbook_tabs(content)
+    _sheets, template_tabs = fatca_pipeline.load_workbook_tabs(content)
     result = fatca_pipeline.classify(template_tabs, parameters)
 
     preparers = fatca_pipeline.load_preparers()

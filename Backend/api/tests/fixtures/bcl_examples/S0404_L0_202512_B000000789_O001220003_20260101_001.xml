@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S44 version="1.0" creationDateTime="2001-12-17T09:30:47Z" xmlns="http://www.bcl.lu/2024/S4.4">
+	<header>
+		<endMonthDate>2025-12-31</endMonthDate>
+		<closingDate>2025-12-31</closingDate>
+		<reporterID>
+			<type>23</type>
+			<code>789</code>
+		</reporterID>
+		<declarantID>
+			<type>26</type>
+			<code>001220003</code>
+		</declarantID>
+		<reportingCurrency>USD</reportingCurrency>
+		<layout>0</layout>
+	</header>
+	<content>
+		<MarketingCountry>
+			<reportedLine>
+				<id>
+					<item>2-004000</item>
+					<country>LU</country>
+					<dataType>PCT</dataType>
+				</id>
+				<reportedAmount>50</reportedAmount>
+			</reportedLine>
+			<reportedLine>
+				<id>
+					<item>2-004000</item>
+					<country>BE</country>
+					<dataType>PCT</dataType>
+				</id>
+				<reportedAmount>50</reportedAmount>
+			</reportedLine>
+		</MarketingCountry>
+	</content>
+</S44>

@@ -3,7 +3,6 @@ import { toast } from "react-toastify"
 
 import { loadDraft, saveDraft } from "@api/reportingApi"
 import { FORM_ANCHOR } from "@components/IngestionPanel"
-import { useCurrentUser } from "@hooks/useCurrentUser"
 
 /**
  * Saving and re-opening a module's drafts, and whether the management panel
@@ -21,7 +20,6 @@ import { useCurrentUser } from "@hooks/useCurrentUser"
 export function useDrafts<T>(
     moduleKey: string, apply: (data: T) => void, onOpened?: () => void,
 ) {
-    const { name: user } = useCurrentUser()
     const [panelOpen, setPanelOpen] = useState(false)
     const [name, setName] = useState("")
 
@@ -31,7 +29,7 @@ export function useDrafts<T>(
             return
         }
         try {
-            await saveDraft(moduleKey, name.trim(), data, user || "unknown")
+            await saveDraft(moduleKey, name.trim(), data)
             toast.success(`Draft “${name.trim()}” saved.`)
         } catch (error) {
             toast.error((error as Error).message)

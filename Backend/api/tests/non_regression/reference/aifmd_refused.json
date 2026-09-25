@@ -1,0 +1,10 @@
+{
+ "errors": [
+  [
+   "CAF-057",
+   "The NAV geographical focus percentages must add up to 100%, got 90%."
+  ]
+ ],
+ "files": [],
+ "generated": false
+}

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
-import { MODULES } from "@config/navigation"
 import { fetchDocuments } from "@api/reportingApi"
+import { useCurrentUser } from "@hooks/useCurrentUser"
+import { useDismiss } from "@hooks/useDismiss"
 
 type Pending = { module: string; moduleLabel: string; label: string; status: string }
 
@@ -15,14 +16,16 @@ type Pending = { module: string; moduleLabel: string; label: string; status: str
  * straight to the review screen of its module.
  */
 const NotificationBell: React.FC = () => {
+    const { modules } = useCurrentUser()
     const [pending, setPending] = useState<Pending[]>([])
     const [open, setOpen] = useState(false)
+    const ref = useDismiss<HTMLDivElement>(open, useCallback(() => setOpen(false), []))
 
     useEffect(() => {
         let cancelled = false
         // One request per module; a module with no documents yet simply
         // contributes nothing rather than failing the whole bell.
-        Promise.all(MODULES.map(async (module) => {
+        Promise.all(modules.map(async (module) => {
             try {
                 const documents = await fetchDocuments(module.key)
                 return Object.values(documents)
@@ -38,11 +41,12 @@ const NotificationBell: React.FC = () => {
             if (!cancelled) setPending(results.flat())
         })
         return () => { cancelled = true }
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- the module list changes only on sign-in
+    }, [modules.map((module) => module.key).join()])
 
     return (
-        <div className="relative">
-            <button type="button" onClick={() => setOpen(!open)}
+        <div ref={ref} className="relative">
+            <button type="button" onClick={() => setOpen(!open)} aria-expanded={open}
                 aria-label={`${pending.length} filing(s) awaiting review`}
                 className="relative rounded-md p-2 text-slate-600 transition hover:bg-slate-100">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"

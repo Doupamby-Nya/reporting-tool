@@ -91,7 +91,7 @@ def _urr_form() -> dict[str, Any]:
     class_labels = _labels(urr_engine.SHARE_CLASS_FIELDS)
 
     return {
-        "title": "U 1.1 — Monthly financial information",
+        "title": "U 1.1 monthly financial information",
         "description": "Circular CSSF 15/627. Every field carries its own item number.",
         "sections": [
             {
@@ -135,7 +135,7 @@ def _o41_form() -> dict[str, Any]:
         })
 
     return {
-        "title": "O 4.1 — Circular IML 97/136",
+        "title": "O 4.1 under Circular IML 97/136",
         "description": "Annexe B, filed as EDIFACT. The cross-check formulas run at the rules step.",
         "sections": [
             {
@@ -149,7 +149,7 @@ def _o41_form() -> dict[str, Any]:
             },
             {
                 "key": "country_breakdown", "title": "Securities portfolio by country",
-                "kind": "table", "hint": "Section V — free-form rather than a fixed per-country grid.",
+                "kind": "table", "hint": "Section V. Free-form rather than a fixed per-country grid.",
                 "columns": [
                     {"key": "country", "label": "Country", "type": "country"},
                     {"key": "amount", "label": "Amount", "type": "number"},
@@ -157,7 +157,7 @@ def _o41_form() -> dict[str, Any]:
             },
             {
                 "key": "marketing_countries", "title": "Marketing countries", "kind": "table",
-                "hint": "Section VI — the shares should total 100 %.",
+                "hint": "Section VI. The shares should total 100 %.",
                 "columns": [
                     {"key": "country", "label": "Country", "type": "country"},
                     {"key": "pct", "label": "Share (%)", "type": "number"},
@@ -183,7 +183,7 @@ def _esef_form() -> dict[str, Any]:
         })
 
     return {
-        "title": "ESEF — Inline XBRL annual report",
+        "title": "ESEF Inline XBRL annual report",
         "description": "Delegated Regulation (EU) 2019/815. Each figure is tagged to a real IFRS concept.",
         "sections": [
             {
@@ -221,7 +221,7 @@ def _saq_form() -> dict[str, Any]:
         })
 
     return {
-        "title": "SAQ — Circular CSSF 21/790",
+        "title": "SAQ under Circular CSSF 21/790",
         "description": "The self-assessment, for four-eyes review and record-keeping ahead of the "
                        "eDesk filing.",
         "sections": [

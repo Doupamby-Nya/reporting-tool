@@ -1,0 +1,385 @@
+{
+ "data": {
+  "costs": {
+   "by_horizon": [
+    {
+     "horizon_label": "1 year",
+     "horizon_years": 1,
+     "incidental_pct": 0.0,
+     "one_off_amortized_pct": 1.5,
+     "ongoing_pct": 1.62,
+     "riy_amount_annual": 312.0,
+     "riy_amount_cumulative": 312.0,
+     "riy_pct": 3.12
+    },
+    {
+     "horizon_label": "2 years (1/2 RHP)",
+     "horizon_years": 2,
+     "incidental_pct": 0.0,
+     "one_off_amortized_pct": 0.75,
+     "ongoing_pct": 1.62,
+     "riy_amount_annual": 237.0,
+     "riy_amount_cumulative": 474.0,
+     "riy_pct": 2.37
+    },
+    {
+     "horizon_label": "5 years (RHP)",
+     "horizon_years": 5,
+     "incidental_pct": 0.0,
+     "one_off_amortized_pct": 0.3,
+     "ongoing_pct": 1.62,
+     "riy_amount_annual": 192.0,
+     "riy_amount_cumulative": 960.0,
+     "riy_pct": 1.92
+    }
+   ],
+   "incidental_pct_annual": 0.0,
+   "one_off_pct_total": 1.5,
+   "ongoing_pct_annual": 1.62,
+   "reference_amount": 10000,
+   "rhp_years": 5
+  },
+  "kid": {
+   "context": {
+    "asset_class": "European Equities - ESG approach",
+    "benchmark": "MSCI Europe SRI NR EUR",
+    "category": 2,
+    "contact_placeholder": "kid-support@example-manco.lu",
+    "credit_quality_step": 0,
+    "crm_class": "N/A",
+    "currency": "EUR",
+    "duration_years": 0.0,
+    "entry_cost_pct": 1.5,
+    "exit_cost_pct": 0.0,
+    "fund_id": "LUX-SRI-009",
+    "fund_name": "Nordvest Sustainable Leaders Fund",
+    "generation_date": "<MASKED>",
+    "incidental_pct_annual": 0.0,
+    "investor_profile_text": "Investor seeking capital growth while integrating extra-financial criteria, 5-year horizon.",
+    "isin": "LU9234567899",
+    "launch_date": "2020-02-01",
+    "legal_form": "SICAV",
+    "manco": "Nordvest ManCo S.A.",
+    "mgmt_fee_pct": 1.25,
+    "mrm_class": 4,
+    "mu_pct": 6.1,
+    "objective_text": "Seek capital growth by investing in European companies selected according to strict ESG criteria.",
+    "one_off_pct_total": 1.5,
+    "ongoing_pct_annual": 1.62,
+    "other_ongoing_pct": 0.21,
+    "perf_fee_pct": 0.0,
+    "promoter": "Nordvest Asset Management",
+    "regime": "UCITS",
+    "rhp_years": 5,
+    "share_class": "Class A (Cap) EUR",
+    "sigma_pct": 14.5,
+    "sri_class": 4,
+    "stress_sigma_mult": 1.4,
+    "sub_fund": "Nordvest Sustainable Leaders Fund",
+    "transaction_cost_pct": 0.16
+   },
+   "costs": {
+    "by_horizon": [
+     {
+      "horizon_label": "1 year",
+      "horizon_years": 1,
+      "incidental_pct": 0.0,
+      "one_off_amortized_pct": 1.5,
+      "ongoing_pct": 1.62,
+      "riy_amount_annual": 312.0,
+      "riy_amount_cumulative": 312.0,
+      "riy_pct": 3.12
+     },
+     {
+      "horizon_label": "2 years (1/2 RHP)",
+      "horizon_years": 2,
+      "incidental_pct": 0.0,
+      "one_off_amortized_pct": 0.75,
+      "ongoing_pct": 1.62,
+      "riy_amount_annual": 237.0,
+      "riy_amount_cumulative": 474.0,
+      "riy_pct": 2.37
+     },
+     {
+      "horizon_label": "5 years (RHP)",
+      "horizon_years": 5,
+      "incidental_pct": 0.0,
+      "one_off_amortized_pct": 0.3,
+      "ongoing_pct": 1.62,
+      "riy_amount_annual": 192.0,
+      "riy_amount_cumulative": 960.0,
+      "riy_pct": 1.92
+     }
+    ],
+    "incidental_pct_annual": 0.0,
+    "one_off_pct_total": 1.5,
+    "ongoing_pct_annual": 1.62,
+    "reference_amount": 10000,
+    "rhp_years": 5
+   },
+   "fund_id": "LUX-SRI-009",
+   "generation_date": "<MASKED>",
+   "isin": "LU9234567899",
+   "layout": "classic",
+   "product_name": "Nordvest Sustainable Leaders Fund — Class A (Cap) EUR",
+   "scenarios": {
+    "by_horizon": [
+     {
+      "favourable": {
+       "amount": 12273.87,
+       "return_pct": 22.74
+      },
+      "horizon_label": "1 year",
+      "horizon_years": 1,
+      "moderate": {
+       "amount": 10194.75,
+       "return_pct": 1.95
+      },
+      "stress": {
+       "amount": 6488.24,
+       "return_pct": -35.12
+      },
+      "unfavourable": {
+       "amount": 8467.82,
+       "return_pct": -15.32
+      }
+     },
+     {
+      "favourable": {
+       "amount": 17708.36,
+       "return_pct": 12.11
+      },
+      "horizon_label": "5 years (RHP)",
+      "horizon_years": 5,
+      "moderate": {
+       "amount": 11693.38,
+       "return_pct": 3.18
+      },
+      "stress": {
+       "amount": 4250.02,
+       "return_pct": -15.73
+      },
+      "unfavourable": {
+       "amount": 7721.5,
+       "return_pct": -5.04
+      }
+     }
+    ],
+    "reference_amount": 10000,
+    "rhp_years": 5
+   },
+   "sections": [
+    {
+     "body": "This document provides you with key information about this investment product. It is not marketing material. The information is required by law to help you understand the nature, risks, costs, potential gains and losses of this product and to help you compare it with other products.",
+     "fields": [],
+     "id": "purpose",
+     "performance_scenarios_note": "",
+     "title": "Purpose"
+    },
+    {
+     "body": "",
+     "fields": [
+      {
+       "label": "Product name",
+       "value": "Nordvest Sustainable Leaders Fund — Class A (Cap) EUR"
+      },
+      {
+       "label": "ISIN code",
+       "value": "LU9234567899"
+      },
+      {
+       "label": "Manufacturer (ManCo)",
+       "value": "Nordvest ManCo S.A."
+      },
+      {
+       "label": "Promoter",
+       "value": "Nordvest Asset Management"
+      },
+      {
+       "label": "Competent authority",
+       "value": "Commission de Surveillance du Secteur Financier (CSSF)"
+      },
+      {
+       "label": "Date of production of the document",
+       "value": "<MASKED>"
+      },
+      {
+       "label": "For more information",
+       "value": "Nordvest ManCo S.A. — kid-support@example-manco.lu"
+      }
+     ],
+     "id": "identification",
+     "performance_scenarios_note": "",
+     "title": "Product identification"
+    },
+    {
+     "body": "",
+     "fields": [
+      {
+       "label": "Type",
+       "value": "SICAV under Luxembourg law, UCITS regime"
+      },
+      {
+       "label": "Term",
+       "value": "No maturity date. Recommended holding period: 5 years."
+      },
+      {
+       "label": "Objectives",
+       "value": "Seek capital growth by investing in European companies selected according to strict ESG criteria."
+      },
+      {
+       "label": "Benchmark",
+       "value": "MSCI Europe SRI NR EUR"
+      },
+      {
+       "label": "Intended retail investor",
+       "value": "Investor seeking capital growth while integrating extra-financial criteria, 5-year horizon."
+      }
+     ],
+     "id": "what_is_it",
+     "performance_scenarios_note": "",
+     "title": "What is this product?"
+    },
+    {
+     "body": "The summary risk indicator is a guide to the level of risk of this product compared to other products. It shows how likely it is that the product will lose money because of movements in the markets or because we are not able to pay you.",
+     "fields": [
+      {
+       "label": "Summary risk indicator (1 to 7)",
+       "value": "4"
+      },
+      {
+       "label": "Market risk measure (MRM)",
+       "value": "4"
+      },
+      {
+       "label": "Credit risk measure (CRM)",
+       "value": "N/A"
+      },
+      {
+       "label": "Maximum possible loss",
+       "value": "It is possible that you will not receive the expected amounts and that you could lose some or all of your investment."
+      }
+     ],
+     "id": "risk_and_return",
+     "performance_scenarios_note": "The figures shown include all the costs of the product itself. The figures do not take into account your personal tax situation, which may also affect how much you get back. What you will get from this product depends on future market performance, which is uncertain and cannot be accurately predicted.",
+     "title": "What are the risks and what could I get in return?"
+    },
+    {
+     "body": "The product is a legal entity separate from the manufacturer; assets are held with an independent depositary in accordance with applicable regulation. In the event of the failure of the manufacturer or the manager, this should not result in a financial loss directly caused by that failure.",
+     "fields": [],
+     "id": "insolvency",
+     "performance_scenarios_note": "",
+     "title": "What happens if Nordvest ManCo S.A. is unable to pay out?"
+    },
+    {
+     "body": "The Reduction In Yield (RIY) shows what impact the total costs you pay will have on the investment return you might get. The total costs take into account one-off, ongoing and incidental costs.",
+     "fields": [
+      {
+       "label": "One-off costs (entry/exit)",
+       "value": "1.5 %"
+      },
+      {
+       "label": "Annual ongoing costs",
+       "value": "1.62 %"
+      },
+      {
+       "label": "Incidental costs (performance fee)",
+       "value": "0.0 %"
+      }
+     ],
+     "id": "costs",
+     "performance_scenarios_note": "",
+     "title": "What are the costs?"
+    },
+    {
+     "body": "Recommended holding period: 5 years. This product has no minimum holding period but is designed for a medium/long-term investment.",
+     "fields": [],
+     "id": "holding_period",
+     "performance_scenarios_note": "",
+     "title": "How long should I hold it and can I take money out early?"
+    },
+    {
+     "body": "Any complaint regarding the product or the conduct of the manufacturer or the distributor may be sent in writing to Nordvest ManCo S.A., or to the distributor who advised you. Full contact details are available on request.",
+     "fields": [],
+     "id": "complaints",
+     "performance_scenarios_note": "",
+     "title": "How can I complain?"
+    },
+    {
+     "body": "Additional information (prospectus, latest annual and semi-annual reports, net asset values) is available free of charge, in French and/or English, from Nordvest ManCo S.A. and on its website. This product may be subject to country-specific information depending on the country of distribution.",
+     "fields": [],
+     "id": "other_information",
+     "performance_scenarios_note": "",
+     "title": "Other relevant information"
+    }
+   ],
+   "sri": {
+    "credit_risk_material": false,
+    "crm_class": null,
+    "mrm_class": 4,
+    "sri_class": 4
+   },
+   "table_border_color": null,
+   "table_header_bg": null,
+   "template_name": "Standard PRIIPs KID — UCITS / AIF",
+   "template_version": "2021/2268 (amending RTS)",
+   "theme_color": null,
+   "title_alignment": "left"
+  },
+  "scenarios": {
+   "by_horizon": [
+    {
+     "favourable": {
+      "amount": 12273.87,
+      "return_pct": 22.74
+     },
+     "horizon_label": "1 year",
+     "horizon_years": 1,
+     "moderate": {
+      "amount": 10194.75,
+      "return_pct": 1.95
+     },
+     "stress": {
+      "amount": 6488.24,
+      "return_pct": -35.12
+     },
+     "unfavourable": {
+      "amount": 8467.82,
+      "return_pct": -15.32
+     }
+    },
+    {
+     "favourable": {
+      "amount": 17708.36,
+      "return_pct": 12.11
+     },
+     "horizon_label": "5 years (RHP)",
+     "horizon_years": 5,
+     "moderate": {
+      "amount": 11693.38,
+      "return_pct": 3.18
+     },
+     "stress": {
+      "amount": 4250.02,
+      "return_pct": -15.73
+     },
+     "unfavourable": {
+      "amount": 7721.5,
+      "return_pct": -5.04
+     }
+    }
+   ],
+   "reference_amount": 10000,
+   "rhp_years": 5
+  },
+  "sri": {
+   "credit_risk_material": false,
+   "crm_class": null,
+   "mrm_class": 4,
+   "sri_class": 4
+  }
+ },
+ "errors": [],
+ "files": [],
+ "generated": true
+}
