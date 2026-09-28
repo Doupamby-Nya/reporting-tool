@@ -1,0 +1,16 @@
+[33m856cd03[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: pull --rebase origin main (finish): returning to refs/heads/main
+[33m856cd03[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{1}: pull --rebase origin main (pick): first commit
+[33m5b0f848[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: pull --rebase origin main (start): checkout 5b0f848c93e62207e20ce2a404a2d41c54c0e938
+[33m27a355e[m HEAD@{3}: Branch: renamed refs/heads/feature/christopher-dev to refs/heads/main
+[33m27a355e[m HEAD@{5}: commit: first commit
+[33m671c3fb[m HEAD@{6}: merge origin/main: Fast-forward
+[33m266ebeb[m HEAD@{7}: checkout: moving from main to feature/christopher-dev
+[33m266ebeb[m HEAD@{8}: pull origin main: Fast-forward
+[33m127ab8b[m HEAD@{9}: checkout: moving from main to main
+[33m127ab8b[m HEAD@{10}: commit: feat complete BCL reporting and interface enhancement
+[33m3901cee[m HEAD@{11}: checkout: moving from main to main
+[33m3901cee[m HEAD@{12}: checkout: moving from feature/PayToSeeTheModules to main
+[33m4c06473[m[33m ([m[1;32mfeature/PayToSeeTheModules[m[33m)[m HEAD@{13}: commit: feat: add shared pages for regulatory reference, rules catalogue, and workbook ingestion
+[33m3901cee[m HEAD@{14}: checkout: moving from main to feature/PayToSeeTheModules
+[33m3901cee[m HEAD@{15}: commit: checkpoint before my frontend modification
+[33md8b23d1[m HEAD@{16}: commit (initial): Initialisation du projet
